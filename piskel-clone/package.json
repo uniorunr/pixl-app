@@ -1,0 +1,11 @@
+{
+  "name": "piskel-clone",
+  "version": "0.0.1",
+  "description": "web-based tool for pixel art",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "https://github.com/uniorunr",
+  "license": "ISC"
+}
