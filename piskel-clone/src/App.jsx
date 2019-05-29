@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import NavBar from './components/NavBar/NavBar';
+import Main from './components/Main/Main';
 import './App.scss';
 
 class App extends Component {
@@ -11,7 +12,12 @@ class App extends Component {
   }
 
   render() {
-    return <NavBar />;
+    return (
+      <Fragment>
+        <NavBar />
+        <Main />
+      </Fragment>
+    );
   }
 }
 
