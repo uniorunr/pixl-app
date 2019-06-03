@@ -1,5 +1,9 @@
 .main {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+
+  .canvas-section__canvas {
+    border: 1px solid black;
+  }
 }

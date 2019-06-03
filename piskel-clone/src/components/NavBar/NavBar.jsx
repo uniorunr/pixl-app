@@ -8,7 +8,7 @@ const NavBar = () => (
         <h1 className="navbar__logo">
           <a href="/">
             <img src="../../favicon.png" alt="Pixl logo" />
-            <span>Pixl.</span>
+            <span>Pixl!</span>
           </a>
         </h1>
         <button className="navbar__sign-in-button" type="button">
