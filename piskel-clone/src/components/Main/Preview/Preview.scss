@@ -1,0 +1,35 @@
+.preview-section {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+  padding: 5px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  background-color: white;
+  border: 2px solid black;
+  cursor: context-menu;
+  align-self: flex-start;
+
+  .preview {
+    position: relative;
+
+    .preview__canvas {
+      background: white;
+      border: 2px solid black;
+    }
+
+    .preview__fullscreen-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: 2px solid black;
+      background: white;
+      outline: none;
+      cursor: pointer;
+      font-size: 1.6rem;
+      padding: 2px 5px;
+    }
+  }
+}

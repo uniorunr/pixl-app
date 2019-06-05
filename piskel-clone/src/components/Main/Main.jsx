@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import CanvasSize from './CanvasSize/CanvasSize';
 import Tools from './Tools/Tools';
+import Preview from './Preview/Preview';
 import './Main.scss';
 
 const getWindowSize = () => {
@@ -47,7 +47,7 @@ class Main extends Component {
             height={height}
           />
         </section>
-        <CanvasSize handleCanvasSize={this.handleCanvasSize} />
+        <Preview handleCanvasSize={this.handleCanvasSize} />
       </main>
     );
   }

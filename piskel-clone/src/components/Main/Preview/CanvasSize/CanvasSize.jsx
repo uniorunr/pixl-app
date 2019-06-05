@@ -6,7 +6,7 @@ class CanvasSize extends Component {
   render() {
     const { handleCanvasSize } = this.props;
     return (
-      <form name="canvas-size-controls">
+      <form className="canvas-size-controls" name="canvas-size-controls">
         <label htmlFor="canvas-32">
           32
           <input

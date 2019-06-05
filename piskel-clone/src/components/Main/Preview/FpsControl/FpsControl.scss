@@ -1,0 +1,18 @@
+.fps-control {
+  label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    span:nth-child(2) {
+      margin-right: 5px;
+    }
+
+    .fps-control__input {
+      width: 100px;
+      flex-grow: 1;
+      cursor: pointer;
+    }
+  }
+}
