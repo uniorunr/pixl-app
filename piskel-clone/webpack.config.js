@@ -34,7 +34,7 @@ module.exports = {
     new ExtractTextPlugin('style.css'),
     new HtmlPlugin({
       template: path.join(__dirname, '/src/index.html'),
-      favicon: path.join(__dirname, '/src/favicon.png'),
+      favicon: path.join(__dirname, '/src/assets/favicon.png'),
     }),
   ],
   resolve: {
