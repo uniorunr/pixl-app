@@ -1,4 +1,7 @@
 .tools {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 30px;
   padding: 15px;
   font-weight: 700;
@@ -7,19 +10,30 @@
   border: 2px solid black;
   cursor: context-menu;
 
-  div {
+  button {
+    width: 30px;
+    height: 30px;
     position: relative;
     top: 0;
     margin-bottom: 15px;
-    padding: 5px;
     background-color: white;
     border: 2px solid black;
     box-shadow: 2px 2px 0 black;
     cursor: pointer;
+    outline: none;
+
+    .fas {
+      display: flex;
+      justify-content: center;
+    }
   }
 
-  div:active {
+  button:active {
     top: 2px;
     box-shadow: 0 0 0 black;
+  }
+
+  .tools_state_active {
+    border: 3px dashed black;
   }
 }
