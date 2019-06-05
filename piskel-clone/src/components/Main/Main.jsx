@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Tools from './Tools/Tools';
+import Canvas from './Canvas/Canvas';
 import Preview from './Preview/Preview';
 import './Main.scss';
 
@@ -35,18 +36,10 @@ class Main extends Component {
 
   render() {
     const { width, height, canvasSize } = this.state;
-    console.log(canvasSize);
     return (
       <main className="main">
         <Tools />
-        <section className="canvas-section">
-          <canvas
-            className="canvas-section__canvas"
-            id="canvas"
-            width={width}
-            height={height}
-          />
-        </section>
+        <Canvas width={width} height={height} canvasSize={canvasSize} />
         <Preview handleCanvasSize={this.handleCanvasSize} />
       </main>
     );
