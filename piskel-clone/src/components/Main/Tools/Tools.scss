@@ -1,39 +1,43 @@
-.tools {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 30px;
-  padding: 15px;
-  font-weight: 700;
-  font-size: 1.4rem;
-  background-color: white;
-  border: 2px solid black;
-  cursor: context-menu;
+.tools-section {
+  align-self: flex-start;
 
-  button {
-    width: 30px;
-    height: 30px;
-    position: relative;
-    top: 0;
-    margin-bottom: 15px;
+  .tools {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 30px;
+    padding: 15px;
+    font-weight: 700;
+    font-size: 1.4rem;
     background-color: white;
     border: 2px solid black;
-    box-shadow: 2px 2px 0 black;
-    cursor: pointer;
-    outline: none;
+    cursor: context-menu;
 
-    .fas {
-      display: flex;
-      justify-content: center;
+    button {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      top: 0;
+      margin-bottom: 15px;
+      background-color: white;
+      border: 2px solid black;
+      box-shadow: 2px 2px 0 black;
+      cursor: pointer;
+      outline: none;
+
+      .fas {
+        display: flex;
+        justify-content: center;
+      }
     }
-  }
 
-  button:active {
-    top: 2px;
-    box-shadow: 0 0 0 black;
-  }
+    button:active {
+      top: 2px;
+      box-shadow: 0 0 0 black;
+    }
 
-  .tools_state_active {
-    border: 3px dashed black;
+    .tools_state_active {
+      border: 3px dashed black;
+    }
   }
 }
