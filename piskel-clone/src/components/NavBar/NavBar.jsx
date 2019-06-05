@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import './NavBar.scss';
+import Logo from '../../assets/favicon.png';
 
 const NavBar = () => (
   <Fragment>
@@ -7,7 +8,7 @@ const NavBar = () => (
       <nav className="navbar__content">
         <h1 className="navbar__logo">
           <a href="/">
-            <img src="../../favicon.png" alt="Pixl logo" />
+            <img src={Logo} alt="Pixl logo" />
             <span>Pixl!</span>
           </a>
         </h1>

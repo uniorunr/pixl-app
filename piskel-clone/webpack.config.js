@@ -27,6 +27,18 @@ module.exports = {
           use: ['css-loader', 'sass-loader'],
         }),
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              limit: 8000,
+              name: 'images/[hash]-[name].[ext]',
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
