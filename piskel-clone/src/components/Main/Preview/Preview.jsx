@@ -6,7 +6,7 @@ import './Preview.scss';
 
 class Preview extends Component {
   render() {
-    const { handleCanvasSize } = this.props;
+    const { handlePixelsPerCanvas } = this.props;
 
     return (
       <section className="preview-section">
@@ -21,7 +21,7 @@ class Preview extends Component {
             <i className="fas fa-expand" />
           </button>
           <FpsControl />
-          <CanvasSize handleCanvasSize={handleCanvasSize} />
+          <CanvasSize handlePixelsPerCanvas={handlePixelsPerCanvas} />
         </div>
       </section>
     );
@@ -29,7 +29,7 @@ class Preview extends Component {
 }
 
 Preview.propTypes = {
-  handleCanvasSize: PropTypes.func.isRequired,
+  handlePixelsPerCanvas: PropTypes.func.isRequired,
 };
 
 export default Preview;

@@ -4,7 +4,7 @@ import './CanvasSize.scss';
 
 class CanvasSize extends Component {
   render() {
-    const { handleCanvasSize } = this.props;
+    const { handlePixelsPerCanvas } = this.props;
     return (
       <form className="canvas-size-controls" name="canvas-size-controls">
         <label htmlFor="canvas-32">
@@ -14,7 +14,7 @@ class CanvasSize extends Component {
             id="canvas-32"
             name="radio"
             value="32"
-            onChange={handleCanvasSize}
+            onChange={handlePixelsPerCanvas}
             defaultChecked
           />
         </label>
@@ -26,7 +26,7 @@ class CanvasSize extends Component {
             id="canvas-64"
             name="radio"
             value="64"
-            onChange={handleCanvasSize}
+            onChange={handlePixelsPerCanvas}
           />
         </label>
 
@@ -37,7 +37,7 @@ class CanvasSize extends Component {
             id="canvas-128"
             name="radio"
             value="128"
-            onChange={handleCanvasSize}
+            onChange={handlePixelsPerCanvas}
           />
         </label>
       </form>
@@ -46,7 +46,7 @@ class CanvasSize extends Component {
 }
 
 CanvasSize.propTypes = {
-  handleCanvasSize: PropTypes.func.isRequired,
+  handlePixelsPerCanvas: PropTypes.func.isRequired,
 };
 
 export default CanvasSize;

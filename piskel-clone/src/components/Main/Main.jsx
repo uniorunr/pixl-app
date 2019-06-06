@@ -14,7 +14,7 @@ class Main extends Component {
   state = {
     width: getWindowSize(),
     height: getWindowSize(),
-    canvasSize: 32,
+    pixelsPerCanvas: 32,
   };
 
   componentDidMount = () => {
@@ -28,19 +28,23 @@ class Main extends Component {
     });
   };
 
-  handleCanvasSize = (event) => {
+  handlePixelsPerCanvas = (event) => {
     this.setState({
-      canvasSize: +event.currentTarget.value,
+      pixelsPerCanvas: +event.currentTarget.value,
     });
   };
 
   render() {
-    const { width, height, canvasSize } = this.state;
+    const { width, height, pixelsPerCanvas } = this.state;
     return (
       <main className="main">
         <Tools />
-        <Canvas width={width} height={height} canvasSize={canvasSize} />
-        <Preview handleCanvasSize={this.handleCanvasSize} />
+        <Canvas
+          width={width}
+          height={height}
+          pixelsPerCanvas={pixelsPerCanvas}
+        />
+        <Preview handlePixelsPerCanvas={this.handlePixelsPerCanvas} />
       </main>
     );
   }
