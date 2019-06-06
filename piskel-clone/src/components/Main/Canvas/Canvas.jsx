@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Canvas.scss';
+import connectTwoPoints from './canvasUtils';
 
 class Canvas extends Component {
   constructor() {
@@ -9,34 +10,36 @@ class Canvas extends Component {
     this.state = {
       canvas: null,
       context: null,
-      canvasState: {},
       paint: null,
+      currX: null,
+      lastY: null,
     };
   }
 
-  draw = (x, y) => {
-    const { canvasState, context } = this.state;
+  draw = (x, y, lastX, lastY) => {
+    const { context, paint } = this.state;
     const { pixelsPerCanvas, width } = this.props;
     const pixelSize = width / pixelsPerCanvas;
+    context.strokeStyle = 'black';
 
-    if (!canvasState[`${x}${y}`]) {
+    if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!paint) {
+      connectTwoPoints(x, y, lastX, lastY, pixelSize, context);
+    } else {
       const rectangle = new Path2D();
-      context.strokeStyle = 'black';
-
       rectangle.rect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-      canvasState[`${x}${y}`] = 'filled';
       context.fill(rectangle);
     }
   };
 
   move = (pageX, pageY) => {
-    const { canvas } = this.state;
+    const { canvas, currX, lastY } = this.state;
     const { pixelsPerCanvas, width } = this.props;
     const pixelSize = width / pixelsPerCanvas;
 
     const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
     const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-    this.draw(x, y);
+    this.draw(x, y, currX, lastY);
+    this.updateLastCoordinates(x, y);
   };
 
   deactivatePainting = () => {
@@ -58,6 +61,13 @@ class Canvas extends Component {
     if (paint) {
       this.move(pageX, pageY);
     }
+  };
+
+  updateLastCoordinates = (x, y) => {
+    this.setState({
+      currX: x,
+      lastY: y,
+    });
   };
 
   componentDidMount = () => {
