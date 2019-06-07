@@ -5,8 +5,8 @@ import Preview from './Preview/Preview';
 import './Main.scss';
 
 const getWindowSize = () => {
-  const windowWidth = ((window.innerWidth / 20).toFixed(0) - 3) * 10;
-  const windowHeight = ((window.innerHeight / 12).toFixed(0) - 3) * 10;
+  const windowWidth = ((window.innerWidth / 128) * 0.5).toFixed(0) * 128;
+  const windowHeight = ((window.innerHeight / 128) * 0.8).toFixed(0) * 128;
   return windowWidth < windowHeight ? windowWidth : windowHeight;
 };
 
