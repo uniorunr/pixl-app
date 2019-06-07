@@ -1,3 +1,18 @@
+const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props) => {
+  const { context, paint } = state;
+  const { pixelsPerCanvas, width } = props;
+  const pixelSize = width / pixelsPerCanvas;
+  context.strokeStyle = 'black';
+
+  if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!paint) {
+    connectTwoPointsFunc(x, y, lastX, lastY, pixelSize, context);
+  } else {
+    const rectangle = new Path2D();
+    rectangle.rect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+    context.fill(rectangle);
+  }
+};
+
 const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
   let currX;
   let currY;
@@ -96,4 +111,15 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
   context.fill(rectangles);
 };
 
-export default connectTwoPoints;
+const moveAndPaint = (pageX, pageY, state, props, updateCoordinates) => {
+  const { canvas, currX, lastY } = state;
+  const { pixelsPerCanvas, width } = props;
+  const pixelSize = width / pixelsPerCanvas;
+
+  const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
+  const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
+  draw(x, y, currX, lastY, connectTwoPoints, state, props);
+  updateCoordinates(x, y);
+};
+
+export { connectTwoPoints, draw, moveAndPaint };
