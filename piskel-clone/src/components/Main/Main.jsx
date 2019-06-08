@@ -15,6 +15,7 @@ class Main extends Component {
     width: getWindowSize(),
     height: getWindowSize(),
     pixelsPerCanvas: 32,
+    currToolId: 'pen',
   };
 
   componentDidMount = () => {
@@ -35,7 +36,9 @@ class Main extends Component {
   };
 
   render() {
-    const { width, height, pixelsPerCanvas } = this.state;
+    const {
+      width, height, pixelsPerCanvas, currToolId,
+    } = this.state;
     return (
       <main className="main">
         <Tools />
@@ -43,6 +46,7 @@ class Main extends Component {
           width={width}
           height={height}
           pixelsPerCanvas={pixelsPerCanvas}
+          currToolId={currToolId}
         />
         <Preview handlePixelsPerCanvas={this.handlePixelsPerCanvas} />
       </main>

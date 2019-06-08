@@ -3,6 +3,18 @@ import PropTypes from 'prop-types';
 import './Canvas.scss';
 import { moveAndPaint } from './paintTool';
 
+const activateTool = (toolId) => {
+  let tool = null;
+  switch (toolId) {
+    case 'pen':
+      tool = moveAndPaint;
+      break;
+    default:
+      console.error("tool isn't found");
+  }
+  return tool;
+};
+
 class Canvas extends Component {
   constructor() {
     super();
@@ -10,42 +22,34 @@ class Canvas extends Component {
     this.state = {
       canvas: null,
       context: null,
-      paint: null,
+      cursorActive: null,
       currX: null,
       lastY: null,
     };
   }
 
-  deactivatePainting = () => {
+  deactivateCursor = () => {
     this.setState({
-      paint: false,
+      cursorActive: false,
     });
   };
 
   handleMouseDown = ({ pageX, pageY }) => {
+    const { currToolId } = this.props;
     this.setState({
-      paint: true,
+      cursorActive: true,
     });
-    moveAndPaint(
-      pageX,
-      pageY,
-      this.state,
-      this.props,
-      this.updateLastCoordinates,
-    );
+    const tool = activateTool(currToolId);
+    tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
   };
 
   handleMouseMove = ({ pageX, pageY }) => {
-    const { paint } = this.state;
+    const { cursorActive } = this.state;
+    const { currToolId } = this.props;
 
-    if (paint) {
-      moveAndPaint(
-        pageX,
-        pageY,
-        this.state,
-        this.props,
-        this.updateLastCoordinates,
-      );
+    if (cursorActive) {
+      const tool = activateTool(currToolId);
+      tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
     }
   };
 
@@ -75,8 +79,8 @@ class Canvas extends Component {
           height={height}
           onMouseDown={this.handleMouseDown}
           onMouseMove={this.handleMouseMove}
-          onMouseUp={this.deactivatePainting}
-          onMouseLeave={this.deactivatePainting}
+          onMouseUp={this.deactivateCursor}
+          onMouseLeave={this.deactivateCursor}
         />
       </section>
     );
@@ -86,6 +90,7 @@ class Canvas extends Component {
 Canvas.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  currToolId: PropTypes.string.isRequired,
 };
 
 export default Canvas;

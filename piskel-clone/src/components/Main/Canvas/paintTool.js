@@ -1,10 +1,10 @@
 const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props) => {
-  const { context, paint } = state;
+  const { context, cursorActive } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;
   context.strokeStyle = 'black';
 
-  if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!paint) {
+  if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!cursorActive) {
     connectTwoPointsFunc(x, y, lastX, lastY, pixelSize, context);
   } else {
     const rectangle = new Path2D();
