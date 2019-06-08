@@ -44,7 +44,9 @@ class Canvas extends Component {
       cursorActive: true,
     });
     const tool = activateTool(currToolId);
-    tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
+    if (currToolId === 'pen' || currToolId === 'eraser') {
+      tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
+    }
   };
 
   handleMouseMove = ({ pageX, pageY }) => {
@@ -53,7 +55,9 @@ class Canvas extends Component {
 
     if (cursorActive) {
       const tool = activateTool(currToolId);
-      tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
+      if (currToolId === 'pen' || currToolId === 'eraser') {
+        tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
+      }
     }
   };
 
