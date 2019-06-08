@@ -35,13 +35,20 @@ class Main extends Component {
     });
   };
 
+  updateCurrentTool = (tool) => {
+    this.setState({
+      currToolId: tool,
+    });
+  };
+
   render() {
     const {
       width, height, pixelsPerCanvas, currToolId,
     } = this.state;
+    console.log(currToolId);
     return (
       <main className="main">
-        <Tools />
+        <Tools updateCurrentTool={this.updateCurrentTool} />
         <Canvas
           width={width}
           height={height}

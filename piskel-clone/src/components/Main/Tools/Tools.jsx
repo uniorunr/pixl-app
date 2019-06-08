@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './Tools.scss';
+import PropTypes from 'prop-types';
 
 class Tools extends Component {
   makeActive = ({ target }) => {
+    const { updateCurrentTool } = this.props;
+
     const tools = [...document.querySelectorAll('.tools button')];
     tools.forEach((tool) => {
       tool.classList.remove('tools_state_active');
@@ -12,8 +15,10 @@ class Tools extends Component {
       && !target.classList.contains('tools_state_active')
     ) {
       target.classList.add('tools_state_active');
+      updateCurrentTool(target.id);
     } else {
       target.parentElement.classList.add('tools_state_active');
+      updateCurrentTool(target.parentElement.id);
     }
   };
 
@@ -83,5 +88,9 @@ class Tools extends Component {
     );
   }
 }
+
+Tools.propTypes = {
+  updateCurrentTool: PropTypes.func.isRequired,
+};
 
 export default Tools;
