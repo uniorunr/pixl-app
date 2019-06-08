@@ -45,7 +45,6 @@ class Main extends Component {
     const {
       width, height, pixelsPerCanvas, currToolId,
     } = this.state;
-    console.log(currToolId);
     return (
       <main className="main">
         <Tools updateCurrentTool={this.updateCurrentTool} />

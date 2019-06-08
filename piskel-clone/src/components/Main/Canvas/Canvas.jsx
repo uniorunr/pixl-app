@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Canvas.scss';
-import { moveAndPaint } from './paintTool';
+import moveAndPaint from './paintTool';
+import moveAndErase from './eraserTool';
 
 const activateTool = (toolId) => {
   let tool = null;
   switch (toolId) {
     case 'pen':
       tool = moveAndPaint;
+      break;
+    case 'eraser':
+      tool = moveAndErase;
       break;
     default:
       console.error("tool isn't found");

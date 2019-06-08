@@ -1,15 +1,12 @@
-const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props) => {
+const erase = (x, y, lastX, lastY, connectTwoPointsFunc, state, props) => {
   const { context, cursorActive } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;
-  context.strokeStyle = 'black';
 
   if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!cursorActive) {
     connectTwoPointsFunc(x, y, lastX, lastY, pixelSize, context);
   } else {
-    const rectangle = new Path2D();
-    rectangle.rect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-    context.fill(rectangle);
+    context.clearRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
   }
 };
 
@@ -22,7 +19,6 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
   let py = 2 * dx1 - dy1;
   let xe;
   let ye;
-  const rectangles = new Path2D();
 
   if (dy1 <= dx1) {
     if (x - lastX >= 0) {
@@ -35,12 +31,10 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
       xe = lastX;
     }
 
-    rectangles.rect(
-      currX * pixelSize,
+    context.clearRect(currX * pixelSize,
       currY * pixelSize,
       pixelSize,
-      pixelSize,
-    );
+      pixelSize);
 
     for (let i = 0; currX < xe; i += 1) {
       currX += 1;
@@ -59,12 +53,10 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
         px += 2 * (dy1 - dx1);
       }
 
-      rectangles.rect(
-        currX * pixelSize,
+      context.clearRect(currX * pixelSize,
         currY * pixelSize,
         pixelSize,
-        pixelSize,
-      );
+        pixelSize);
     }
   } else {
     if (y - lastY >= 0) {
@@ -77,12 +69,10 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
       ye = lastY;
     }
 
-    rectangles.rect(
-      currX * pixelSize,
+    context.clearRect(currX * pixelSize,
       currY * pixelSize,
       pixelSize,
-      pixelSize,
-    );
+      pixelSize);
 
     for (let i = 0; currY < ye; i += 1) {
       currY += 1;
@@ -100,26 +90,23 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
         py += 2 * (dx1 - dy1);
       }
 
-      rectangles.rect(
-        currX * pixelSize,
+      context.clearRect(currX * pixelSize,
         currY * pixelSize,
         pixelSize,
-        pixelSize,
-      );
+        pixelSize);
     }
   }
-  context.fill(rectangles);
 };
 
-const moveAndPaint = (pageX, pageY, state, props, updateCoordinates) => {
+const moveAndErase = (pageX, pageY, state, props, updateCoordinates) => {
   const { canvas, currX, lastY } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  draw(x, y, currX, lastY, connectTwoPoints, state, props);
+  erase(x, y, currX, lastY, connectTwoPoints, state, props);
   updateCoordinates(x, y);
 };
 
-export default moveAndPaint;
+export default moveAndErase;
