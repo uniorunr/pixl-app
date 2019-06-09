@@ -6,6 +6,8 @@
   "main": "App.jsx",
   "scripts": {
     "test": "jest",
+    "test-watch": "jest --watch",
+    "test-coverage": "jest --coverage",
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development --open",
     "watch": "webpack --watch"
