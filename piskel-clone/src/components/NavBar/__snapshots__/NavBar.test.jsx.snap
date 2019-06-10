@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="navbar"
+>
+  <nav
+    className="navbar__content"
+  >
+    <h1
+      className="navbar__logo"
+    >
+      <a
+        href="/"
+      >
+        <img
+          alt="Pixl logo"
+          src="test-file-stub"
+        />
+        <span>
+          Pixl!
+        </span>
+      </a>
+    </h1>
+    <button
+      className="navbar__sign-in-button"
+      type="button"
+    >
+      <span>
+        Sign in
+      </span>
+    </button>
+  </nav>
+</div>
+`;

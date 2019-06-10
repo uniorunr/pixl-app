@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<section
+  className="tools-section"
+>
+  <h2
+    className="visually-hidden"
+  >
+    Tools Section
+  </h2>
+  <div
+    className="tools"
+  >
+    <button
+      className="tools__pen tools_state_active"
+      data-listener="true"
+      id="pen"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-pen"
+      />
+    </button>
+    <button
+      className="tools__paint-bucket"
+      data-listener="true"
+      id="paint-bucket"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-fill-drip"
+      />
+    </button>
+    <button
+      className="tools__choose-color"
+      data-listener="true"
+      id="choose-color"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-eye-dropper"
+      />
+    </button>
+    <button
+      className="tools__eraser"
+      data-listener="true"
+      id="eraser"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-eraser"
+      />
+    </button>
+  </div>
+</section>
+`;

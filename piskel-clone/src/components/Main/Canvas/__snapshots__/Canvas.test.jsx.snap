@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<section
+  className="canvas-section"
+>
+  <canvas
+    className="canvas-section__canvas"
+    height={25}
+    id="canvas"
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseMove={[Function]}
+    onMouseUp={[Function]}
+    width={25}
+  />
+</section>
+`;

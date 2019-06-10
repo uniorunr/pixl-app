@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<form
+  className="canvas-size-controls"
+  name="canvas-size-controls"
+>
+  <label
+    htmlFor="canvas-32"
+  >
+    32
+    <input
+      defaultChecked={true}
+      id="canvas-32"
+      name="radio"
+      onChange={[Function]}
+      type="radio"
+      value="32"
+    />
+  </label>
+  <label
+    htmlFor="canvas-64"
+  >
+    64
+    <input
+      id="canvas-64"
+      name="radio"
+      onChange={[Function]}
+      type="radio"
+      value="64"
+    />
+  </label>
+  <label
+    htmlFor="canvas-128"
+  >
+    128
+    <input
+      id="canvas-128"
+      name="radio"
+      onChange={[Function]}
+      type="radio"
+      value="128"
+    />
+  </label>
+</form>
+`;

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="fps-control"
+>
+  <label
+    htmlFor="fps-control__input"
+  >
+    <span />
+    <span>
+      FPS
+    </span>
+    <input
+      className="fps-control__input"
+      id="fps-control__input"
+      max="24"
+      min="1"
+      name="volume"
+      step="1"
+      type="range"
+    />
+  </label>
+</div>
+`;
