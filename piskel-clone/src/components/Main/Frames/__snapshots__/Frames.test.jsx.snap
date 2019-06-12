@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<section
+  className="frames-section"
+>
+  <div
+    className="frame frame0"
+    data-active={true}
+    data-id={0}
+    role="presentation"
+  >
+    <canvas
+      className="frame__canvas frame__canvas_active"
+      height="90"
+      id="frame0"
+      onClick={[Function]}
+      width="90"
+    />
+    <span
+      className="frame__index"
+    >
+      1
+    </span>
+    <button
+      className="frame__duplicate"
+      type="button"
+    >
+      <i
+        className="fas fa-copy"
+      />
+    </button>
+  </div>
+  <button
+    className="frames-section__add-frame-button"
+    onClick={[Function]}
+    type="button"
+  >
+    <i
+      className="fas fa-plus"
+    />
+    <span>
+      Add
+    </span>
+  </button>
+</section>
+`;
