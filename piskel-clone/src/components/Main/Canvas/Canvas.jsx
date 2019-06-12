@@ -33,6 +33,10 @@ class Canvas extends Component {
   }
 
   deactivateCursor = () => {
+    const { canvas } = this.state;
+    const frame = document.querySelector('.frame__canvas.frame__canvas_active');
+    const ctx = frame.getContext('2d');
+    ctx.drawImage(canvas, 0, 0, 90, 90);
     this.setState({
       cursorActive: false,
     });

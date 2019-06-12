@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Tools from './Tools/Tools';
+import Frames from './Frames/Frames';
 import Canvas from './Canvas/Canvas';
 import Preview from './Preview/Preview';
 import './Main.scss';
@@ -48,6 +49,7 @@ class Main extends Component {
     return (
       <main className="main">
         <Tools updateCurrentTool={this.updateCurrentTool} />
+        <Frames />
         <Canvas
           width={width}
           height={height}

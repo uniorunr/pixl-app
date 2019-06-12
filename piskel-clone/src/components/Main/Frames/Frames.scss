@@ -1,0 +1,32 @@
+.frames-section {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  align-self: flex-start;
+  max-height: 90%;
+  min-width: 105px;
+  margin: 0 20px;
+  padding: 5px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  background-color: white;
+  border: 2px solid black;
+  cursor: context-menu;
+  overflow-y: scroll;
+
+  .frames-section__add-frame-button {
+    margin: 20px auto;
+    font-size: 1.4rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    span {
+      margin-left: 5px;
+      font-family: "Roboto", "Arial", sans-serif;
+      font-weight: 700;
+    }
+  }
+}
