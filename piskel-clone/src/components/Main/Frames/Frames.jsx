@@ -58,6 +58,8 @@ class Frames extends Component {
       && activeFrame === canvasItems.length - 1
     ) {
       finalIndex = index;
+    } else if (activeFrame === canvasItems.length - 1) {
+      finalIndex = canvasItems.length - 2;
     } else {
       finalIndex = activeFrame;
     }
