@@ -19,6 +19,14 @@ const activateTool = (toolId) => {
   return tool;
 };
 
+const translate = (canvas) => {
+  const frame = document.querySelector('.frame__canvas_active');
+  const ctx = frame.getContext('2d');
+  ctx.clearRect(0, 0, frame.width, frame.height);
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(canvas, 0, 0, frame.width, frame.height);
+};
+
 class Canvas extends Component {
   constructor() {
     super();
@@ -34,9 +42,8 @@ class Canvas extends Component {
 
   deactivateCursor = () => {
     const { canvas } = this.state;
-    const frame = document.querySelector('.frame__canvas.frame__canvas_active');
-    const ctx = frame.getContext('2d');
-    ctx.drawImage(canvas, 0, 0, 90, 90);
+    translate(canvas);
+
     this.setState({
       cursorActive: false,
     });
@@ -54,13 +61,14 @@ class Canvas extends Component {
   };
 
   handleMouseMove = ({ pageX, pageY }) => {
-    const { cursorActive } = this.state;
+    const { cursorActive, canvas } = this.state;
     const { currToolId } = this.props;
 
     if (cursorActive) {
       const tool = activateTool(currToolId);
       if (currToolId === 'pen' || currToolId === 'eraser') {
         tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
+        translate(canvas);
       }
     }
   };

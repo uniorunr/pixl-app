@@ -44,6 +44,10 @@ class Frames extends Component {
       frameKeys: [...frameKeys, frameKeys[frameKeys.length - 1] + 1],
       activeFrame: frameKeys.length,
     });
+
+    const mainCanvas = document.querySelector('#canvas');
+    const mainCtx = mainCanvas.getContext('2d');
+    mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
   };
 
   removeFrame = (index) => {

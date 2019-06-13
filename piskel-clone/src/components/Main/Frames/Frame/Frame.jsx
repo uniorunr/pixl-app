@@ -6,6 +6,13 @@ class Frame extends Component {
   clickOnFrame = () => {
     const { index, makeActive } = this.props;
     makeActive(index);
+
+    const frame = document.querySelector(`#frame${index}`);
+    const mainCanvas = document.querySelector('#canvas');
+    const mainCtx = mainCanvas.getContext('2d');
+    mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+    mainCtx.imageSmoothingEnabled = false;
+    mainCtx.drawImage(frame, 0, 0, mainCanvas.width, mainCanvas.height);
   };
 
   handleRemoveButton = () => {
@@ -26,8 +33,8 @@ class Frame extends Component {
         <canvas
           id={`frame${index}`}
           className={`frame__canvas ${active ? 'frame__canvas_active' : ''}`}
-          width="90"
-          height="90"
+          width="128"
+          height="128"
           onClick={this.clickOnFrame}
         />
         <span className="frame__index">{index + 1}</span>
