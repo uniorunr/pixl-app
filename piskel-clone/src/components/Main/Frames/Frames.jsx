@@ -2,6 +2,25 @@ import React, { Component } from 'react';
 import Frame from './Frame/Frame';
 import './Frames.scss';
 
+const setActiveFrame = (activeFrame, canvasItems, index) => {
+  let finalIndex = null;
+  if (index === activeFrame) {
+    finalIndex = 0;
+  } else if (index === canvasItems.length - 1) {
+    finalIndex = activeFrame;
+  } else if (
+    index === canvasItems.length - 2
+    && activeFrame === canvasItems.length - 1
+  ) {
+    finalIndex = index;
+  } else if (activeFrame === canvasItems.length - 1) {
+    finalIndex = canvasItems.length - 2;
+  } else {
+    finalIndex = activeFrame;
+  }
+  return finalIndex;
+};
+
 class Frames extends Component {
   state = {
     canvasItems: [],
@@ -52,21 +71,7 @@ class Frames extends Component {
 
   removeFrame = (index) => {
     const { canvasItems, frameKeys, activeFrame } = this.state;
-    let finalIndex = null;
-    if (index === activeFrame) {
-      finalIndex = 0;
-    } else if (index === canvasItems.length - 1) {
-      finalIndex = activeFrame;
-    } else if (
-      index === canvasItems.length - 2
-      && activeFrame === canvasItems.length - 1
-    ) {
-      finalIndex = index;
-    } else if (activeFrame === canvasItems.length - 1) {
-      finalIndex = canvasItems.length - 2;
-    } else {
-      finalIndex = activeFrame;
-    }
+    const finalIndex = setActiveFrame(activeFrame, canvasItems, index);
     canvasItems.splice(index, 1);
     frameKeys.splice(index, 1);
     this.setState({
