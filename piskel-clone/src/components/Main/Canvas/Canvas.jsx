@@ -31,9 +31,9 @@ class Canvas extends Component {
   constructor() {
     super();
 
+    this.canvasRef = React.createRef();
+
     this.state = {
-      canvas: null,
-      context: null,
       cursorActive: null,
       currX: null,
       lastY: null,
@@ -41,12 +41,14 @@ class Canvas extends Component {
   }
 
   deactivateCursor = () => {
-    const { canvas } = this.state;
-    translate(canvas);
+    const { cursorActive } = this.state;
+    translate(this.canvasRef.current);
 
-    this.setState({
-      cursorActive: false,
-    });
+    if (cursorActive) {
+      this.setState({
+        cursorActive: false,
+      });
+    }
   };
 
   handleMouseDown = ({ pageX, pageY }) => {
@@ -56,19 +58,33 @@ class Canvas extends Component {
     });
     const tool = activateTool(currToolId);
     if (currToolId === 'pen' || currToolId === 'eraser') {
-      tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
+      tool(
+        pageX,
+        pageY,
+        this.state,
+        this.props,
+        this.updateLastCoordinates,
+        this.canvasRef.current,
+      );
     }
   };
 
   handleMouseMove = ({ pageX, pageY }) => {
-    const { cursorActive, canvas } = this.state;
+    const { cursorActive } = this.state;
     const { currToolId } = this.props;
 
     if (cursorActive) {
       const tool = activateTool(currToolId);
       if (currToolId === 'pen' || currToolId === 'eraser') {
-        tool(pageX, pageY, this.state, this.props, this.updateLastCoordinates);
-        translate(canvas);
+        tool(
+          pageX,
+          pageY,
+          this.state,
+          this.props,
+          this.updateLastCoordinates,
+          this.canvasRef.current,
+        );
+        translate(this.canvasRef.current);
       }
     }
   };
@@ -77,13 +93,6 @@ class Canvas extends Component {
     this.setState({
       currX: x,
       lastY: y,
-    });
-  };
-
-  componentDidMount = () => {
-    this.setState({
-      canvas: document.getElementById('canvas'),
-      context: document.getElementById('canvas').getContext('2d'),
     });
   };
 
@@ -97,6 +106,7 @@ class Canvas extends Component {
           id="canvas"
           width={width}
           height={height}
+          ref={this.canvasRef}
           onMouseDown={this.handleMouseDown}
           onMouseMove={this.handleMouseMove}
           onMouseUp={this.deactivateCursor}

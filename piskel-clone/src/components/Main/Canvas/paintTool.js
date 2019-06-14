@@ -1,7 +1,8 @@
-const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props) => {
-  const { context, cursorActive } = state;
+const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas) => {
+  const { cursorActive } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;
+  const context = canvas.getContext('2d');
   context.strokeStyle = 'black';
 
   if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!cursorActive) {
@@ -111,14 +112,14 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
   context.fill(rectangles);
 };
 
-const moveAndPaint = (pageX, pageY, state, props, updateCoordinates) => {
-  const { canvas, currX, lastY } = state;
+const moveAndPaint = (pageX, pageY, state, props, updateCoordinates, canvas) => {
+  const { currX, lastY } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  draw(x, y, currX, lastY, connectTwoPoints, state, props);
+  draw(x, y, currX, lastY, connectTwoPoints, state, props, canvas);
   updateCoordinates(x, y);
 };
 
