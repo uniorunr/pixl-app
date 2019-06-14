@@ -1,5 +1,8 @@
 .canvas-section {
   align-self: flex-start;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 
   .canvas-section__canvas {
     border: 2px solid black;
