@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Frame from './Frame/Frame';
 import './Frames.scss';
 
@@ -83,6 +84,7 @@ class Frames extends Component {
 
   render() {
     const { canvasItems, frameKeys, activeFrame } = this.state;
+    const { framesArray } = this.props;
     const keys = canvasItems.map(item => item.key);
 
     return (
@@ -94,6 +96,7 @@ class Frames extends Component {
             removeFrame={this.removeFrame}
             active={index === activeFrame}
             makeActive={this.makeActive}
+            framesArray={framesArray}
           />
         ))}
         <button
@@ -108,5 +111,13 @@ class Frames extends Component {
     );
   }
 }
+
+Frames.propTypes = {
+  framesArray: PropTypes.instanceOf(Array),
+};
+
+Frames.defaultProps = {
+  framesArray: [],
+};
 
 export default Frames;

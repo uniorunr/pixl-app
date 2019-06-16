@@ -21,7 +21,7 @@ class Frame extends Component {
   };
 
   render() {
-    const { active, index } = this.props;
+    const { active, index, framesArray } = this.props;
 
     return (
       <div
@@ -36,6 +36,9 @@ class Frame extends Component {
           width="128"
           height="128"
           onClick={this.clickOnFrame}
+          ref={(ref) => {
+            framesArray[index] = ref;
+          }}
         />
         <span className="frame__index">{index + 1}</span>
         <button className="frame__duplicate" type="button">
@@ -60,10 +63,12 @@ Frame.propTypes = {
   active: PropTypes.bool,
   removeFrame: PropTypes.func.isRequired,
   makeActive: PropTypes.func.isRequired,
+  framesArray: PropTypes.instanceOf(Array),
 };
 
 Frame.defaultProps = {
   active: false,
+  framesArray: [],
 };
 
 export default Frame;

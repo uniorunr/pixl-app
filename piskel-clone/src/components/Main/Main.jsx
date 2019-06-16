@@ -12,12 +12,18 @@ const getWindowSize = () => {
 };
 
 class Main extends Component {
-  state = {
-    width: getWindowSize(),
-    height: getWindowSize(),
-    pixelsPerCanvas: 32,
-    currToolId: 'pen',
-  };
+  constructor() {
+    super();
+
+    this.frames = [];
+
+    this.state = {
+      width: getWindowSize(),
+      height: getWindowSize(),
+      pixelsPerCanvas: 32,
+      currToolId: 'pen',
+    };
+  }
 
   componentDidMount = () => {
     window.addEventListener('resize', this.updateDimensions);
@@ -46,17 +52,21 @@ class Main extends Component {
     const {
       width, height, pixelsPerCanvas, currToolId,
     } = this.state;
+
     return (
       <main className="main">
         <Tools updateCurrentTool={this.updateCurrentTool} />
-        <Frames />
+        <Frames framesArray={this.frames} />
         <Canvas
           width={width}
           height={height}
           pixelsPerCanvas={pixelsPerCanvas}
           currToolId={currToolId}
         />
-        <Preview handlePixelsPerCanvas={this.handlePixelsPerCanvas} />
+        <Preview
+          framesArray={this.frames}
+          handlePixelsPerCanvas={this.handlePixelsPerCanvas}
+        />
       </main>
     );
   }
