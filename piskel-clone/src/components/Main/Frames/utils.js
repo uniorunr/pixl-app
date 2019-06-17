@@ -17,4 +17,13 @@ const setActiveFrame = (activeFrame, canvasItems, index) => {
   return finalIndex;
 };
 
-export default setActiveFrame;
+const translateActiveFrame = (index) => {
+  const frame = document.querySelector(`#frame${index}`);
+  const mainCanvas = document.querySelector('#canvas');
+  const mainCtx = mainCanvas.getContext('2d');
+  mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+  mainCtx.imageSmoothingEnabled = false;
+  mainCtx.drawImage(frame, 0, 0, mainCanvas.width, mainCanvas.height);
+};
+
+export { setActiveFrame, translateActiveFrame };

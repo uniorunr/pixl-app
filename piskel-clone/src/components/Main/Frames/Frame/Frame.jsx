@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import './Frame.scss';
 import PropTypes from 'prop-types';
+import { translateActiveFrame } from '../utils';
 
 class Frame extends Component {
   clickOnFrame = () => {
     const { index, makeActive } = this.props;
     makeActive(index);
-
-    const frame = document.querySelector(`#frame${index}`);
-    const mainCanvas = document.querySelector('#canvas');
-    const mainCtx = mainCanvas.getContext('2d');
-    mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-    mainCtx.imageSmoothingEnabled = false;
-    mainCtx.drawImage(frame, 0, 0, mainCanvas.width, mainCanvas.height);
+    translateActiveFrame(index);
   };
 
   handleRemoveButton = () => {
