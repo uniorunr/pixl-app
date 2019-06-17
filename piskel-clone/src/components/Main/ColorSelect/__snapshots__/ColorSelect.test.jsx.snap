@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<section
+  className="color-select-section"
+>
+  <div
+    className="colors"
+  >
+    <div>
+      <input
+        className="colors__input-primary"
+        defaultValue="#000000"
+        onInput={[Function]}
+        type="color"
+      />
+      <div
+        className="colors__primary"
+        style={
+          Object {
+            "backgroundColor": "#000000",
+          }
+        }
+      />
+    </div>
+    <div>
+      <input
+        className="colors__input-secondary"
+        defaultValue="#ffffff"
+        onInput={[Function]}
+        type="color"
+      />
+      <div
+        className="colors__secondary"
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;

@@ -4,66 +4,108 @@ exports[`renders correctly 1`] = `
 <main
   className="main"
 >
-  <section
-    className="tools-section"
-  >
-    <h2
-      className="visually-hidden"
+  <section>
+    <section
+      className="tools-section"
     >
-      Tools Section
-    </h2>
-    <div
-      className="tools"
+      <h2
+        className="visually-hidden"
+      >
+        Tools Section
+      </h2>
+      <div
+        className="tools"
+      >
+        <button
+          className="tools__pen tools_state_active"
+          data-listener="true"
+          id="pen"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-pen"
+          />
+        </button>
+        <button
+          className="tools__paint-bucket"
+          data-listener="true"
+          id="paint-bucket"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-fill-drip"
+          />
+        </button>
+        <button
+          className="tools__choose-color"
+          data-listener="true"
+          id="choose-color"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-eye-dropper"
+          />
+        </button>
+        <button
+          className="tools__eraser"
+          data-listener="true"
+          id="eraser"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-eraser"
+          />
+        </button>
+      </div>
+    </section>
+    <section
+      className="color-select-section"
     >
-      <button
-        className="tools__pen tools_state_active"
-        data-listener="true"
-        id="pen"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        type="button"
+      <div
+        className="colors"
       >
-        <i
-          className="fas fa-pen"
-        />
-      </button>
-      <button
-        className="tools__paint-bucket"
-        data-listener="true"
-        id="paint-bucket"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        type="button"
-      >
-        <i
-          className="fas fa-fill-drip"
-        />
-      </button>
-      <button
-        className="tools__choose-color"
-        data-listener="true"
-        id="choose-color"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        type="button"
-      >
-        <i
-          className="fas fa-eye-dropper"
-        />
-      </button>
-      <button
-        className="tools__eraser"
-        data-listener="true"
-        id="eraser"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        type="button"
-      >
-        <i
-          className="fas fa-eraser"
-        />
-      </button>
-    </div>
+        <div>
+          <input
+            className="colors__input-primary"
+            defaultValue="#000000"
+            onInput={[Function]}
+            type="color"
+          />
+          <div
+            className="colors__primary"
+            style={
+              Object {
+                "backgroundColor": "#000000",
+              }
+            }
+          />
+        </div>
+        <div>
+          <input
+            className="colors__input-secondary"
+            defaultValue="#ffffff"
+            onInput={[Function]}
+            type="color"
+          />
+          <div
+            className="colors__secondary"
+            style={
+              Object {
+                "backgroundColor": "#ffffff",
+              }
+            }
+          />
+        </div>
+      </div>
+    </section>
   </section>
   <section
     className="frames-section"
