@@ -108,10 +108,10 @@ Array [
       >
         <canvas
           className="frame__canvas frame__canvas_active"
-          height="90"
+          height="128"
           id="frame0"
           onClick={[Function]}
-          width="90"
+          width="128"
         />
         <span
           className="frame__index"
@@ -120,6 +120,7 @@ Array [
         </span>
         <button
           className="frame__duplicate"
+          onClick={[Function]}
           type="button"
         >
           <i
@@ -190,6 +191,7 @@ Array [
               max="24"
               min="1"
               name="volume"
+              onInput={[Function]}
               step="1"
               type="range"
             />

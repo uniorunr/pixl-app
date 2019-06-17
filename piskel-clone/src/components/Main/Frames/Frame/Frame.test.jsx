@@ -13,6 +13,7 @@ it('renders correctly', () => {
         removeFrame={mockFunc}
         makeActive={mockFunc}
         active
+        duplicateFrame={() => {}}
       />,
     )
     .toJSON();

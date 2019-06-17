@@ -2,7 +2,21 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import FpsControl from './FpsControl';
 
+function createNodeMock(element) {
+  if (element.type === 'input') {
+    return {
+      current: {
+        value: 23,
+      },
+    };
+  }
+  return null;
+}
+
 it('renders correctly', () => {
-  const tree = renderer.create(<FpsControl />).toJSON();
+  const options = { createNodeMock };
+  const tree = renderer
+    .create(<FpsControl updateFps={() => {}} />, options)
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
