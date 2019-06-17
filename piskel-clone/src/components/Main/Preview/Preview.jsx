@@ -14,7 +14,7 @@ class Preview extends Component {
     this.state = {
       framesArray,
       fps: 10,
-      currentFrame: 0,
+      currFrame: 0,
     };
   }
 
@@ -28,19 +28,28 @@ class Preview extends Component {
   };
 
   changeFrame = () => {
-    const { framesArray, currentFrame } = this.state;
+    const { framesArray, currFrame } = this.state;
     requestAnimationFrame(this.animate);
-    const canvas = this.previewRef.current;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(framesArray[currentFrame], 0, 0, canvas.width, canvas.height);
-    this.setState({
-      currentFrame:
-        framesArray[currentFrame + 1] <= framesArray[framesArray.length - 1]
-          ? currentFrame + 1
-          : 0,
-    });
+    const index = framesArray.indexOf(null);
+    if (index !== -1) {
+      framesArray.splice(index);
+      this.setState({
+        framesArray: [...framesArray],
+        currFrame: 0,
+      });
+    }
+    if (framesArray[currFrame]) {
+      const canvas = this.previewRef.current;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(framesArray[currFrame], 0, 0, canvas.width, canvas.height);
+      this.setState({
+        currFrame: currFrame + 1 <= framesArray.length - 1 ? currFrame + 1 : 0,
+      });
+    } else {
+      this.setState({ currFrame: 0 });
+    }
   };
 
   updateFps = (fps) => {

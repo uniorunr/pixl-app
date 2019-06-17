@@ -37,7 +37,10 @@ class Frame extends Component {
           height="128"
           onClick={this.clickOnFrame}
           ref={(ref) => {
-            framesArray[index] = ref;
+            if (ref) {
+              framesArray[index] = ref;
+              framesArray.length = index + 1;
+            }
           }}
         />
         <span className="frame__index">{index + 1}</span>

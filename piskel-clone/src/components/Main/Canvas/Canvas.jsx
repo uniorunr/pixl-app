@@ -14,7 +14,7 @@ const activateTool = (toolId) => {
       tool = moveAndErase;
       break;
     default:
-      console.error("tool isn't found");
+      throw new Error("tool isn't found");
   }
   return tool;
 };

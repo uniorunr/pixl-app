@@ -15,13 +15,12 @@ class Main extends Component {
   constructor() {
     super();
 
-    this.frames = [];
-
     this.state = {
       width: getWindowSize(),
       height: getWindowSize(),
       pixelsPerCanvas: 32,
       currToolId: 'pen',
+      frames: [],
     };
   }
 
@@ -50,13 +49,13 @@ class Main extends Component {
 
   render() {
     const {
-      width, height, pixelsPerCanvas, currToolId,
+      width, height, pixelsPerCanvas, currToolId, frames,
     } = this.state;
 
     return (
       <main className="main">
         <Tools updateCurrentTool={this.updateCurrentTool} />
-        <Frames framesArray={this.frames} />
+        <Frames framesArray={frames} />
         <Canvas
           width={width}
           height={height}
@@ -64,7 +63,7 @@ class Main extends Component {
           currToolId={currToolId}
         />
         <Preview
-          framesArray={this.frames}
+          framesArray={frames}
           handlePixelsPerCanvas={this.handlePixelsPerCanvas}
         />
       </main>

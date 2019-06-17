@@ -2,25 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Frame from './Frame/Frame';
 import './Frames.scss';
-
-const setActiveFrame = (activeFrame, canvasItems, index) => {
-  let finalIndex = null;
-  if (index === activeFrame) {
-    finalIndex = 0;
-  } else if (index === canvasItems.length - 1) {
-    finalIndex = activeFrame;
-  } else if (
-    index === canvasItems.length - 2
-    && activeFrame === canvasItems.length - 1
-  ) {
-    finalIndex = index;
-  } else if (activeFrame === canvasItems.length - 1) {
-    finalIndex = canvasItems.length - 2;
-  } else {
-    finalIndex = activeFrame;
-  }
-  return finalIndex;
-};
+import setActiveFrame from './utils';
 
 class Frames extends Component {
   state = {
@@ -73,6 +55,14 @@ class Frames extends Component {
   removeFrame = (index) => {
     const { canvasItems, frameKeys, activeFrame } = this.state;
     const finalIndex = setActiveFrame(activeFrame, canvasItems, index);
+
+    const frame = document.querySelector(`#frame${finalIndex}`);
+    const mainCanvas = document.querySelector('#canvas');
+    const mainCtx = mainCanvas.getContext('2d');
+    mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+    mainCtx.imageSmoothingEnabled = false;
+    mainCtx.drawImage(frame, 0, 0, mainCanvas.width, mainCanvas.height);
+
     canvasItems.splice(index, 1);
     frameKeys.splice(index, 1);
     this.setState({
