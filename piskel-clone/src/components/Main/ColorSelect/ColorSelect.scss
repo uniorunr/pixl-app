@@ -8,6 +8,28 @@
     width: 40px;
     height: 40px;
 
+    .colors__input-primary {
+      z-index: 3;
+      position: absolute;
+      opacity: 0;
+      width: 30px;
+      height: 30px;
+      top: 5px;
+      left: 5px;
+      cursor: pointer;
+    }
+
+    .colors__input-secondary {
+      z-index: 1;
+      position: absolute;
+      opacity: 0;
+      width: 30px;
+      height: 30px;
+      top: 20px;
+      right: 5px;
+      cursor: pointer;
+    }
+
     .colors__primary {
       width: 30px;
       height: 30px;
@@ -15,7 +37,7 @@
       position: absolute;
       top: 5px;
       left: 5px;
-      z-index: 1;
+      z-index: 2;
       cursor: pointer;
     }
 
