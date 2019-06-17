@@ -4,6 +4,17 @@ import PropTypes from 'prop-types';
 import { translateActiveFrame } from '../utils';
 
 class Frame extends Component {
+  componentDidMount = () => {
+    const { duplicate, index, framesArray } = this.props;
+    if (duplicate) {
+      const origin = framesArray[index - 1];
+      const target = framesArray[index];
+      const context = target.getContext('2d');
+      context.imageSmoothingEnabled = false;
+      context.drawImage(origin, 0, 0, target.width, target.height);
+    }
+  };
+
   clickOnFrame = () => {
     const { index, makeActive } = this.props;
     makeActive(index);
@@ -13,6 +24,11 @@ class Frame extends Component {
   handleRemoveButton = () => {
     const { index, removeFrame } = this.props;
     removeFrame(index);
+  };
+
+  handleDuplicateButton = () => {
+    const { index, duplicateFrame } = this.props;
+    duplicateFrame(index);
   };
 
   render() {
@@ -39,7 +55,11 @@ class Frame extends Component {
           }}
         />
         <span className="frame__index">{index + 1}</span>
-        <button className="frame__duplicate" type="button">
+        <button
+          className="frame__duplicate"
+          type="button"
+          onClick={this.handleDuplicateButton}
+        >
           <i className="fas fa-copy" />
         </button>
         {index > 0 ? (
@@ -61,12 +81,15 @@ Frame.propTypes = {
   active: PropTypes.bool,
   removeFrame: PropTypes.func.isRequired,
   makeActive: PropTypes.func.isRequired,
+  duplicateFrame: PropTypes.func.isRequired,
   framesArray: PropTypes.instanceOf(Array),
+  duplicate: PropTypes.bool,
 };
 
 Frame.defaultProps = {
   active: false,
   framesArray: [],
+  duplicate: false,
 };
 
 export default Frame;

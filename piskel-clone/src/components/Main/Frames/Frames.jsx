@@ -9,6 +9,7 @@ class Frames extends Component {
     canvasItems: [],
     frameKeys: [0],
     activeFrame: 0,
+    duplicate: null,
   };
 
   componentDidMount = () => {
@@ -19,6 +20,7 @@ class Frames extends Component {
           key="0"
           makeActive={this.makeActive}
           removeFrame={this.removeFrame}
+          duplicateFrame={this.duplicateFrame}
         />,
       ],
     });
@@ -41,6 +43,7 @@ class Frames extends Component {
           key={frameKeys[frameKeys.length - 1] + 1}
           removeFrame={this.removeFrame}
           makeActive={this.makeActive}
+          duplicateFrame={this.duplicateFrame}
         />,
       ],
       frameKeys: [...frameKeys, frameKeys[frameKeys.length - 1] + 1],
@@ -66,8 +69,34 @@ class Frames extends Component {
     });
   };
 
+  duplicateFrame = (index) => {
+    const { canvasItems, frameKeys } = this.state;
+    const { framesArray } = this.props;
+
+    const frameForInsert = (
+      <Frame
+        index={index + 1}
+        key={Math.max(...frameKeys) + 1}
+        removeFrame={this.removeFrame}
+        makeActive={this.makeActive}
+        duplicateFrame={this.duplicateFrame}
+        contextSource={framesArray[index]}
+      />
+    );
+    canvasItems.splice(index + 1, 0, frameForInsert);
+    frameKeys.splice(index + 1, 0, Math.max(...frameKeys) + 1);
+
+    this.setState({
+      canvasItems: [...canvasItems],
+      frameKeys: [...frameKeys],
+      duplicate: index + 1,
+    });
+  };
+
   render() {
-    const { canvasItems, frameKeys, activeFrame } = this.state;
+    const {
+      canvasItems, frameKeys, activeFrame, duplicate,
+    } = this.state;
     const { framesArray } = this.props;
     const keys = canvasItems.map(item => item.key);
 
@@ -78,8 +107,10 @@ class Frames extends Component {
             index={index}
             key={frameKeys[index]}
             removeFrame={this.removeFrame}
-            active={index === activeFrame}
             makeActive={this.makeActive}
+            duplicateFrame={this.duplicateFrame}
+            active={index === activeFrame}
+            duplicate={index === duplicate}
             framesArray={framesArray}
           />
         ))}
