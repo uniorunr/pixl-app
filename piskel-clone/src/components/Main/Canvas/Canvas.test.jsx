@@ -21,6 +21,7 @@ it('renders correctly', () => {
         height={height}
         pixelsPerCanvas="32"
         currToolId="pen"
+        updateColor={() => {}}
       />,
     )
     .toJSON();
