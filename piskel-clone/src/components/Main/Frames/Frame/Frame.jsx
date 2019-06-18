@@ -5,13 +5,17 @@ import { translateActiveFrame } from '../utils';
 
 class Frame extends Component {
   componentDidMount = () => {
-    const { duplicate, index, framesArray } = this.props;
+    const {
+      duplicate, index, framesArray, resetDuplicate,
+    } = this.props;
     if (duplicate) {
       const origin = framesArray[index - 1];
       const target = framesArray[index];
       const context = target.getContext('2d');
       context.imageSmoothingEnabled = false;
       context.drawImage(origin, 0, 0, target.width, target.height);
+      translateActiveFrame(index);
+      resetDuplicate();
     }
   };
 
@@ -82,6 +86,7 @@ Frame.propTypes = {
   removeFrame: PropTypes.func.isRequired,
   makeActive: PropTypes.func.isRequired,
   duplicateFrame: PropTypes.func.isRequired,
+  resetDuplicate: PropTypes.func.isRequired,
   framesArray: PropTypes.instanceOf(Array),
   duplicate: PropTypes.bool,
 };

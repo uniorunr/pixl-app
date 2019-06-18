@@ -21,6 +21,7 @@ class Frames extends Component {
           makeActive={this.makeActive}
           removeFrame={this.removeFrame}
           duplicateFrame={this.duplicateFrame}
+          resetDuplicate={this.resetDuplicate}
         />,
       ],
     });
@@ -29,6 +30,12 @@ class Frames extends Component {
   makeActive = (index) => {
     this.setState({
       activeFrame: index,
+    });
+  };
+
+  resetDuplicate = () => {
+    this.setState({
+      duplicate: null,
     });
   };
 
@@ -44,6 +51,7 @@ class Frames extends Component {
           removeFrame={this.removeFrame}
           makeActive={this.makeActive}
           duplicateFrame={this.duplicateFrame}
+          resetDuplicate={this.resetDuplicate}
         />,
       ],
       frameKeys: [...frameKeys, frameKeys[frameKeys.length - 1] + 1],
@@ -83,6 +91,7 @@ class Frames extends Component {
         removeFrame={this.removeFrame}
         makeActive={this.makeActive}
         duplicateFrame={this.duplicateFrame}
+        resetDuplicate={this.resetDuplicate}
         contextSource={framesArray[index]}
       />
     );
@@ -93,6 +102,7 @@ class Frames extends Component {
       canvasItems: [...canvasItems],
       frameKeys: [...frameKeys],
       duplicate: index + 1,
+      activeFrame: index + 1,
     });
   };
 
@@ -112,6 +122,7 @@ class Frames extends Component {
             removeFrame={this.removeFrame}
             makeActive={this.makeActive}
             duplicateFrame={this.duplicateFrame}
+            resetDuplicate={this.resetDuplicate}
             active={index === activeFrame}
             duplicate={index === duplicate}
             framesArray={framesArray}
