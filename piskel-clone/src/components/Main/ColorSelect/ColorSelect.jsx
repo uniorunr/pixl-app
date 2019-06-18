@@ -1,32 +1,25 @@
 import React, { Component } from 'react';
 import './ColorSelect.scss';
+import PropTypes from 'prop-types';
 
 class ColorSelect extends Component {
   constructor(props) {
     super(props);
     this.primary = React.createRef();
     this.secondary = React.createRef();
-
-    this.state = {
-      primaryColor: '#000000',
-      secondaryColor: '#ffffff',
-    };
   }
 
   handlePrimaryChange = ({ target }) => {
+    const { updateColor } = this.props;
     if (target === this.primary.current) {
-      this.setState({
-        primaryColor: target.value,
-      });
+      updateColor(target.value, 'primary');
     } else {
-      this.setState({
-        secondaryColor: target.value,
-      });
+      updateColor(target.value);
     }
   };
 
   render() {
-    const { primaryColor, secondaryColor } = this.state;
+    const { primaryColor, secondaryColor } = this.props;
 
     return (
       <section className="color-select-section">
@@ -62,5 +55,11 @@ class ColorSelect extends Component {
     );
   }
 }
+
+ColorSelect.propTypes = {
+  updateColor: PropTypes.func.isRequired,
+  primaryColor: PropTypes.string.isRequired,
+  secondaryColor: PropTypes.string.isRequired,
+};
 
 export default ColorSelect;

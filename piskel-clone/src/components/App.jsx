@@ -4,12 +4,6 @@ import Main from './Main/Main';
 import './App.scss';
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {};
-  }
-
   render() {
     return (
       <Fragment>

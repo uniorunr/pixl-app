@@ -1,9 +1,9 @@
 const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas) => {
   const { cursorActive } = state;
-  const { pixelsPerCanvas, width } = props;
+  const { pixelsPerCanvas, width, primaryColor } = props;
   const pixelSize = width / pixelsPerCanvas;
   const context = canvas.getContext('2d');
-  context.strokeStyle = 'black';
+  context.fillStyle = primaryColor;
 
   if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!cursorActive) {
     connectTwoPointsFunc(x, y, lastX, lastY, pixelSize, context);

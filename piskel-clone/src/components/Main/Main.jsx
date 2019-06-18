@@ -22,6 +22,8 @@ class Main extends Component {
       pixelsPerCanvas: 32,
       currToolId: 'pen',
       frames: [],
+      primaryColor: '#000000',
+      secondaryColor: '#ffffff',
     };
   }
 
@@ -48,16 +50,38 @@ class Main extends Component {
     });
   };
 
+  updateColor = (color, isPrimary) => {
+    if (isPrimary) {
+      this.setState({
+        primaryColor: color,
+      });
+    } else {
+      this.setState({
+        secondaryColor: color,
+      });
+    }
+  };
+
   render() {
     const {
-      width, height, pixelsPerCanvas, currToolId, frames,
+      width,
+      height,
+      pixelsPerCanvas,
+      currToolId,
+      frames,
+      primaryColor,
+      secondaryColor,
     } = this.state;
 
     return (
       <main className="main">
         <section>
           <Tools updateCurrentTool={this.updateCurrentTool} />
-          <ColorSelect />
+          <ColorSelect
+            primaryColor={primaryColor}
+            secondaryColor={secondaryColor}
+            updateColor={this.updateColor}
+          />
         </section>
         <Frames framesArray={frames} />
         <Canvas
@@ -65,6 +89,8 @@ class Main extends Component {
           height={height}
           pixelsPerCanvas={pixelsPerCanvas}
           currToolId={currToolId}
+          primaryColor={primaryColor}
+          secondaryColor={secondaryColor}
         />
         <Preview
           framesArray={frames}
