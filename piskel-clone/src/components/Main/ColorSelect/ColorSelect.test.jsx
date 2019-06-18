@@ -12,6 +12,15 @@ function createNodeMock(element) {
 it('renders correctly', () => {
   const options = { createNodeMock };
 
-  const tree = renderer.create(<ColorSelect />, options).toJSON();
+  const tree = renderer
+    .create(
+      <ColorSelect
+        updateColor={() => {}}
+        primaryColor="#000000"
+        secondaryColor="#ffffff"
+      />,
+      options,
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });

@@ -12,6 +12,7 @@ it('renders correctly', () => {
         key={0}
         removeFrame={mockFunc}
         makeActive={mockFunc}
+        resetDuplicate={mockFunc}
         active
         duplicateFrame={() => {}}
       />,
