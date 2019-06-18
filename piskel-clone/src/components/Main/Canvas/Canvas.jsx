@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './Canvas.scss';
 import moveAndPaint from './paintTool';
 import moveAndErase from './eraserTool';
+import pickTheColor from './pickerTool';
 
 const activateTool = (toolId) => {
   let tool = null;
@@ -12,6 +13,9 @@ const activateTool = (toolId) => {
       break;
     case 'eraser':
       tool = moveAndErase;
+      break;
+    case 'choose-color':
+      tool = pickTheColor;
       break;
     default:
       throw new Error("tool isn't found");
@@ -52,21 +56,20 @@ class Canvas extends Component {
   };
 
   handleMouseDown = ({ pageX, pageY }) => {
-    const { currToolId } = this.props;
+    const { currToolId, updateColor } = this.props;
     this.setState({
       cursorActive: true,
     });
     const tool = activateTool(currToolId);
-    if (currToolId === 'pen' || currToolId === 'eraser') {
-      tool(
-        pageX,
-        pageY,
-        this.state,
-        this.props,
-        this.updateLastCoordinates,
-        this.canvasRef.current,
-      );
-    }
+    const result = tool(
+      pageX,
+      pageY,
+      this.state,
+      this.props,
+      this.canvasRef.current,
+      this.updateLastCoordinates,
+    );
+    if (result && result !== 'transparent') updateColor(result, 'primary');
   };
 
   handleMouseMove = ({ pageX, pageY }) => {
@@ -75,16 +78,15 @@ class Canvas extends Component {
 
     if (cursorActive) {
       const tool = activateTool(currToolId);
-      if (currToolId === 'pen' || currToolId === 'eraser') {
+      if (currToolId !== 'choose-color') {
         tool(
           pageX,
           pageY,
           this.state,
           this.props,
-          this.updateLastCoordinates,
           this.canvasRef.current,
+          this.updateLastCoordinates,
         );
-        translate(this.canvasRef.current);
       }
     }
   };
@@ -121,6 +123,7 @@ Canvas.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   currToolId: PropTypes.string.isRequired,
+  updateColor: PropTypes.func.isRequired,
 };
 
 export default Canvas;

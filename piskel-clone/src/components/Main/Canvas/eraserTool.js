@@ -99,7 +99,7 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
   }
 };
 
-const moveAndErase = (pageX, pageY, state, props, updateCoordinates, canvas) => {
+const moveAndErase = (pageX, pageY, state, props, canvas, updateCoordinates) => {
   const { currX, lastY } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;

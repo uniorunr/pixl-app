@@ -112,7 +112,7 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
   context.fill(rectangles);
 };
 
-const moveAndPaint = (pageX, pageY, state, props, updateCoordinates, canvas) => {
+const moveAndPaint = (pageX, pageY, state, props, canvas, updateCoordinates) => {
   const { currX, lastY } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;

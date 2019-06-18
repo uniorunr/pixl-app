@@ -91,6 +91,7 @@ class Main extends Component {
           currToolId={currToolId}
           primaryColor={primaryColor}
           secondaryColor={secondaryColor}
+          updateColor={this.updateColor}
         />
         <Preview
           framesArray={frames}
