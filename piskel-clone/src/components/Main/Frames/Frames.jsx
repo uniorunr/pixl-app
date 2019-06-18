@@ -57,15 +57,18 @@ class Frames extends Component {
 
   removeFrame = (index) => {
     const { canvasItems, frameKeys, activeFrame } = this.state;
-    const finalIndex = setActiveFrame(activeFrame, canvasItems, index);
-    translateActiveFrame(finalIndex);
-
+    const indexToTranslate = setActiveFrame(activeFrame, canvasItems, index);
     canvasItems.splice(index, 1);
     frameKeys.splice(index, 1);
+    translateActiveFrame(indexToTranslate);
+
     this.setState({
       canvasItems: [...canvasItems],
       frameKeys: [...frameKeys],
-      activeFrame: finalIndex,
+      activeFrame:
+        indexToTranslate > canvasItems.length - 1
+          ? canvasItems.length - 1
+          : indexToTranslate,
     });
   };
 

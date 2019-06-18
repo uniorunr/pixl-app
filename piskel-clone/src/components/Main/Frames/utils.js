@@ -8,9 +8,9 @@ const setActiveFrame = (activeFrame, canvasItems, index) => {
     index === canvasItems.length - 2
     && activeFrame === canvasItems.length - 1
   ) {
-    finalIndex = index;
+    finalIndex = activeFrame;
   } else if (activeFrame === canvasItems.length - 1) {
-    finalIndex = canvasItems.length - 2;
+    finalIndex = canvasItems.length - 1;
   } else {
     finalIndex = activeFrame;
   }
