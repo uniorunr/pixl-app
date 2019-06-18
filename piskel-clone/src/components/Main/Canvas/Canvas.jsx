@@ -87,6 +87,7 @@ class Canvas extends Component {
           this.canvasRef.current,
           this.updateLastCoordinates,
         );
+        translate(this.canvasRef.current);
       }
     }
   };
