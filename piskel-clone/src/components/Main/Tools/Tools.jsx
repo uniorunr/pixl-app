@@ -45,14 +45,14 @@ class Tools extends Component {
         <h2 className="visually-hidden">Tools Section</h2>
         <div className="tools">
           <ToolButton
-            buttonClass="tools__pen tools_state_active"
+            buttonClass="tools__button tools_state_active"
             id="pen"
             iconClass="fas fa-pen"
             onClickHandler={this.makeActive}
             onKeyDownHandler={this.handleKeyboard}
           />
           <ToolButton
-            buttonClass="tools__paint-bucket"
+            buttonClass="tools__button"
             id="paint-bucket"
             iconClass="fas fa-fill-drip"
             onClickHandler={this.makeActive}
@@ -66,7 +66,7 @@ class Tools extends Component {
             onKeyDownHandler={this.handleKeyboard}
           />
           <ToolButton
-            buttonClass="tools__eraser"
+            buttonClass="tools__button"
             id="eraser"
             iconClass="fas fa-eraser"
             onClickHandler={this.makeActive}
