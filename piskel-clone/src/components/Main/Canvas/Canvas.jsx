@@ -4,6 +4,7 @@ import './Canvas.scss';
 import moveAndPaint from './paintTool';
 import moveAndErase from './eraserTool';
 import pickTheColor from './pickerTool';
+import paintBucket from './paintBucketTool';
 
 const activateTool = (toolId) => {
   let tool = null;
@@ -16,6 +17,9 @@ const activateTool = (toolId) => {
       break;
     case 'choose-color':
       tool = pickTheColor;
+      break;
+    case 'paint-bucket':
+      tool = paintBucket;
       break;
     default:
       throw new Error("tool isn't found");
@@ -56,20 +60,28 @@ class Canvas extends Component {
   };
 
   handleMouseDown = ({ pageX, pageY }) => {
-    const { currToolId, updateColor } = this.props;
+    const { currToolId, updateColor, primaryColor } = this.props;
     this.setState({
       cursorActive: true,
     });
     const tool = activateTool(currToolId);
-    const result = tool(
-      pageX,
-      pageY,
-      this.state,
-      this.props,
-      this.canvasRef.current,
-      this.updateLastCoordinates,
-    );
-    if (result && result !== 'transparent') updateColor(result, 'primary');
+    if (
+      currToolId === 'pen'
+      || currToolId === 'eraser'
+      || currToolId === 'choose-color'
+    ) {
+      const result = tool(
+        pageX,
+        pageY,
+        this.state,
+        this.props,
+        this.canvasRef.current,
+        this.updateLastCoordinates,
+      );
+      if (result && result !== 'transparent') updateColor(result, 'primary');
+    } else {
+      paintBucket(pageX, pageY, primaryColor);
+    }
   };
 
   handleMouseMove = ({ pageX, pageY }) => {
@@ -125,6 +137,7 @@ Canvas.propTypes = {
   height: PropTypes.number.isRequired,
   currToolId: PropTypes.string.isRequired,
   updateColor: PropTypes.func.isRequired,
+  primaryColor: PropTypes.string.isRequired,
 };
 
 export default Canvas;
