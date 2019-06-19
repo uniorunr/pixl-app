@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Tools.scss';
 import PropTypes from 'prop-types';
+import ToolButton from './ToolButton/ToolButton';
 
 class Tools extends Component {
   makeActive = ({ target }) => {
@@ -43,46 +44,34 @@ class Tools extends Component {
       <section className="tools-section">
         <h2 className="visually-hidden">Tools Section</h2>
         <div className="tools">
-          <button
-            className="tools__pen tools_state_active"
+          <ToolButton
+            buttonClass="tools__pen tools_state_active"
             id="pen"
-            data-listener="true"
-            type="button"
-            onClick={this.makeActive}
-            onKeyDown={this.handleKeyboard}
-          >
-            <i className="fas fa-pen" />
-          </button>
-          <button
-            className="tools__paint-bucket"
+            iconClass="fas fa-pen"
+            onClickHandler={this.makeActive}
+            onKeyDownHandler={this.handleKeyboard}
+          />
+          <ToolButton
+            buttonClass="tools__paint-bucket"
             id="paint-bucket"
-            data-listener="true"
-            type="button"
-            onClick={this.makeActive}
-            onKeyDown={this.handleKeyboard}
-          >
-            <i className="fas fa-fill-drip" />
-          </button>
-          <button
-            className="tools__choose-color"
+            iconClass="fas fa-fill-drip"
+            onClickHandler={this.makeActive}
+            onKeyDownHandler={this.handleKeyboard}
+          />
+          <ToolButton
+            buttonClass="tools__choose-color"
             id="choose-color"
-            data-listener="true"
-            type="button"
-            onClick={this.makeActive}
-            onKeyDown={this.handleKeyboard}
-          >
-            <i className="fas fa-eye-dropper" />
-          </button>
-          <button
-            className="tools__eraser"
+            iconClass="fas fa-eye-dropper"
+            onClickHandler={this.makeActive}
+            onKeyDownHandler={this.handleKeyboard}
+          />
+          <ToolButton
+            buttonClass="tools__eraser"
             id="eraser"
-            data-listener="true"
-            type="button"
-            onClick={this.makeActive}
-            onKeyDown={this.handleKeyboard}
-          >
-            <i className="fas fa-eraser" />
-          </button>
+            iconClass="fas fa-eraser"
+            onClickHandler={this.makeActive}
+            onKeyDownHandler={this.handleKeyboard}
+          />
         </div>
       </section>
     );
