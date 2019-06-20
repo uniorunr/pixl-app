@@ -49,7 +49,7 @@ Array [
           className="tools"
         >
           <button
-            className="tools__pen tools_state_active"
+            className="tools__button tools_state_active"
             data-listener="true"
             id="pen"
             onClick={[Function]}
@@ -61,7 +61,7 @@ Array [
             />
           </button>
           <button
-            className="tools__paint-bucket"
+            className="tools__button"
             data-listener="true"
             id="paint-bucket"
             onClick={[Function]}
@@ -73,7 +73,19 @@ Array [
             />
           </button>
           <button
-            className="tools__choose-color"
+            className="tools__button"
+            data-listener="true"
+            id="paint-same-pixels"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-paint-roller"
+            />
+          </button>
+          <button
+            className="tools__button"
             data-listener="true"
             id="choose-color"
             onClick={[Function]}
@@ -85,7 +97,7 @@ Array [
             />
           </button>
           <button
-            className="tools__eraser"
+            className="tools__button"
             data-listener="true"
             id="eraser"
             onClick={[Function]}

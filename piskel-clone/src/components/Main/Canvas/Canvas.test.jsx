@@ -19,9 +19,10 @@ it('renders correctly', () => {
       <Canvas
         width={width}
         height={height}
-        pixelsPerCanvas="32"
+        pixelsPerCanvas={32}
         currToolId="pen"
         updateColor={() => {}}
+        primaryColor="#000000"
       />,
     )
     .toJSON();
