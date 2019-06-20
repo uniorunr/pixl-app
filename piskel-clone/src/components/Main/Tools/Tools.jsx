@@ -53,6 +53,13 @@ class Tools extends Component {
           />
           <ToolButton
             buttonClass="tools__button"
+            id="stroke"
+            iconClass="fas fa-slash"
+            onClickHandler={this.makeActive}
+            onKeyDownHandler={this.handleKeyboard}
+          />
+          <ToolButton
+            buttonClass="tools__button"
             id="paint-bucket"
             iconClass="fas fa-fill-drip"
             onClickHandler={this.makeActive}

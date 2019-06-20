@@ -7,4 +7,10 @@
   .canvas-section__canvas {
     border: 2px solid black;
   }
+
+  .canvas-section__canvas-overlay {
+    position: absolute;
+    z-index: 1;
+    border: 2px solid black;
+  }
 }

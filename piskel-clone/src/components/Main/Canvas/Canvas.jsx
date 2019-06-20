@@ -6,6 +6,7 @@ import moveAndErase from './utils/eraserTool';
 import pickTheColor from './utils/pickerTool';
 import paintBucket from './utils/paintBucketTool';
 import sameColor from './utils/sameColorTool';
+import drawStroke from './utils/strokeTool';
 
 const activateTool = (toolId) => {
   let tool = null;
@@ -25,18 +26,22 @@ const activateTool = (toolId) => {
     case 'paint-same-pixels':
       tool = sameColor;
       break;
+    case 'stroke':
+      tool = drawStroke;
+      break;
     default:
       throw new Error("tool isn't found");
   }
   return tool;
 };
 
-const translate = (canvas) => {
-  const frame = document.querySelector('.frame__canvas_active');
-  const ctx = frame.getContext('2d');
-  ctx.clearRect(0, 0, frame.width, frame.height);
+const translate = (source, target, clear) => {
+  const ctx = target.getContext('2d');
+  if (!clear) {
+    ctx.clearRect(0, 0, target.width, target.height);
+  }
   ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(canvas, 0, 0, frame.width, frame.height);
+  ctx.drawImage(source, 0, 0, target.width, target.height);
 };
 
 class Canvas extends Component {
@@ -44,21 +49,34 @@ class Canvas extends Component {
     super();
 
     this.canvasRef = React.createRef();
+    this.canvasOverlayRef = React.createRef();
 
     this.state = {
       cursorActive: null,
       currX: null,
       lastY: null,
+      initX: null,
+      initY: null,
     };
   }
 
   deactivateCursor = () => {
     const { cursorActive } = this.state;
-    translate(this.canvasRef.current);
+    const { currToolId } = this.props;
+    if (currToolId === 'stroke') {
+      const overlay = this.canvasOverlayRef.current;
+      translate(this.canvasOverlayRef.current, this.canvasRef.current, true);
+      const overlayCtx = overlay.getContext('2d');
+      overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+    }
+    const frame = document.querySelector('.frame__canvas_active');
+    translate(this.canvasRef.current, frame);
 
     if (cursorActive) {
       this.setState({
         cursorActive: false,
+        initX: null,
+        initY: null,
       });
     }
   };
@@ -88,6 +106,16 @@ class Canvas extends Component {
         this.updateLastCoordinates,
       );
       if (result && result !== 'transparent') updateColor(result, 'primary');
+    } else if (currToolId === 'stroke') {
+      drawStroke(
+        pageX,
+        pageY,
+        this.state,
+        this.props,
+        this.canvasRef.current,
+        this.canvasOverlayRef.current,
+        this.updateInitCoordinates,
+      );
     } else {
       tool(pageX, pageY, primaryColor, this.canvasRef.current, pixelsPerCanvas);
     }
@@ -99,7 +127,7 @@ class Canvas extends Component {
 
     if (cursorActive) {
       const tool = activateTool(currToolId);
-      if (currToolId !== 'choose-color') {
+      if (currToolId !== 'choose-color' && currToolId !== 'stroke') {
         tool(
           pageX,
           pageY,
@@ -108,7 +136,21 @@ class Canvas extends Component {
           this.canvasRef.current,
           this.updateLastCoordinates,
         );
-        translate(this.canvasRef.current);
+        const frame = document.querySelector('.frame__canvas_active');
+        translate(this.canvasRef.current, frame);
+      }
+      if (currToolId === 'stroke') {
+        drawStroke(
+          pageX,
+          pageY,
+          this.state,
+          this.props,
+          this.canvasRef.current,
+          this.canvasOverlayRef.current,
+          this.updateInitCoordinates,
+        );
+        const frame = document.querySelector('.frame__canvas_active');
+        translate(this.canvasRef.current, frame);
       }
     }
   };
@@ -117,6 +159,13 @@ class Canvas extends Component {
     this.setState({
       currX: x,
       lastY: y,
+    });
+  };
+
+  updateInitCoordinates = (x, y) => {
+    this.setState({
+      initX: x,
+      initY: y,
     });
   };
 
@@ -131,6 +180,17 @@ class Canvas extends Component {
           width={width}
           height={height}
           ref={this.canvasRef}
+          onMouseDown={this.handleMouseDown}
+          onMouseMove={this.handleMouseMove}
+          onMouseUp={this.deactivateCursor}
+          onMouseLeave={this.deactivateCursor}
+        />
+        <canvas
+          className="canvas-section__canvas-overlay"
+          id="canvas-overlay"
+          width={width}
+          height={height}
+          ref={this.canvasOverlayRef}
           onMouseDown={this.handleMouseDown}
           onMouseMove={this.handleMouseMove}
           onMouseUp={this.deactivateCursor}
