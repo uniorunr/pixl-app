@@ -82,12 +82,7 @@ class Canvas extends Component {
   };
 
   handleMouseDown = ({ pageX, pageY }) => {
-    const {
-      currToolId,
-      updateColor,
-      primaryColor,
-      pixelsPerCanvas,
-    } = this.props;
+    const { currToolId, updateColor, primaryColor } = this.props;
     this.setState({
       cursorActive: true,
     });
@@ -117,7 +112,7 @@ class Canvas extends Component {
         this.updateInitCoordinates,
       );
     } else {
-      tool(pageX, pageY, primaryColor, this.canvasRef.current, pixelsPerCanvas);
+      tool(pageX, pageY, primaryColor, this.canvasRef.current);
     }
   };
 
@@ -207,6 +202,7 @@ Canvas.propTypes = {
   currToolId: PropTypes.string.isRequired,
   updateColor: PropTypes.func.isRequired,
   primaryColor: PropTypes.string.isRequired,
+  // eslint-disable-next-line
   pixelsPerCanvas: PropTypes.number.isRequired,
 };
 

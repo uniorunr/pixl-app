@@ -1,6 +1,6 @@
-const sameColor = (pageX, pageY, color, canvas, pixelsPerCanvas) => {
+const sameColor = (pageX, pageY, color, canvas) => {
   const context = canvas.getContext('2d');
-  const pixelSize = canvas.width / pixelsPerCanvas;
+  const pixelSize = canvas.width / 128;
   const startX = pageX - canvas.offsetLeft;
   const startY = pageY - canvas.offsetTop;
   const { data } = context.getImageData(startX, startY, 1, 1);
