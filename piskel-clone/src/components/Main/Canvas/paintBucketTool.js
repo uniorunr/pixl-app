@@ -8,8 +8,7 @@ const hexToRgb = (hex) => {
   } : null;
 };
 
-const paintBucket = (pageX, pageY, color) => {
-  const canvas = document.getElementById('canvas');
+const paintBucket = (pageX, pageY, color, canvas) => {
   const ctx = canvas.getContext('2d');
   const startX = pageX - canvas.offsetLeft;
   const startY = pageY - canvas.offsetTop;
