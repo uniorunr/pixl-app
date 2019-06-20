@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Canvas.scss';
-import moveAndPaint from './paintTool';
-import moveAndErase from './eraserTool';
-import pickTheColor from './pickerTool';
-import paintBucket from './paintBucketTool';
-import sameColor from './sameColorTool';
+import moveAndPaint from './utils/paintTool';
+import moveAndErase from './utils/eraserTool';
+import pickTheColor from './utils/pickerTool';
+import paintBucket from './utils/paintBucketTool';
+import sameColor from './utils/sameColorTool';
 
 const activateTool = (toolId) => {
   let tool = null;
