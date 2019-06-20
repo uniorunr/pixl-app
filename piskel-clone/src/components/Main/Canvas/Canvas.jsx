@@ -5,6 +5,7 @@ import moveAndPaint from './paintTool';
 import moveAndErase from './eraserTool';
 import pickTheColor from './pickerTool';
 import paintBucket from './paintBucketTool';
+import sameColor from './sameColorTool';
 
 const activateTool = (toolId) => {
   let tool = null;
@@ -20,6 +21,9 @@ const activateTool = (toolId) => {
       break;
     case 'paint-bucket':
       tool = paintBucket;
+      break;
+    case 'paint-same-pixels':
+      tool = sameColor;
       break;
     default:
       throw new Error("tool isn't found");
@@ -60,7 +64,12 @@ class Canvas extends Component {
   };
 
   handleMouseDown = ({ pageX, pageY }) => {
-    const { currToolId, updateColor, primaryColor } = this.props;
+    const {
+      currToolId,
+      updateColor,
+      primaryColor,
+      pixelsPerCanvas,
+    } = this.props;
     this.setState({
       cursorActive: true,
     });
@@ -80,7 +89,7 @@ class Canvas extends Component {
       );
       if (result && result !== 'transparent') updateColor(result, 'primary');
     } else {
-      paintBucket(pageX, pageY, primaryColor);
+      tool(pageX, pageY, primaryColor, this.canvasRef.current, pixelsPerCanvas);
     }
   };
 
@@ -138,6 +147,7 @@ Canvas.propTypes = {
   currToolId: PropTypes.string.isRequired,
   updateColor: PropTypes.func.isRequired,
   primaryColor: PropTypes.string.isRequired,
+  pixelsPerCanvas: PropTypes.number.isRequired,
 };
 
 export default Canvas;
