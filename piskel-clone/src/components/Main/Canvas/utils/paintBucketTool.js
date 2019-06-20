@@ -8,13 +8,14 @@ const hexToRgb = (hex) => {
   } : null;
 };
 
-const paintBucket = (pageX, pageY, color, canvas) => {
+const paintBucket = (pageX, pageY, props, canvas) => {
+  const { primaryColor } = props;
   const ctx = canvas.getContext('2d');
   const startX = pageX - canvas.offsetLeft;
   const startY = pageY - canvas.offsetTop;
   const { data } = ctx.getImageData(startX, startY, 1, 1);
   const [initR, initG, initB, initA] = data;
-  const rgb = hexToRgb(color);
+  const rgb = hexToRgb(primaryColor);
   if (initR === rgb.r && initG === rgb.g && initB === rgb.b && initA === rgb.a) return;
   if (!rgb) return;
   const colorLayer = ctx.getImageData(0, 0, canvas.width, canvas.height);

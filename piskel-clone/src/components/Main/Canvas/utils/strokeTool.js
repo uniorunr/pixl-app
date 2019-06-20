@@ -97,9 +97,7 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
 };
 
 const drawStroke = (pageX, pageY, state, props, canvas, overlay, updateInitCoordinates) => {
-  const {
-    initX, initY,
-  } = state;
+  const { initX, initY } = state;
   const { pixelsPerCanvas, width, primaryColor } = props;
   const pixelSize = width / pixelsPerCanvas;
   const context = overlay.getContext('2d');

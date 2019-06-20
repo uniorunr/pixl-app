@@ -8,31 +8,41 @@ import paintBucket from './utils/paintBucketTool';
 import sameColor from './utils/sameColorTool';
 import drawStroke from './utils/strokeTool';
 
-const activateTool = (toolId) => {
-  let tool = null;
-  switch (toolId) {
+const activateTool = (
+  id,
+  state,
+  props,
+  x,
+  y,
+  canvas,
+  overlay,
+  updXY,
+  updInit,
+) => {
+  let result = null;
+  switch (id) {
     case 'pen':
-      tool = moveAndPaint;
+      result = moveAndPaint(x, y, state, props, canvas, updXY);
       break;
     case 'eraser':
-      tool = moveAndErase;
+      result = moveAndErase(x, y, state, props, canvas, updXY);
       break;
     case 'choose-color':
-      tool = pickTheColor;
+      result = pickTheColor(x, y, state, props, canvas);
       break;
     case 'paint-bucket':
-      tool = paintBucket;
+      result = paintBucket(x, y, props, canvas);
       break;
     case 'paint-same-pixels':
-      tool = sameColor;
+      result = sameColor(x, y, props, canvas);
       break;
     case 'stroke':
-      tool = drawStroke;
+      result = drawStroke(x, y, state, props, canvas, overlay, updInit);
       break;
     default:
       throw new Error("tool isn't found");
   }
-  return tool;
+  return result;
 };
 
 const translate = (source, target, clear) => {
@@ -82,38 +92,22 @@ class Canvas extends Component {
   };
 
   handleMouseDown = ({ pageX, pageY }) => {
-    const { currToolId, updateColor, primaryColor } = this.props;
+    const { currToolId, updateColor } = this.props;
     this.setState({
       cursorActive: true,
     });
-    const tool = activateTool(currToolId);
-    if (
-      currToolId === 'pen'
-      || currToolId === 'eraser'
-      || currToolId === 'choose-color'
-    ) {
-      const result = tool(
-        pageX,
-        pageY,
-        this.state,
-        this.props,
-        this.canvasRef.current,
-        this.updateLastCoordinates,
-      );
-      if (result && result !== 'transparent') updateColor(result, 'primary');
-    } else if (currToolId === 'stroke') {
-      drawStroke(
-        pageX,
-        pageY,
-        this.state,
-        this.props,
-        this.canvasRef.current,
-        this.canvasOverlayRef.current,
-        this.updateInitCoordinates,
-      );
-    } else {
-      tool(pageX, pageY, primaryColor, this.canvasRef.current);
-    }
+    const result = activateTool(
+      currToolId,
+      this.state,
+      this.props,
+      pageX,
+      pageY,
+      this.canvasRef.current,
+      this.canvasOverlayRef.current,
+      this.updateLastCoordinates,
+      this.updateInitCoordinates,
+    );
+    if (result && result !== 'transparent') updateColor(result, 'primary');
   };
 
   handleMouseMove = ({ pageX, pageY }) => {
@@ -121,32 +115,19 @@ class Canvas extends Component {
     const { currToolId } = this.props;
 
     if (cursorActive) {
-      const tool = activateTool(currToolId);
-      if (currToolId !== 'choose-color' && currToolId !== 'stroke') {
-        tool(
-          pageX,
-          pageY,
-          this.state,
-          this.props,
-          this.canvasRef.current,
-          this.updateLastCoordinates,
-        );
-        const frame = document.querySelector('.frame__canvas_active');
-        translate(this.canvasRef.current, frame);
-      }
-      if (currToolId === 'stroke') {
-        drawStroke(
-          pageX,
-          pageY,
-          this.state,
-          this.props,
-          this.canvasRef.current,
-          this.canvasOverlayRef.current,
-          this.updateInitCoordinates,
-        );
-        const frame = document.querySelector('.frame__canvas_active');
-        translate(this.canvasRef.current, frame);
-      }
+      activateTool(
+        currToolId,
+        this.state,
+        this.props,
+        pageX,
+        pageY,
+        this.canvasRef.current,
+        this.canvasOverlayRef.current,
+        this.updateLastCoordinates,
+        this.updateInitCoordinates,
+      );
+      const frame = document.querySelector('.frame__canvas_active');
+      translate(this.canvasRef.current, frame);
     }
   };
 
@@ -201,6 +182,7 @@ Canvas.propTypes = {
   height: PropTypes.number.isRequired,
   currToolId: PropTypes.string.isRequired,
   updateColor: PropTypes.func.isRequired,
+  // eslint-disable-next-line
   primaryColor: PropTypes.string.isRequired,
   // eslint-disable-next-line
   pixelsPerCanvas: PropTypes.number.isRequired,

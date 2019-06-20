@@ -1,4 +1,5 @@
-const sameColor = (pageX, pageY, color, canvas) => {
+const sameColor = (pageX, pageY, props, canvas) => {
+  const { primaryColor } = props;
   const context = canvas.getContext('2d');
   const pixelSize = canvas.width / 128;
   const startX = pageX - canvas.offsetLeft;
@@ -6,7 +7,7 @@ const sameColor = (pageX, pageY, color, canvas) => {
   const { data } = context.getImageData(startX, startY, 1, 1);
   const [initR, initG, initB, initA] = data;
   const rectangles = new Path2D();
-  context.fillStyle = color;
+  context.fillStyle = primaryColor;
 
   for (let i = 0; i * pixelSize < canvas.width; i += 1) {
     for (let j = 0; j * pixelSize < canvas.height; j += 1) {
