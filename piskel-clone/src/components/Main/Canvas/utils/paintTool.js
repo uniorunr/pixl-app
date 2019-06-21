@@ -1,9 +1,11 @@
-const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas) => {
+const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas, button) => {
   const { cursorActive } = state;
-  const { pixelsPerCanvas, width, primaryColor } = props;
+  const {
+    pixelsPerCanvas, width, primaryColor, secondaryColor,
+  } = props;
   const pixelSize = width / pixelsPerCanvas;
   const context = canvas.getContext('2d');
-  context.fillStyle = primaryColor;
+  context.fillStyle = button === 2 ? secondaryColor : primaryColor;
 
   if ((Math.abs(x - lastX) > 1 || Math.abs(y - lastY) > 1) && !!cursorActive) {
     connectTwoPointsFunc(x, y, lastX, lastY, pixelSize, context);
@@ -112,14 +114,15 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
   context.fill(rectangles);
 };
 
-const moveAndPaint = (pageX, pageY, state, props, canvas, updateCoordinates) => {
-  const { currX, lastY } = state;
+const moveAndPaint = (pageX, pageY, state, props, canvas, updateCoordinates, button) => {
+  const { currX, lastY, mouseButton } = state;
   const { pixelsPerCanvas, width } = props;
+  const currentButton = mouseButton || button;
   const pixelSize = width / pixelsPerCanvas;
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  draw(x, y, currX, lastY, connectTwoPoints, state, props, canvas);
+  draw(x, y, currX, lastY, connectTwoPoints, state, props, canvas, currentButton);
   updateCoordinates(x, y);
 };
 

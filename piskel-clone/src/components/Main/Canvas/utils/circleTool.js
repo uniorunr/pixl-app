@@ -1,16 +1,19 @@
-const drawCircle = (pageX, pageY, state, props, canvas, overlay, updateInitCoordinates) => {
-  const { initX, initY } = state;
-  const { pixelsPerCanvas, width, primaryColor } = props;
+const drawCircle = (pageX, pageY, state, props, canvas, overlay, updateInitCoords, button) => {
+  const { initX, initY, mouseButton } = state;
+  const {
+    pixelsPerCanvas, width, primaryColor, secondaryColor,
+  } = props;
+  const currentButton = mouseButton || button;
   const pixelSize = width / pixelsPerCanvas;
   const context = overlay.getContext('2d');
-  context.fillStyle = primaryColor;
+  context.fillStyle = currentButton === 2 ? secondaryColor : primaryColor;
   const rectangles = new Path2D();
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
   const circleRadius = Math.floor(Math.sqrt(((initX - x) ** 2) + ((initY - y) ** 2)));
 
   if (!initX && !initY) {
-    updateInitCoordinates(x, y);
+    updateInitCoords(x, y);
   } else {
     context.clearRect(0, 0, overlay.width, overlay.height);
     const drawPixel = (currX, currY) => {

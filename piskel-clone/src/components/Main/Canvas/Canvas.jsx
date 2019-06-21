@@ -27,6 +27,7 @@ class Canvas extends Component {
       lastY: null,
       initX: null,
       initY: null,
+      mouseButton: null,
     };
   }
 
@@ -47,14 +48,16 @@ class Canvas extends Component {
         cursorActive: false,
         initX: null,
         initY: null,
+        mouseButton: null,
       });
     }
   };
 
-  handleMouseDown = ({ pageX, pageY }) => {
+  handleMouseDown = ({ pageX, pageY, button }) => {
     const { currToolId, updateColor } = this.props;
     this.setState({
       cursorActive: true,
+      mouseButton: button,
     });
     const result = activateTool(
       currToolId,
@@ -66,11 +69,12 @@ class Canvas extends Component {
       this.canvasOverlayRef.current,
       this.updateLastCoordinates,
       this.updateInitCoordinates,
+      button,
     );
     if (result && result !== 'transparent') updateColor(result, 'primary');
   };
 
-  handleMouseMove = ({ pageX, pageY }) => {
+  handleMouseMove = ({ pageX, pageY, button }) => {
     const { cursorActive } = this.state;
     const { currToolId } = this.props;
 
@@ -85,6 +89,7 @@ class Canvas extends Component {
         this.canvasOverlayRef.current,
         this.updateLastCoordinates,
         this.updateInitCoordinates,
+        button,
       );
       const frame = document.querySelector('.frame__canvas_active');
       translate(this.canvasRef.current, frame);
