@@ -7,6 +7,7 @@ import drawStroke from './utils/strokeTool';
 import drawRectangle from './utils/rectangleTool';
 import drawCircle from './utils/circleTool';
 import moveContext from './utils/moveTool';
+import verticalMirror from './utils/verticalMirror';
 
 const activateTool = (
   id,
@@ -48,6 +49,9 @@ const activateTool = (
       break;
     case 'move':
       result = moveContext(x, y, state, props, canvas, overlay, updInit);
+      break;
+    case 'vertical-mirror':
+      result = verticalMirror(x, y, state, props, canvas, updXY, button);
       break;
     default:
       throw new Error("tool isn't found");
