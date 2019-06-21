@@ -14,5 +14,15 @@ exports[`renders correctly 1`] = `
     onMouseUp={[Function]}
     width={25}
   />
+  <canvas
+    className="canvas-section__canvas-overlay"
+    height={25}
+    id="canvas-overlay"
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseMove={[Function]}
+    onMouseUp={[Function]}
+    width={25}
+  />
 </section>
 `;

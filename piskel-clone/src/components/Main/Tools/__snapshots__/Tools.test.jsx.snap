@@ -27,6 +27,42 @@ exports[`renders correctly 1`] = `
     <button
       className="tools__button"
       data-listener="true"
+      id="stroke"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-slash"
+      />
+    </button>
+    <button
+      className="tools__button"
+      data-listener="true"
+      id="rectangle"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="far fa-square"
+      />
+    </button>
+    <button
+      className="tools__button"
+      data-listener="true"
+      id="circle"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="far fa-circle"
+      />
+    </button>
+    <button
+      className="tools__button"
+      data-listener="true"
       id="paint-bucket"
       onClick={[Function]}
       onKeyDown={[Function]}
