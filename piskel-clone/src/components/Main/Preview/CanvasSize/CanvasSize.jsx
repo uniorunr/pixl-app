@@ -15,7 +15,6 @@ class CanvasSize extends Component {
             name="radio"
             value="32"
             onChange={handlePixelsPerCanvas}
-            defaultChecked
           />
         </label>
 
@@ -27,6 +26,7 @@ class CanvasSize extends Component {
             name="radio"
             value="64"
             onChange={handlePixelsPerCanvas}
+            defaultChecked
           />
         </label>
 

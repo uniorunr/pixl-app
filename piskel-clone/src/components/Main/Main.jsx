@@ -19,7 +19,7 @@ class Main extends Component {
     this.state = {
       width: getWindowSize(),
       height: getWindowSize(),
-      pixelsPerCanvas: 32,
+      pixelsPerCanvas: 64,
       currToolId: 'pen',
       frames: [],
       primaryColor: '#000000',
