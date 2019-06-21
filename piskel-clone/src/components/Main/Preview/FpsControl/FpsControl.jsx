@@ -19,11 +19,12 @@ class FpsControl extends Component {
   };
 
   render() {
+    const { fps } = this.props;
+
     return (
       <div className="fps-control">
         <label htmlFor="fps-control__input">
-          <span />
-          <span>FPS</span>
+          <span className="fps-control__label">FPS: {fps}</span>
           <input
             type="range"
             id="fps-control__input"
@@ -31,6 +32,7 @@ class FpsControl extends Component {
             name="volume"
             min="1"
             max="24"
+            defaultValue="12"
             step="1"
             onInput={this.handleInputChange}
             ref={this.inputRef}
@@ -43,6 +45,7 @@ class FpsControl extends Component {
 
 FpsControl.propTypes = {
   updateFps: PropTypes.func.isRequired,
+  fps: PropTypes.number.isRequired,
 };
 
 export default FpsControl;

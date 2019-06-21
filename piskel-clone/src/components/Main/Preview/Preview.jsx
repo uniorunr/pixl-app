@@ -13,7 +13,7 @@ class Preview extends Component {
 
     this.state = {
       framesArray,
-      fps: 10,
+      fps: 12,
       currFrame: 0,
     };
   }
@@ -54,12 +54,13 @@ class Preview extends Component {
 
   updateFps = (fps) => {
     this.setState({
-      fps,
+      fps: +fps,
     });
   };
 
   render() {
     const { handlePixelsPerCanvas } = this.props;
+    const { fps } = this.state;
 
     return (
       <section className="preview-section">
@@ -74,7 +75,7 @@ class Preview extends Component {
           <button className="preview__fullscreen-button" type="button">
             <i className="fas fa-expand" />
           </button>
-          <FpsControl updateFps={this.updateFps} />
+          <FpsControl fps={fps} updateFps={this.updateFps} />
           <CanvasSize handlePixelsPerCanvas={handlePixelsPerCanvas} />
         </div>
       </section>
