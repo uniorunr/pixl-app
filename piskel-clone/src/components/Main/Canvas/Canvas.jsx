@@ -91,6 +91,10 @@ class Canvas extends Component {
     }
   };
 
+  handleRightClick = (event) => {
+    event.preventDefault();
+  };
+
   updateLastCoordinates = (x, y) => {
     this.setState({
       currX: x,
@@ -109,7 +113,7 @@ class Canvas extends Component {
     const { width, height } = this.props;
 
     return (
-      <section className="canvas-section">
+      <section className="canvas-section" onContextMenu={this.handleRightClick}>
         <canvas
           className="canvas-section__canvas"
           id="canvas"
