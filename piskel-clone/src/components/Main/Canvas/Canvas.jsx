@@ -154,7 +154,9 @@ class Canvas extends Component {
         </div>
         <div className="canvas-section__info">
           <span className="canvas-section__size">{`size: ${pixelsPerCanvas}x${pixelsPerCanvas}`}</span>
-          <span className="canvas-section__position">{`x: ${currX}  y: ${currY}`}</span>
+          <span className="canvas-section__position">
+            {`x: ${currX >= 0 ? currX : 0}  y: ${currY >= 0 ? currY : 0}`}
+          </span>
         </div>
       </section>
     );
