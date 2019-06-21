@@ -60,6 +60,13 @@ class Tools extends Component {
           />
           <ToolButton
             buttonClass="tools__button"
+            id="horizontal-mirror"
+            iconClass="fas fa-grip-lines"
+            onClickHandler={this.makeActive}
+            onKeyDownHandler={this.handleKeyboard}
+          />
+          <ToolButton
+            buttonClass="tools__button"
             id="stroke"
             iconClass="fas fa-slash"
             onClickHandler={this.makeActive}

@@ -8,6 +8,7 @@ import drawRectangle from './utils/rectangleTool';
 import drawCircle from './utils/circleTool';
 import moveContext from './utils/moveTool';
 import verticalMirror from './utils/verticalMirror';
+import horizontalMirror from './utils/horizontalMirror';
 
 const activateTool = (
   id,
@@ -52,6 +53,9 @@ const activateTool = (
       break;
     case 'vertical-mirror':
       result = verticalMirror(x, y, state, props, canvas, updXY, button);
+      break;
+    case 'horizontal-mirror':
+      result = horizontalMirror(x, y, state, props, canvas, updXY, button);
       break;
     default:
       throw new Error("tool isn't found");
