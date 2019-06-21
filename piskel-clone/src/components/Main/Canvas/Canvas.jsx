@@ -8,6 +8,7 @@ import paintBucket from './utils/paintBucketTool';
 import sameColor from './utils/sameColorTool';
 import drawStroke from './utils/strokeTool';
 import drawRectangle from './utils/rectangleTool';
+import drawCircle from './utils/circleTool';
 
 const activateTool = (
   id,
@@ -43,6 +44,9 @@ const activateTool = (
     case 'rectangle':
       result = drawRectangle(x, y, state, props, canvas, overlay, updInit);
       break;
+    case 'circle':
+      result = drawCircle(x, y, state, props, canvas, overlay, updInit);
+      break;
     default:
       throw new Error("tool isn't found");
   }
@@ -77,7 +81,11 @@ class Canvas extends Component {
   deactivateCursor = () => {
     const { cursorActive } = this.state;
     const { currToolId } = this.props;
-    if (currToolId === 'stroke' || currToolId === 'rectangle') {
+    if (
+      currToolId === 'stroke'
+      || currToolId === 'rectangle'
+      || currToolId === 'circle'
+    ) {
       const overlay = this.canvasOverlayRef.current;
       translate(this.canvasOverlayRef.current, this.canvasRef.current, true);
       const overlayCtx = overlay.getContext('2d');
