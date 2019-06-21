@@ -1,57 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Canvas.scss';
-import moveAndPaint from './utils/paintTool';
-import moveAndErase from './utils/eraserTool';
-import pickTheColor from './utils/pickerTool';
-import paintBucket from './utils/paintBucketTool';
-import sameColor from './utils/sameColorTool';
-import drawStroke from './utils/strokeTool';
-import drawRectangle from './utils/rectangleTool';
-import drawCircle from './utils/circleTool';
+import activateTool from './activateTool';
 
-const activateTool = (
-  id,
-  state,
-  props,
-  x,
-  y,
-  canvas,
-  overlay,
-  updXY,
-  updInit,
-) => {
-  let result = null;
-  switch (id) {
-    case 'pen':
-      result = moveAndPaint(x, y, state, props, canvas, updXY);
-      break;
-    case 'eraser':
-      result = moveAndErase(x, y, state, props, canvas, updXY);
-      break;
-    case 'choose-color':
-      result = pickTheColor(x, y, state, props, canvas);
-      break;
-    case 'paint-bucket':
-      result = paintBucket(x, y, props, canvas);
-      break;
-    case 'paint-same-pixels':
-      result = sameColor(x, y, props, canvas);
-      break;
-    case 'stroke':
-      result = drawStroke(x, y, state, props, canvas, overlay, updInit);
-      break;
-    case 'rectangle':
-      result = drawRectangle(x, y, state, props, canvas, overlay, updInit);
-      break;
-    case 'circle':
-      result = drawCircle(x, y, state, props, canvas, overlay, updInit);
-      break;
-    default:
-      throw new Error("tool isn't found");
-  }
-  return result;
-};
+const toolsWithOverlayUse = ['stroke', 'rectangle', 'circle'];
 
 const translate = (source, target, clear) => {
   const ctx = target.getContext('2d');
@@ -78,14 +30,10 @@ class Canvas extends Component {
     };
   }
 
-  deactivateCursor = () => {
+  deactivateDrawing = () => {
     const { cursorActive } = this.state;
     const { currToolId } = this.props;
-    if (
-      currToolId === 'stroke'
-      || currToolId === 'rectangle'
-      || currToolId === 'circle'
-    ) {
+    if (toolsWithOverlayUse.includes(currToolId)) {
       const overlay = this.canvasOverlayRef.current;
       translate(this.canvasOverlayRef.current, this.canvasRef.current, true);
       const overlayCtx = overlay.getContext('2d');
@@ -170,8 +118,8 @@ class Canvas extends Component {
           ref={this.canvasRef}
           onMouseDown={this.handleMouseDown}
           onMouseMove={this.handleMouseMove}
-          onMouseUp={this.deactivateCursor}
-          onMouseLeave={this.deactivateCursor}
+          onMouseUp={this.deactivateDrawing}
+          onMouseLeave={this.deactivateDrawing}
         />
         <canvas
           className="canvas-section__canvas-overlay"
@@ -181,8 +129,8 @@ class Canvas extends Component {
           ref={this.canvasOverlayRef}
           onMouseDown={this.handleMouseDown}
           onMouseMove={this.handleMouseMove}
-          onMouseUp={this.deactivateCursor}
-          onMouseLeave={this.deactivateCursor}
+          onMouseUp={this.deactivateDrawing}
+          onMouseLeave={this.deactivateDrawing}
         />
       </section>
     );
