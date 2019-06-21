@@ -28,6 +28,12 @@ html {
     flex-direction: column;
     overflow: hidden;
 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     .root {
       display: flex;
       flex-direction: column;
