@@ -1,8 +1,17 @@
 .canvas-section {
   align-self: flex-start;
+  flex-direction: column;
   flex-grow: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
+
+  .canvas-section__wrapper {
+    align-self: center;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
 
   .canvas-section__canvas {
     border: 2px solid black;
@@ -12,5 +21,22 @@
     position: absolute;
     z-index: 1;
     border: 2px solid black;
+  }
+
+  .canvas-section__info {
+    margin: 5px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 185px;
+    display: flex;
+    justify-content: space-between;
+
+    .canvas-section__size {
+      margin: 0 10px;
+    }
+
+    .canvas-section__position {
+      margin: 0 10px;
+    }
   }
 }

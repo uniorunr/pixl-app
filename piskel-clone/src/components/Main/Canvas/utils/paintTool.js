@@ -115,14 +115,14 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
 };
 
 const moveAndPaint = (pageX, pageY, state, props, canvas, updateCoordinates, button) => {
-  const { currX, lastY, mouseButton } = state;
+  const { currX, currY, mouseButton } = state;
   const { pixelsPerCanvas, width } = props;
   const currentButton = mouseButton || button;
   const pixelSize = width / pixelsPerCanvas;
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  draw(x, y, currX, lastY, connectTwoPoints, state, props, canvas, currentButton);
+  draw(x, y, currX, currY, connectTwoPoints, state, props, canvas, currentButton);
   updateCoordinates(x, y);
 };
 

@@ -23,8 +23,8 @@ class Canvas extends Component {
 
     this.state = {
       cursorActive: null,
-      currX: null,
-      lastY: null,
+      currX: 0,
+      currY: 0,
       initX: null,
       initY: null,
       mouseButton: null,
@@ -76,7 +76,15 @@ class Canvas extends Component {
 
   handleMouseMove = ({ pageX, pageY, button }) => {
     const { cursorActive } = this.state;
-    const { currToolId } = this.props;
+    const { currToolId, pixelsPerCanvas, width } = this.props;
+    const pixelSize = width / pixelsPerCanvas;
+    const canvas = this.canvasRef.current;
+    const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
+    const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
+    this.setState({
+      currX: x,
+      currY: y,
+    });
 
     if (cursorActive) {
       activateTool(
@@ -115,32 +123,39 @@ class Canvas extends Component {
   };
 
   render() {
-    const { width, height } = this.props;
+    const { width, height, pixelsPerCanvas } = this.props;
+    const { currX, currY } = this.state;
 
     return (
       <section className="canvas-section" onContextMenu={this.handleRightClick}>
-        <canvas
-          className="canvas-section__canvas"
-          id="canvas"
-          width={width}
-          height={height}
-          ref={this.canvasRef}
-          onMouseDown={this.handleMouseDown}
-          onMouseMove={this.handleMouseMove}
-          onMouseUp={this.deactivateDrawing}
-          onMouseLeave={this.deactivateDrawing}
-        />
-        <canvas
-          className="canvas-section__canvas-overlay"
-          id="canvas-overlay"
-          width={width}
-          height={height}
-          ref={this.canvasOverlayRef}
-          onMouseDown={this.handleMouseDown}
-          onMouseMove={this.handleMouseMove}
-          onMouseUp={this.deactivateDrawing}
-          onMouseLeave={this.deactivateDrawing}
-        />
+        <div className="canvas-section__wrapper">
+          <canvas
+            className="canvas-section__canvas"
+            id="canvas"
+            width={width}
+            height={height}
+            ref={this.canvasRef}
+            onMouseDown={this.handleMouseDown}
+            onMouseMove={this.handleMouseMove}
+            onMouseUp={this.deactivateDrawing}
+            onMouseLeave={this.deactivateDrawing}
+          />
+          <canvas
+            className="canvas-section__canvas-overlay"
+            id="canvas-overlay"
+            width={width}
+            height={height}
+            ref={this.canvasOverlayRef}
+            onMouseDown={this.handleMouseDown}
+            onMouseMove={this.handleMouseMove}
+            onMouseUp={this.deactivateDrawing}
+            onMouseLeave={this.deactivateDrawing}
+          />
+        </div>
+        <div className="canvas-section__info">
+          <span className="canvas-section__size">{`size: ${pixelsPerCanvas}x${pixelsPerCanvas}`}</span>
+          <span className="canvas-section__position">{`x: ${currX}  y: ${currY}`}</span>
+        </div>
       </section>
     );
   }

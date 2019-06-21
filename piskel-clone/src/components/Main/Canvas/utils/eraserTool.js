@@ -100,13 +100,13 @@ const connectTwoPoints = (x, y, lastX, lastY, pixelSize, context) => {
 };
 
 const moveAndErase = (pageX, pageY, state, props, canvas, updateCoordinates) => {
-  const { currX, lastY } = state;
+  const { currX, currY } = state;
   const { pixelsPerCanvas, width } = props;
   const pixelSize = width / pixelsPerCanvas;
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  erase(x, y, currX, lastY, connectTwoPoints, state, props, canvas);
+  erase(x, y, currX, currY, connectTwoPoints, state, props, canvas);
   updateCoordinates(x, y);
 };
 
