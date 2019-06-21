@@ -3,8 +3,8 @@
     display: flex;
     position: relative;
     border: 2px solid black;
-    margin: 20px 10px 0 20px;
-    padding: 10px;
+    margin: 15px auto;
+    padding: 15px;
     width: 45px;
     height: 40px;
 
@@ -14,8 +14,8 @@
       opacity: 0;
       width: 30px;
       height: 30px;
-      top: 5px;
-      left: 5px;
+      top: 10px;
+      left: 10px;
       cursor: pointer;
     }
 
@@ -25,8 +25,8 @@
       opacity: 0;
       width: 30px;
       height: 30px;
-      top: 20px;
-      right: 5px;
+      top: 25px;
+      right: 10px;
       cursor: pointer;
     }
 
@@ -35,8 +35,8 @@
       height: 30px;
       border: 2px solid black;
       position: absolute;
-      top: 5px;
-      left: 5px;
+      top: 10px;
+      left: 10px;
       z-index: 2;
       cursor: pointer;
     }
@@ -46,8 +46,8 @@
       height: 30px;
       border: 2px solid black;
       position: absolute;
-      top: 20px;
-      right: 5px;
+      top: 25px;
+      right: 10px;
       cursor: pointer;
     }
   }
