@@ -6,6 +6,7 @@ import sameColor from './utils/sameColorTool';
 import drawStroke from './utils/strokeTool';
 import drawRectangle from './utils/rectangleTool';
 import drawCircle from './utils/circleTool';
+import moveContext from './utils/moveTool';
 
 const activateTool = (
   id,
@@ -44,6 +45,9 @@ const activateTool = (
       break;
     case 'circle':
       result = drawCircle(x, y, state, props, canvas, overlay, updInit, button);
+      break;
+    case 'move':
+      result = moveContext(x, y, state, props, canvas, overlay, updInit);
       break;
     default:
       throw new Error("tool isn't found");

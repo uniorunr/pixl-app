@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Canvas.scss';
 import activateTool from './activateTool';
 
-const toolsWithOverlayUse = ['stroke', 'rectangle', 'circle'];
+const toolsWithOverlayUse = ['stroke', 'rectangle', 'circle', 'move'];
 
 const translate = (source, target, clear) => {
   const ctx = target.getContext('2d');
