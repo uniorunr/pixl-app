@@ -31,7 +31,7 @@ const activateTool = (
       result = moveAndErase(x, y, state, props, canvas, updXY);
       break;
     case 'choose-color':
-      result = pickTheColor(x, y, state, props, canvas);
+      result = pickTheColor(x, y, state, props, canvas, button);
       break;
     case 'paint-bucket':
       result = paintBucket(x, y, props, state, canvas, button);

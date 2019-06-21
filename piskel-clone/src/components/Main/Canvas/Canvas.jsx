@@ -71,7 +71,13 @@ class Canvas extends Component {
       this.updateInitCoordinates,
       button,
     );
-    if (result && result !== 'transparent') updateColor(result, 'primary');
+    if (result && result.color !== 'transparent') {
+      if (result.button === 2) {
+        updateColor(result.color);
+      } else {
+        updateColor(result.color, 'primary');
+      }
+    }
   };
 
   handleMouseMove = ({ pageX, pageY, button }) => {

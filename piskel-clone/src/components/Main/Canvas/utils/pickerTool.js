@@ -6,7 +6,9 @@ const fullColorHex = (r, g, b) => {
   return `${rgbToHex(r)}${rgbToHex(g)}${rgbToHex(b)}`;
 };
 
-const pickTheColor = (pageX, pageY, state, props, canvas) => {
+const pickTheColor = (pageX, pageY, state, props, canvas, button) => {
+  const { mouseButton } = state;
+  const currentButton = mouseButton || button;
   const context = canvas.getContext('2d');
   const x = pageX - canvas.offsetLeft;
   const y = pageY - canvas.offsetTop;
@@ -18,7 +20,7 @@ const pickTheColor = (pageX, pageY, state, props, canvas) => {
   } else {
     color = `#${fullColorHex(r, g, b)}`;
   }
-  return color;
+  return { color, button: currentButton };
 };
 
 export default pickTheColor;
