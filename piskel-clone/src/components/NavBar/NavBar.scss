@@ -9,10 +9,11 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin: 20px 40px;
+    margin: 15px 50px;
 
     .navbar__logo {
       margin: 0;
+      flex-grow: 1;
 
       a {
         color: black;
@@ -42,6 +43,23 @@
     }
 
     .navbar__sign-in-button:active {
+      top: 2px;
+      box-shadow: 0 0 0 black;
+    }
+
+    .navbar__faq {
+      position: relative;
+      top: 0;
+      margin: 0 20px;
+      padding: 5px 10px;
+      background-color: white;
+      border: 2px solid black;
+      box-shadow: 2px 2px 0 black;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .navbar__faq:active {
       top: 2px;
       box-shadow: 0 0 0 black;
     }

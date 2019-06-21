@@ -12,6 +12,9 @@ const NavBar = () => (
             <span>Pixl!</span>
           </a>
         </h1>
+        <button className="navbar__faq" type="button">
+          <i className="fas fa-question" />
+        </button>
         <button className="navbar__sign-in-button" type="button">
           <span>Sign in</span>
         </button>
