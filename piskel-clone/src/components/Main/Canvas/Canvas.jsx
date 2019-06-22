@@ -37,12 +37,15 @@ class Canvas extends Component {
     translate(frame, this.canvasRef.current);
   };
 
-  shouldComponentUpdate = (nextProps) => {
+  shouldComponentUpdate = (nextProps, nextState) => {
     const { pixelsPerCanvas, height, width } = this.props;
+    const { currX, currY } = this.state;
     return (
       pixelsPerCanvas !== nextProps.pixelsPerCanvas
       || height !== nextProps.height
       || width !== nextProps.width
+      || currX !== nextState.currX
+      || currY !== nextState.currY
     );
   };
 
