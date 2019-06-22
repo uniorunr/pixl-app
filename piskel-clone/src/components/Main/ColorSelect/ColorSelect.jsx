@@ -28,9 +28,9 @@ class ColorSelect extends Component {
             <input
               type="color"
               className="colors__input-primary"
-              defaultValue={primaryColor}
+              value={primaryColor}
               ref={this.primary}
-              onInput={this.handlePrimaryChange}
+              onChange={this.handlePrimaryChange}
             />
             <div
               className="colors__primary"
@@ -41,9 +41,9 @@ class ColorSelect extends Component {
             <input
               type="color"
               className="colors__input-secondary"
-              defaultValue={secondaryColor}
+              value={secondaryColor}
               ref={this.secondary}
-              onInput={this.handlePrimaryChange}
+              onChange={this.handlePrimaryChange}
             />
             <div
               className="colors__secondary"
