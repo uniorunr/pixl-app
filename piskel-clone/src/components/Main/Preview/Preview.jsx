@@ -58,6 +58,15 @@ class Preview extends Component {
     });
   };
 
+  handleFullScreen = () => {
+    const previewCanvas = this.previewRef.current;
+    previewCanvas.getContext('2d').imageSmoothingEnabled = false;
+    const fullscreen = previewCanvas.requestFullscreen
+      || previewCanvas.webkitRequestFullScreen
+      || previewCanvas.mozRequestFullScreen;
+    fullscreen.call(previewCanvas);
+  };
+
   render() {
     const { handlePixelsPerCanvas } = this.props;
     const { fps } = this.state;
@@ -68,11 +77,15 @@ class Preview extends Component {
           <canvas
             id="preview-canvas"
             className="preview__canvas"
-            width="150"
-            height="150"
+            width="192"
+            height="192"
             ref={this.previewRef}
           />
-          <button className="preview__fullscreen-button" type="button">
+          <button
+            className="preview__fullscreen-button"
+            type="button"
+            onClick={this.handleFullScreen}
+          >
             <i className="fas fa-expand" />
           </button>
           <FpsControl fps={fps} updateFps={this.updateFps} />

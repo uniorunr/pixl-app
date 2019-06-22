@@ -18,6 +18,7 @@
     .preview__canvas {
       background: white;
       border: 2px solid black;
+      image-rendering: pixelated;
     }
 
     .preview__fullscreen-button {
