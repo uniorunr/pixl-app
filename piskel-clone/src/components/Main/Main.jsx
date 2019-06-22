@@ -90,6 +90,7 @@ class Main extends Component {
           pixelsPerCanvas={pixelsPerCanvas}
           currToolId={currToolId}
           primaryColor={primaryColor}
+          framesArray={frames}
           secondaryColor={secondaryColor}
           updateColor={this.updateColor}
         />

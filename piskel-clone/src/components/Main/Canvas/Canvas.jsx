@@ -31,6 +31,21 @@ class Canvas extends Component {
     };
   }
 
+  componentDidUpdate = () => {
+    const { framesArray } = this.props;
+    const frame = framesArray.find(element => element.classList.contains('frame__canvas_active'));
+    translate(frame, this.canvasRef.current);
+  };
+
+  shouldComponentUpdate = (nextProps) => {
+    const { pixelsPerCanvas, height, width } = this.props;
+    return (
+      pixelsPerCanvas !== nextProps.pixelsPerCanvas
+      || height !== nextProps.height
+      || width !== nextProps.width
+    );
+  };
+
   deactivateDrawing = () => {
     const { cursorActive } = this.state;
     const { currToolId } = this.props;
@@ -82,7 +97,9 @@ class Canvas extends Component {
 
   handleMouseMove = ({ pageX, pageY, button }) => {
     const { cursorActive } = this.state;
-    const { currToolId, pixelsPerCanvas, width } = this.props;
+    const {
+      currToolId, pixelsPerCanvas, width, framesArray,
+    } = this.props;
     const pixelSize = width / pixelsPerCanvas;
     const canvas = this.canvasRef.current;
     const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
@@ -105,7 +122,7 @@ class Canvas extends Component {
         this.updateInitCoordinates,
         button,
       );
-      const frame = document.querySelector('.frame__canvas_active');
+      const frame = framesArray.find(element => element.classList.contains('frame__canvas_active'));
       translate(this.canvasRef.current, frame);
     }
   };
@@ -174,6 +191,7 @@ Canvas.propTypes = {
   height: PropTypes.number.isRequired,
   currToolId: PropTypes.string.isRequired,
   updateColor: PropTypes.func.isRequired,
+  framesArray: PropTypes.instanceOf(Array).isRequired,
   // eslint-disable-next-line
   primaryColor: PropTypes.string.isRequired,
   // eslint-disable-next-line
