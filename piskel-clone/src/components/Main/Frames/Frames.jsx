@@ -46,15 +46,15 @@ class Frames extends Component {
       canvasItems: [
         ...canvasItems,
         <Frame
-          index={frameKeys[frameKeys.length - 1] + 1}
-          key={frameKeys[frameKeys.length - 1] + 1}
+          index={Math.max(...frameKeys) + 1}
+          key={Math.max(...frameKeys) + 1}
           removeFrame={this.removeFrame}
           makeActive={this.makeActive}
           duplicateFrame={this.duplicateFrame}
           resetDuplicate={this.resetDuplicate}
         />,
       ],
-      frameKeys: [...frameKeys, frameKeys[frameKeys.length - 1] + 1],
+      frameKeys: [...frameKeys, Math.max(...frameKeys) + 1],
       activeFrame: frameKeys.length,
     });
 
