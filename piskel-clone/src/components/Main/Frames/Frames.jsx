@@ -6,25 +6,9 @@ import { setActiveFrame, translateActiveFrame } from './utils';
 
 class Frames extends Component {
   state = {
-    canvasItems: [],
     frameKeys: [0],
     activeFrame: 0,
     duplicate: null,
-  };
-
-  componentDidMount = () => {
-    this.setState({
-      canvasItems: [
-        <Frame
-          index={0}
-          key="0"
-          makeActive={this.makeActive}
-          removeFrame={this.removeFrame}
-          duplicateFrame={this.duplicateFrame}
-          resetDuplicate={this.resetDuplicate}
-        />,
-      ],
-    });
   };
 
   makeActive = (index) => {
@@ -40,20 +24,8 @@ class Frames extends Component {
   };
 
   addFrame = () => {
-    const { canvasItems, frameKeys } = this.state;
-
+    const { frameKeys } = this.state;
     this.setState({
-      canvasItems: [
-        ...canvasItems,
-        <Frame
-          index={Math.max(...frameKeys) + 1}
-          key={Math.max(...frameKeys) + 1}
-          removeFrame={this.removeFrame}
-          makeActive={this.makeActive}
-          duplicateFrame={this.duplicateFrame}
-          resetDuplicate={this.resetDuplicate}
-        />,
-      ],
       frameKeys: [...frameKeys, Math.max(...frameKeys) + 1],
       activeFrame: frameKeys.length,
     });
@@ -64,42 +36,26 @@ class Frames extends Component {
   };
 
   removeFrame = (index) => {
-    const { canvasItems, frameKeys, activeFrame } = this.state;
-    const indexToTranslate = setActiveFrame(activeFrame, canvasItems, index);
-    canvasItems.splice(index, 1);
+    const { frameKeys, activeFrame } = this.state;
+    const indexToTranslate = setActiveFrame(activeFrame, frameKeys, index);
     frameKeys.splice(index, 1);
     translateActiveFrame(indexToTranslate);
 
     this.setState({
-      canvasItems: [...canvasItems],
       frameKeys: [...frameKeys],
       activeFrame:
-        indexToTranslate > canvasItems.length - 1
-          ? canvasItems.length - 1
+        indexToTranslate > frameKeys.length - 1
+          ? frameKeys.length - 1
           : indexToTranslate,
     });
   };
 
   duplicateFrame = (index) => {
-    const { canvasItems, frameKeys } = this.state;
-    const { framesArray } = this.props;
+    const { frameKeys } = this.state;
 
-    const frameForInsert = (
-      <Frame
-        index={index + 1}
-        key={Math.max(...frameKeys) + 1}
-        removeFrame={this.removeFrame}
-        makeActive={this.makeActive}
-        duplicateFrame={this.duplicateFrame}
-        resetDuplicate={this.resetDuplicate}
-        contextSource={framesArray[index]}
-      />
-    );
-    canvasItems.splice(index + 1, 0, frameForInsert);
     frameKeys.splice(index + 1, 0, Math.max(...frameKeys) + 1);
 
     this.setState({
-      canvasItems: [...canvasItems],
       frameKeys: [...frameKeys],
       duplicate: index + 1,
       activeFrame: index + 1,
@@ -107,18 +63,15 @@ class Frames extends Component {
   };
 
   render() {
-    const {
-      canvasItems, frameKeys, activeFrame, duplicate,
-    } = this.state;
+    const { frameKeys, activeFrame, duplicate } = this.state;
     const { framesArray } = this.props;
-    const keys = canvasItems.map(item => item.key);
 
     return (
       <section className="frames-section">
-        {keys.map((item, index) => (
+        {frameKeys.map((item, index) => (
           <Frame
             index={index}
-            key={frameKeys[index]}
+            key={item}
             removeFrame={this.removeFrame}
             makeActive={this.makeActive}
             duplicateFrame={this.duplicateFrame}
