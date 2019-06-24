@@ -1,0 +1,63 @@
+.layers-section {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  padding: 5px;
+  background-color: white;
+  border: 2px solid black;
+  max-height: 50%;
+
+  .layers-section__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+    padding: 0 5px;
+    overflow-y: scroll;
+
+    .layers-section__button {
+      width: 100%;
+      margin: 5px;
+      padding: 5px 10px;
+      border: 2px solid black;
+      background-color: white;
+      cursor: pointer;
+      font-family: "Roboto", "Arial", sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      text-align: left;
+      outline: none;
+    }
+
+    .layers-section__button_active {
+      border: 3px dashed black;
+    }
+  }
+
+  .layers-section__controls {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 5px 0;
+
+    .layers-section__add-button, .layers-section__remove-button {
+      position: relative;
+      top: 0;
+      box-shadow: 2px 2px 0 black;
+      border: 2px solid black;
+      background: white;
+      outline: none;
+      cursor: pointer;
+      font-size: 1.4rem;
+      padding: 2px 5px;
+    }
+
+    .layers-section__add-button:active, .layers-section__remove-button:active {
+      top: 2px;
+      box-shadow: 0 0 0 black;
+    }
+  }
+}

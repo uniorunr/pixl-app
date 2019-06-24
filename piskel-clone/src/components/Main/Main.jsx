@@ -4,6 +4,7 @@ import Frames from './Frames/Frames';
 import Canvas from './Canvas/Canvas';
 import Preview from './Preview/Preview';
 import ColorSelect from './ColorSelect/ColorSelect';
+import Layers from './Layers/Layers';
 import './Main.scss';
 
 const getWindowSize = () => {
@@ -94,10 +95,13 @@ class Main extends Component {
           secondaryColor={secondaryColor}
           updateColor={this.updateColor}
         />
-        <Preview
-          framesArray={frames}
-          handlePixelsPerCanvas={this.handlePixelsPerCanvas}
-        />
+        <section className="right-section">
+          <Preview
+            framesArray={frames}
+            handlePixelsPerCanvas={this.handlePixelsPerCanvas}
+          />
+          <Layers />
+        </section>
       </main>
     );
   }
