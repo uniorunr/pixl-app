@@ -23,6 +23,8 @@ class Main extends Component {
       pixelsPerCanvas: 64,
       currToolId: 'pen',
       frames: [],
+      framesData: {},
+      layers: [],
       primaryColor: '#000000',
       secondaryColor: '#ffffff',
     };
@@ -30,6 +32,12 @@ class Main extends Component {
 
   componentDidMount = () => {
     window.addEventListener('resize', this.updateDimensions);
+  };
+
+  updateLayers = (layers) => {
+    this.setState({
+      layers: [...layers],
+    });
   };
 
   updateDimensions = () => {
@@ -72,6 +80,8 @@ class Main extends Component {
       frames,
       primaryColor,
       secondaryColor,
+      framesData,
+      layers,
     } = this.state;
 
     return (
@@ -100,7 +110,13 @@ class Main extends Component {
             framesArray={frames}
             handlePixelsPerCanvas={this.handlePixelsPerCanvas}
           />
-          <Layers />
+          <Layers
+            updateActiveLayer={this.updateActiveLayer}
+            updateLayers={this.updateLayers}
+            framesArray={frames}
+            framesData={framesData}
+            layers={layers}
+          />
         </section>
       </main>
     );
