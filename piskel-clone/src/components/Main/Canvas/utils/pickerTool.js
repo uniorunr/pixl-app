@@ -1,10 +1,4 @@
-const fullColorHex = (r, g, b) => {
-  const rgbToHex = (rgb) => {
-    const hex = Number(rgb).toString(16);
-    return (hex.length < 2) ? `0${hex}` : hex;
-  };
-  return `${rgbToHex(r)}${rgbToHex(g)}${rgbToHex(b)}`;
-};
+import { fullColorHex } from './common';
 
 const pickTheColor = (pageX, pageY, state, props, canvas, button) => {
   const { mouseButton } = state;
