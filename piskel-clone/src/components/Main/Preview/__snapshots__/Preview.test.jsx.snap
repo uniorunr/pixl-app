@@ -9,12 +9,13 @@ exports[`renders correctly 1`] = `
   >
     <canvas
       className="preview__canvas"
-      height="150"
+      height="128"
       id="preview-canvas"
-      width="150"
+      width="128"
     />
     <button
       className="preview__fullscreen-button"
+      onClick={[Function]}
       type="button"
     >
       <i
@@ -27,12 +28,15 @@ exports[`renders correctly 1`] = `
       <label
         htmlFor="fps-control__input"
       >
-        <span />
-        <span>
-          FPS
+        <span
+          className="fps-control__label"
+        >
+          FPS: 
+          NaN
         </span>
         <input
           className="fps-control__input"
+          defaultValue="12"
           id="fps-control__input"
           max="24"
           min="1"
@@ -52,7 +56,6 @@ exports[`renders correctly 1`] = `
       >
         32
         <input
-          defaultChecked={true}
           id="canvas-32"
           name="radio"
           onChange={[Function]}
@@ -65,6 +68,7 @@ exports[`renders correctly 1`] = `
       >
         64
         <input
+          defaultChecked={true}
           id="canvas-64"
           name="radio"
           onChange={[Function]}

@@ -23,6 +23,7 @@ it('renders correctly', () => {
         currToolId="pen"
         updateColor={() => {}}
         primaryColor="#000000"
+        framesArray={[]}
       />,
     )
     .toJSON();

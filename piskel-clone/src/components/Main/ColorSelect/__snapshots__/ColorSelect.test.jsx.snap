@@ -10,9 +10,9 @@ exports[`renders correctly 1`] = `
     <div>
       <input
         className="colors__input-primary"
-        defaultValue="#000000"
-        onInput={[Function]}
+        onChange={[Function]}
         type="color"
+        value="#000000"
       />
       <div
         className="colors__primary"
@@ -26,9 +26,9 @@ exports[`renders correctly 1`] = `
     <div>
       <input
         className="colors__input-secondary"
-        defaultValue="#ffffff"
-        onInput={[Function]}
+        onChange={[Function]}
         type="color"
+        value="#ffffff"
       />
       <div
         className="colors__secondary"

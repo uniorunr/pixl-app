@@ -7,12 +7,15 @@ exports[`renders correctly 1`] = `
   <label
     htmlFor="fps-control__input"
   >
-    <span />
-    <span>
-      FPS
+    <span
+      className="fps-control__label"
+    >
+      FPS: 
+      12
     </span>
     <input
       className="fps-control__input"
+      defaultValue="12"
       id="fps-control__input"
       max="24"
       min="1"

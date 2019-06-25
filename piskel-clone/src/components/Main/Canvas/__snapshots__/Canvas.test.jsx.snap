@@ -3,26 +3,45 @@
 exports[`renders correctly 1`] = `
 <section
   className="canvas-section"
+  onContextMenu={[Function]}
 >
-  <canvas
-    className="canvas-section__canvas"
-    height={25}
-    id="canvas"
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseMove={[Function]}
-    onMouseUp={[Function]}
-    width={25}
-  />
-  <canvas
-    className="canvas-section__canvas-overlay"
-    height={25}
-    id="canvas-overlay"
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseMove={[Function]}
-    onMouseUp={[Function]}
-    width={25}
-  />
+  <div
+    className="canvas-section__wrapper"
+  >
+    <canvas
+      className="canvas-section__canvas"
+      height={25}
+      id="canvas"
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseMove={[Function]}
+      onMouseUp={[Function]}
+      width={25}
+    />
+    <canvas
+      className="canvas-section__canvas-overlay"
+      height={25}
+      id="canvas-overlay"
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseMove={[Function]}
+      onMouseUp={[Function]}
+      width={25}
+    />
+  </div>
+  <div
+    className="canvas-section__info"
+  >
+    <span
+      className="canvas-section__size"
+    >
+      size: 32x32
+    </span>
+    <span
+      className="canvas-section__position"
+    >
+      x: 0  y: 0
+    </span>
+  </div>
 </section>
 `;

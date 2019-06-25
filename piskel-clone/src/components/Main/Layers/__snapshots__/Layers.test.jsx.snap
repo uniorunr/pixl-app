@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<section
+  className="layers-section"
+>
+  <div
+    className="layers-section__controls"
+  >
+    <button
+      className="layers-section__add-button"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-plus"
+      />
+    </button>
+    <button
+      className="layers-section__remove-button"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-trash-alt"
+      />
+    </button>
+  </div>
+  <div
+    className="layers-section__wrapper"
+  >
+    <button
+      className="layers-section__button layers-section__button_active"
+      data-id={0}
+      id="layer0"
+      onClick={[Function]}
+      type="button"
+    >
+      Layer 
+      1
+    </button>
+  </div>
+</section>
+`;

@@ -16,7 +16,7 @@ function createNodeMock(element) {
 it('renders correctly', () => {
   const options = { createNodeMock };
   const tree = renderer
-    .create(<FpsControl updateFps={() => {}} />, options)
+    .create(<FpsControl fps={12} updateFps={() => {}} />, options)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

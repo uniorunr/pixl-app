@@ -27,6 +27,30 @@ exports[`renders correctly 1`] = `
     <button
       className="tools__button"
       data-listener="true"
+      id="vertical-mirror"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-grip-lines-vertical"
+      />
+    </button>
+    <button
+      className="tools__button"
+      data-listener="true"
+      id="horizontal-mirror"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-grip-lines"
+      />
+    </button>
+    <button
+      className="tools__button"
+      data-listener="true"
       id="stroke"
       onClick={[Function]}
       onKeyDown={[Function]}
@@ -106,6 +130,18 @@ exports[`renders correctly 1`] = `
     >
       <i
         className="fas fa-eraser"
+      />
+    </button>
+    <button
+      className="tools__button"
+      data-listener="true"
+      id="move"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-arrows-alt"
       />
     </button>
   </div>

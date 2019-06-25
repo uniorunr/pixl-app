@@ -23,6 +23,14 @@ exports[`renders correctly 1`] = `
       </a>
     </h1>
     <button
+      className="navbar__faq"
+      type="button"
+    >
+      <i
+        className="fas fa-question"
+      />
+    </button>
+    <button
       className="navbar__sign-in-button"
       type="button"
     >

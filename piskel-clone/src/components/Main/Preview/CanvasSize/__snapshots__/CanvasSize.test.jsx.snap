@@ -10,7 +10,6 @@ exports[`renders correctly 1`] = `
   >
     32
     <input
-      defaultChecked={true}
       id="canvas-32"
       name="radio"
       onChange={[Function]}
@@ -23,6 +22,7 @@ exports[`renders correctly 1`] = `
   >
     64
     <input
+      defaultChecked={true}
       id="canvas-64"
       name="radio"
       onChange={[Function]}
