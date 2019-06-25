@@ -1,10 +1,12 @@
 .frame {
   position: relative;
+  width: fit-content;
 
   .frame__canvas {
     border: 2px solid black;
     margin: 5px 0;
     cursor: pointer;
+    background: white;
   }
 
   .frame__canvas_active {

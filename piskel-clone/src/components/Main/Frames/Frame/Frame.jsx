@@ -35,8 +35,16 @@ class Frame extends Component {
     duplicateFrame(index);
   };
 
+  setRef = (ref) => {
+    const { innerRef } = this.props;
+    this.ref = ref;
+    innerRef(ref);
+  };
+
   render() {
-    const { active, index, framesArray } = this.props;
+    const {
+      active, index, framesArray, provided,
+    } = this.props;
 
     return (
       <div
@@ -44,6 +52,9 @@ class Frame extends Component {
         data-id={index}
         data-active={active ? true : null}
         className={`frame frame${index}`}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        ref={this.setRef}
       >
         <canvas
           id={`frame${index}`}
@@ -89,6 +100,9 @@ Frame.propTypes = {
   resetDuplicate: PropTypes.func.isRequired,
   framesArray: PropTypes.instanceOf(Array),
   duplicate: PropTypes.bool,
+  frameKeys: PropTypes.instanceOf(Array).isRequired,
+  innerRef: PropTypes.func.isRequired,
+  provided: PropTypes.instanceOf(Object).isRequired,
 };
 
 Frame.defaultProps = {

@@ -57,6 +57,7 @@
     "es6-promise": "^4.2.5",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
+    "react-beautiful-dnd": "^11.0.4",
     "react-dom": "^16.7.0",
     "react-select": "^2.3.0",
     "regenerator-runtime": "^0.13.1"

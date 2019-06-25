@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import Frame from './Frame/Frame';
+import List from './ListWrapper/ListWrapper';
 import './Frames.scss';
 import { setActiveFrame, translateActiveFrame } from './utils';
 
@@ -62,25 +64,62 @@ class Frames extends Component {
     });
   };
 
+  onDragEnd = (result) => {
+    const { destination, source } = result;
+    const { frameKeys, activeFrame } = this.state;
+    const destIndex = destination.index;
+    const srcIndex = source.index;
+    const activeFrameKey = frameKeys[activeFrame];
+    if (destination && destIndex !== srcIndex) {
+      const srcItem = frameKeys[srcIndex];
+      frameKeys.splice(srcIndex, 1);
+      frameKeys.splice(destIndex, 0, srcItem);
+    }
+    this.setState({
+      frameKeys: [...frameKeys],
+      activeFrame: frameKeys.indexOf(activeFrameKey),
+    });
+  };
+
   render() {
     const { frameKeys, activeFrame, duplicate } = this.state;
     const { framesArray } = this.props;
 
     return (
       <section className="frames-section">
-        {frameKeys.map((item, index) => (
-          <Frame
-            index={index}
-            key={item}
-            removeFrame={this.removeFrame}
-            makeActive={this.makeActive}
-            duplicateFrame={this.duplicateFrame}
-            resetDuplicate={this.resetDuplicate}
-            active={index === activeFrame}
-            duplicate={index === duplicate}
-            framesArray={framesArray}
-          />
-        ))}
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <Droppable droppableId="frames">
+            {provided => (
+              <List provided={provided} innerRef={provided.innerRef}>
+                {frameKeys.map((item, index) => (
+                  <Draggable
+                    draggableId={`item${item}`}
+                    index={index}
+                    key={item}
+                  >
+                    {provided1 => (
+                      <Frame
+                        index={index}
+                        key={item}
+                        removeFrame={this.removeFrame}
+                        makeActive={this.makeActive}
+                        duplicateFrame={this.duplicateFrame}
+                        resetDuplicate={this.resetDuplicate}
+                        active={index === activeFrame}
+                        duplicate={index === duplicate}
+                        framesArray={framesArray}
+                        frameKeys={frameKeys}
+                        provided={provided1}
+                        innerRef={provided1.innerRef}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </List>
+            )}
+          </Droppable>
+        </DragDropContext>
         <button
           type="button"
           className="frames-section__add-frame-button"
