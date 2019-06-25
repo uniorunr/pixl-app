@@ -9,6 +9,7 @@ import drawCircle from './utils/circleTool';
 import moveContext from './utils/moveTool';
 import verticalMirror from './utils/verticalMirror';
 import horizontalMirror from './utils/horizontalMirror';
+import lighten from './utils/lighten';
 
 const activateTool = (
   id,
@@ -56,6 +57,9 @@ const activateTool = (
       break;
     case 'horizontal-mirror':
       result = horizontalMirror(x, y, state, props, canvas, updXY, button);
+      break;
+    case 'lighten':
+      result = lighten(x, y, state, props, canvas, updXY, button);
       break;
     default:
       throw new Error("tool isn't found");

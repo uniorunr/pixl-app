@@ -121,6 +121,13 @@ class Tools extends Component {
             onClickHandler={this.makeActive}
             onKeyDownHandler={this.handleKeyboard}
           />
+          <ToolButton
+            buttonClass="tools__button"
+            id="lighten"
+            iconClass="fas fa-sun"
+            onClickHandler={this.makeActive}
+            onKeyDownHandler={this.handleKeyboard}
+          />
         </div>
       </section>
     );
