@@ -15,6 +15,30 @@ class FireBase {
     };
     firebase.initializeApp(firebaseConfig);
   }
+
+  static async auth() {
+    const provider = new firebase.auth.GithubAuthProvider();
+
+    await firebase.auth().signInWithRedirect(provider);
+    const token = await firebase.auth().getRedirectResult()
+      .then(result => result.credential.accessToken)
+      .catch((error) => {
+        throw new Error(`signing error: ${error.message}`);
+      });
+
+    const userData = await fetch(`https://api.github.com/user?access_token=${token}`)
+      .then(response => response.json())
+      .catch((error) => {
+        throw new Error(`error while request to github api: ${error}`);
+      });
+
+    const user = firebase.auth().currentUser;
+
+    user.updateProfile({
+      displayName: userData.login,
+      photoURL: userData.avatar_url,
+    }).catch((error) => { throw new Error(`error while updating user profile: ${error}`); });
+  }
 }
 
 export default FireBase;
