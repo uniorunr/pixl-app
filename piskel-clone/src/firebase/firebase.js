@@ -19,8 +19,7 @@ class FireBase {
   static async auth() {
     const provider = new firebase.auth.GithubAuthProvider();
 
-    await firebase.auth().signInWithRedirect(provider);
-    const token = await firebase.auth().getRedirectResult()
+    const token = await firebase.auth().signInWithPopup(provider)
       .then(result => result.credential.accessToken)
       .catch((error) => {
         throw new Error(`signing error: ${error.message}`);
@@ -38,6 +37,13 @@ class FireBase {
       displayName: userData.login,
       photoURL: userData.avatar_url,
     }).catch((error) => { throw new Error(`error while updating user profile: ${error}`); });
+  }
+
+  static logout() {
+    firebase.auth().signOut().then(() => {
+      window.location.reload();
+    }).catch((error) => { throw new Error(`signout error: ${error}`); });
+    localStorage.removeItem('selectedMentor');
   }
 }
 

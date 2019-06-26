@@ -1,10 +1,10 @@
 import React from 'react';
 import './UserInfo.scss';
 import PropTypes from 'prop-types';
-// import FireBase from '../../../firebase/firebase';
+import FireBase from '../../../firebase/firebase';
 
 const logout = async () => {
-  // TODO await FireBase.logout();
+  await FireBase.logout();
 };
 
 const UserInfo = ({ src }) => (

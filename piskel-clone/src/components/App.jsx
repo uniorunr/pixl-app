@@ -11,6 +11,7 @@ FireBase.init();
 class App extends Component {
   state = {
     userData: null,
+    signInState: null,
   };
 
   componentDidMount = () => {
@@ -18,17 +19,28 @@ class App extends Component {
       if (user) {
         this.setState({
           userData: user,
+          signInState: null,
         });
       }
     });
   };
 
+  updateSignInState = (state) => {
+    this.setState({
+      signInState: state,
+    });
+  };
+
   render() {
-    const { userData } = this.state;
+    const { userData, signInState } = this.state;
 
     return (
       <Fragment>
-        <NavBar userData={userData} />
+        <NavBar
+          userData={userData}
+          updateSignInState={this.updateSignInState}
+          signInState={signInState}
+        />
         <Main />
       </Fragment>
     );

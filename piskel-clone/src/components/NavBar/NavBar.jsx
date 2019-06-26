@@ -7,11 +7,13 @@ import UserInfo from './UserInfo/UserInfo';
 
 class NavBar extends Component {
   handleSignIn = async () => {
+    const { updateSignInState } = this.props;
+    updateSignInState('Signing in...');
     await FireBase.auth();
   };
 
   render() {
-    const { userData } = this.props;
+    const { userData, signInState } = this.props;
 
     return (
       <Fragment>
@@ -32,7 +34,7 @@ class NavBar extends Component {
                 type="button"
                 onClick={this.handleSignIn}
               >
-                <span>Sign in</span>
+                <span>{signInState || 'Sign in'}</span>
               </button>
             ) : (
               <UserInfo src={userData.photoURL} />
@@ -46,10 +48,13 @@ class NavBar extends Component {
 
 NavBar.propTypes = {
   userData: PropTypes.instanceOf(Object),
+  updateSignInState: PropTypes.func.isRequired,
+  signInState: PropTypes.string,
 };
 
 NavBar.defaultProps = {
   userData: null,
+  signInState: null,
 };
 
 export default NavBar;
