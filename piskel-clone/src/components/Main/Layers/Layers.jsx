@@ -89,17 +89,47 @@ class Layers extends Component {
     const { updateLayers, framesData, framesArray } = this.props;
     const { layers, keys, active } = this.state;
     delete framesData[layers[active].props.id];
-    const newActive = layers.length - 2;
     if (layers.length > 1) {
+      const newActive = layers.length - 2;
       layers.splice(active, 1);
       keys.splice(active, 1);
       restoreFrames(framesArray, layers, newActive, framesData);
+      this.setState({
+        layers: [...layers],
+        active: newActive,
+      });
     }
-    this.setState({
-      layers: [...layers],
-      active: newActive,
-    });
     updateLayers([...layers]);
+  };
+
+  handleMoveUp = () => {
+    const { updateLayers } = this.props;
+    const { layers, keys, active } = this.state;
+    const index = active;
+    if (active > 0) {
+      [layers[index - 1], layers[index]] = [layers[index], layers[index - 1]];
+      [keys[index - 1], keys[index]] = [keys[index], keys[index - 1]];
+      this.setState({
+        layers: [...layers],
+        active: active - 1,
+      });
+      updateLayers([...layers]);
+    }
+  };
+
+  handleMoveDown = () => {
+    const { updateLayers } = this.props;
+    const { layers, keys, active } = this.state;
+    const index = active;
+    if (active < layers.length - 1) {
+      [layers[index + 1], layers[index]] = [layers[index], layers[index + 1]];
+      [keys[index + 1], keys[index]] = [keys[index], keys[index + 1]];
+      this.setState({
+        layers: [...layers],
+        active: active + 1,
+      });
+      updateLayers([...layers]);
+    }
   };
 
   makeActive = ({ target }) => {
@@ -127,6 +157,20 @@ class Layers extends Component {
             onClick={this.handleAddButton}
           >
             <i className="fas fa-plus" />
+          </button>
+          <button
+            type="button"
+            className="layers-section__move-up"
+            onClick={this.handleMoveUp}
+          >
+            <i className="fas fa-arrow-up" />
+          </button>
+          <button
+            type="button"
+            className="layers-section__move-down"
+            onClick={this.handleMoveDown}
+          >
+            <i className="fas fa-arrow-down" />
           </button>
           <button
             type="button"

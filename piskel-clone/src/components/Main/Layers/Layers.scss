@@ -43,7 +43,10 @@
     justify-content: space-around;
     margin: 5px 0;
 
-    .layers-section__add-button, .layers-section__remove-button {
+    .layers-section__add-button,
+    .layers-section__remove-button,
+    .layers-section__move-up,
+    .layers-section__move-down {
       position: relative;
       top: 0;
       box-shadow: 2px 2px 0 black;
@@ -55,7 +58,10 @@
       padding: 2px 5px;
     }
 
-    .layers-section__add-button:active, .layers-section__remove-button:active {
+    .layers-section__add-button:active,
+    .layers-section__remove-button:active,
+    .layers-section__move-up:active,
+    .layers-section__move-down:active {
       top: 2px;
       box-shadow: 0 0 0 black;
     }
