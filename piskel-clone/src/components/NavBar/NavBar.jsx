@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import './NavBar.scss';
+import PropTypes from 'prop-types';
 import Logo from '../../assets/favicon.png';
 import FireBase from '../../firebase/firebase';
+import UserInfo from './UserInfo/UserInfo';
 
 class NavBar extends Component {
   handleSignIn = async () => {
@@ -9,6 +11,8 @@ class NavBar extends Component {
   };
 
   render() {
+    const { userData } = this.props;
+
     return (
       <Fragment>
         <div className="navbar">
@@ -22,18 +26,30 @@ class NavBar extends Component {
             <button className="navbar__faq" type="button">
               <i className="fas fa-question" />
             </button>
-            <button
-              className="navbar__sign-in-button"
-              type="button"
-              onClick={this.handleSignIn}
-            >
-              <span>Sign in</span>
-            </button>
+            {!userData ? (
+              <button
+                className="navbar__sign-in-button"
+                type="button"
+                onClick={this.handleSignIn}
+              >
+                <span>Sign in</span>
+              </button>
+            ) : (
+              <UserInfo src={userData.photoURL} />
+            )}
           </nav>
         </div>
       </Fragment>
     );
   }
 }
+
+NavBar.propTypes = {
+  userData: PropTypes.instanceOf(Object),
+};
+
+NavBar.defaultProps = {
+  userData: null,
+};
 
 export default NavBar;

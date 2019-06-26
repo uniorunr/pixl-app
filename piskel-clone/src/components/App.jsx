@@ -10,23 +10,25 @@ FireBase.init();
 
 class App extends Component {
   state = {
-    user: null,
+    userData: null,
   };
 
   componentDidMount = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
-          user,
+          userData: user,
         });
       }
     });
   };
 
   render() {
+    const { userData } = this.state;
+
     return (
       <Fragment>
-        <NavBar />
+        <NavBar userData={userData} />
         <Main />
       </Fragment>
     );

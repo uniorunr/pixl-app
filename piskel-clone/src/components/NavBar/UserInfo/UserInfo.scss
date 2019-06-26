@@ -1,0 +1,25 @@
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .user-info__avatar {
+    border: 2px solid black;
+    border-radius: 50px;
+  }
+
+  .user-info__sign-out {
+    margin: 0 0 0 10px;
+    padding: 4px 4px 2px;
+    font-size: 1.6rem;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .user-info__sign-out:active {
+    border: 2px solid black;
+  }
+}
