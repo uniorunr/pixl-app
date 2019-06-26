@@ -132,6 +132,54 @@ class Layers extends Component {
     }
   };
 
+  handleMergeButton = () => {
+    const { updateLayers, framesData, framesArray } = this.props;
+    const { layers, keys, active } = this.state;
+    saveLayerData(layers, active, framesData, framesArray);
+    const canvas = document.querySelector('#canvas');
+    if (layers[active + 1]) {
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      framesArray.forEach((frame, index) => {
+        frame.getContext('2d').clearRect(0, 0, frame.width, frame.height);
+        const frontImg = new Image();
+        const backImg = new Image();
+        const frontLayerId = layers[active].props.id;
+        const backLayerId = layers[active + 1].props.id;
+        const frontURI = framesData[frontLayerId][index];
+        const backURI = framesData[backLayerId][index];
+        if (backURI) {
+          backImg.src = backURI;
+          backImg.onload = () => {
+            frame.getContext('2d').drawImage(backImg, 0, 0);
+            if (frame.classList.contains('frame__canvas_active')) {
+              canvas
+                .getContext('2d')
+                .drawImage(backImg, 0, 0, canvas.width, canvas.height);
+            }
+            if (frontURI) {
+              frontImg.src = frontURI;
+              frontImg.onload = () => {
+                frame.getContext('2d').drawImage(frontImg, 0, 0);
+                if (frame.classList.contains('frame__canvas_active')) {
+                  canvas
+                    .getContext('2d')
+                    .drawImage(frontImg, 0, 0, canvas.width, canvas.height);
+                }
+              };
+            }
+          };
+        }
+      });
+      layers.splice(active + 1, 1);
+      keys.splice(active + 1, 1);
+      this.setState({
+        layers: [...layers],
+        keys: [...keys],
+      });
+      updateLayers([...layers]);
+    }
+  };
+
   makeActive = ({ target }) => {
     const { framesData, framesArray } = this.props;
     const { layers, active, keys } = this.state;
@@ -180,6 +228,13 @@ class Layers extends Component {
             <i className="fas fa-trash-alt" />
           </button>
         </div>
+        <button
+          type="button"
+          className="layers-section__merge-button"
+          onClick={this.handleMergeButton}
+        >
+          merge
+        </button>
         <div className="layers-section__wrapper">
           {layers.map((item, index) => (
             <button
