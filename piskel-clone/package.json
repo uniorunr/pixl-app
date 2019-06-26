@@ -55,6 +55,7 @@
     "@babel/runtime": "^7.3.1",
     "babel-polyfill": "^6.26.0",
     "es6-promise": "^4.2.5",
+    "firebase": "^6.2.3",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-beautiful-dnd": "^11.0.4",
