@@ -67,18 +67,18 @@ class Frames extends Component {
   onDragEnd = (result) => {
     const { destination, source } = result;
     const { frameKeys, activeFrame } = this.state;
-    const destIndex = destination.index;
+    const destIndex = destination ? destination.index : null;
     const srcIndex = source.index;
     const activeFrameKey = frameKeys[activeFrame];
     if (destination && destIndex !== srcIndex) {
       const srcItem = frameKeys[srcIndex];
       frameKeys.splice(srcIndex, 1);
       frameKeys.splice(destIndex, 0, srcItem);
+      this.setState({
+        frameKeys: [...frameKeys],
+        activeFrame: frameKeys.indexOf(activeFrameKey),
+      });
     }
-    this.setState({
-      frameKeys: [...frameKeys],
-      activeFrame: frameKeys.indexOf(activeFrameKey),
-    });
   };
 
   render() {

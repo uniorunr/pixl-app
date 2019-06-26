@@ -34,7 +34,9 @@ class Canvas extends Component {
   componentDidUpdate = () => {
     const { framesArray } = this.props;
     const frame = framesArray.find(element => element.classList.contains('frame__canvas_active'));
-    translate(frame, this.canvasRef.current);
+    if (frame) {
+      translate(frame, this.canvasRef.current);
+    }
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
