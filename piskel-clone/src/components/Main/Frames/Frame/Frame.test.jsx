@@ -15,6 +15,10 @@ it('renders correctly', () => {
         resetDuplicate={mockFunc}
         active
         duplicateFrame={() => {}}
+        frameKeys={[]}
+        framesArray={[]}
+        provided={{}}
+        innerRef={() => {}}
       />,
     )
     .toJSON();

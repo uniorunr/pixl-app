@@ -17,6 +17,24 @@ exports[`renders correctly 1`] = `
       />
     </button>
     <button
+      className="layers-section__move-up"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-arrow-up"
+      />
+    </button>
+    <button
+      className="layers-section__move-down"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-arrow-down"
+      />
+    </button>
+    <button
       className="layers-section__remove-button"
       onClick={[Function]}
       type="button"
@@ -26,6 +44,13 @@ exports[`renders correctly 1`] = `
       />
     </button>
   </div>
+  <button
+    className="layers-section__merge-button"
+    onClick={[Function]}
+    type="button"
+  >
+    merge
+  </button>
   <div
     className="layers-section__wrapper"
   >

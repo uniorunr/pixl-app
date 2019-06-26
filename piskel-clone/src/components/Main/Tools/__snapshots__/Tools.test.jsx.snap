@@ -144,6 +144,18 @@ exports[`renders correctly 1`] = `
         className="fas fa-arrows-alt"
       />
     </button>
+    <button
+      className="tools__button"
+      data-listener="true"
+      id="lighten"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-sun"
+      />
+    </button>
   </div>
 </section>
 `;

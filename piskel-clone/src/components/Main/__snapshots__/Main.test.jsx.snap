@@ -148,6 +148,18 @@ exports[`renders correctly 1`] = `
             className="fas fa-arrows-alt"
           />
         </button>
+        <button
+          className="tools__button"
+          data-listener="true"
+          id="lighten"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-sun"
+          />
+        </button>
       </div>
     </section>
     <section
@@ -195,32 +207,54 @@ exports[`renders correctly 1`] = `
     className="frames-section"
   >
     <div
-      className="frame frame0"
-      data-active={true}
-      data-id={0}
-      role="presentation"
+      data-react-beautiful-dnd-droppable="0"
     >
-      <canvas
-        className="frame__canvas frame__canvas_active"
-        height="128"
-        id="frame0"
-        onClick={[Function]}
-        width="128"
-      />
-      <span
-        className="frame__index"
+      <div
+        aria-roledescription="Draggable item. Press space bar to lift"
+        className="frame frame0"
+        data-active={true}
+        data-id={0}
+        data-react-beautiful-dnd-drag-handle="0"
+        data-react-beautiful-dnd-draggable="0"
+        draggable={false}
+        onBlur={[Function]}
+        onDragStart={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        onTouchStart={[Function]}
+        onTransitionEnd={null}
+        role="presentation"
+        style={
+          Object {
+            "transform": null,
+            "transition": null,
+          }
+        }
+        tabIndex={0}
       >
-        1
-      </span>
-      <button
-        className="frame__duplicate"
-        onClick={[Function]}
-        type="button"
-      >
-        <i
-          className="fas fa-copy"
+        <canvas
+          className="frame__canvas frame__canvas_active"
+          height="128"
+          id="frame0"
+          onClick={[Function]}
+          width="128"
         />
-      </button>
+        <span
+          className="frame__index"
+        >
+          1
+        </span>
+        <button
+          className="frame__duplicate"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-copy"
+          />
+        </button>
+      </div>
     </div>
     <button
       className="frames-section__add-frame-button"
@@ -387,6 +421,24 @@ exports[`renders correctly 1`] = `
           />
         </button>
         <button
+          className="layers-section__move-up"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-arrow-up"
+          />
+        </button>
+        <button
+          className="layers-section__move-down"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="fas fa-arrow-down"
+          />
+        </button>
+        <button
           className="layers-section__remove-button"
           onClick={[Function]}
           type="button"
@@ -396,6 +448,13 @@ exports[`renders correctly 1`] = `
           />
         </button>
       </div>
+      <button
+        className="layers-section__merge-button"
+        onClick={[Function]}
+        type="button"
+      >
+        merge
+      </button>
       <div
         className="layers-section__wrapper"
       >

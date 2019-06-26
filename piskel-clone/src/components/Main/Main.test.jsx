@@ -8,6 +8,11 @@ global.document = dom.window.document;
 global.window = dom.window;
 
 function createNodeMock(element) {
+  if (typeof element.type === 'string' && element.type === 'div') {
+    const elm = document.createElement(element.type);
+    elm.setAttribute('data-react-beautiful-dnd-drag-handle', '0');
+    return elm;
+  }
   if (element.type === 'input') {
     return {
       current: {
