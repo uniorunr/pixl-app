@@ -33,6 +33,7 @@ Array [
       </button>
       <button
         className="navbar__sign-in-button"
+        onClick={[Function]}
         type="button"
       >
         <span>

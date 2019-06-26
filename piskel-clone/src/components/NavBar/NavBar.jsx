@@ -48,13 +48,14 @@ class NavBar extends Component {
 
 NavBar.propTypes = {
   userData: PropTypes.instanceOf(Object),
-  updateSignInState: PropTypes.func.isRequired,
+  updateSignInState: PropTypes.func,
   signInState: PropTypes.string,
 };
 
 NavBar.defaultProps = {
   userData: null,
   signInState: null,
+  updateSignInState: null,
 };
 
 export default NavBar;
