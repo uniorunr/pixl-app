@@ -8,10 +8,24 @@ import { setActiveFrame, translateActiveFrame } from './utils';
 
 class Frames extends Component {
   state = {
-    frameKeys: [0],
-    activeFrame: 0,
+    frameKeys: JSON.parse(sessionStorage.getItem('frameKeys')) || [0],
+    activeFrame: +sessionStorage.getItem('activeFrame') || 0,
     duplicate: null,
   };
+
+  componentDidUpdate() {
+    const { activeFrame, frameKeys } = this.state;
+    const {
+      framesData, framesArray, layerKeys, activeLayer,
+    } = this.props;
+    const layerKey = `layer${layerKeys[activeLayer]}`;
+    if (layerKeys[activeLayer] >= 0) {
+      framesData[layerKey] = framesArray.map(item => item.toDataURL());
+      sessionStorage.setItem('framesData', JSON.stringify(framesData));
+    }
+    sessionStorage.setItem('activeFrame', `${activeFrame}`);
+    sessionStorage.setItem('frameKeys', JSON.stringify([...frameKeys]));
+  }
 
   makeActive = (index) => {
     this.setState({
@@ -135,6 +149,9 @@ class Frames extends Component {
 
 Frames.propTypes = {
   framesArray: PropTypes.instanceOf(Array),
+  framesData: PropTypes.instanceOf(Object).isRequired,
+  layerKeys: PropTypes.instanceOf(Array).isRequired,
+  activeLayer: PropTypes.number.isRequired,
 };
 
 Frames.defaultProps = {

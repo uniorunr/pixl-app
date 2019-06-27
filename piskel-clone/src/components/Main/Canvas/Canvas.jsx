@@ -53,7 +53,13 @@ class Canvas extends Component {
 
   deactivateDrawing = () => {
     const { cursorActive } = this.state;
-    const { currToolId } = this.props;
+    const {
+      currToolId,
+      framesData,
+      framesArray,
+      layerKeys,
+      activeLayer,
+    } = this.props;
     if (toolsWithOverlayUse.includes(currToolId)) {
       const overlay = this.canvasOverlayRef.current;
       translate(this.canvasOverlayRef.current, this.canvasRef.current, true);
@@ -70,6 +76,9 @@ class Canvas extends Component {
         initY: null,
         mouseButton: null,
       });
+      const layerKey = `layer${layerKeys[activeLayer]}`;
+      framesData[layerKey] = framesArray.map(item => item.toDataURL());
+      sessionStorage.setItem('framesData', JSON.stringify(framesData));
     }
   };
 
@@ -201,6 +210,9 @@ Canvas.propTypes = {
   primaryColor: PropTypes.string.isRequired,
   // eslint-disable-next-line
   pixelsPerCanvas: PropTypes.number.isRequired,
+  framesData: PropTypes.instanceOf(Object).isRequired,
+  layerKeys: PropTypes.instanceOf(Array).isRequired,
+  activeLayer: PropTypes.number.isRequired,
 };
 
 export default Canvas;

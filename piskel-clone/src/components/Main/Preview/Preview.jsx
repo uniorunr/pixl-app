@@ -38,7 +38,7 @@ class Preview extends Component {
         currFrame: 0,
       });
     }
-    if (framesArray[currFrame]) {
+    if (framesArray[currFrame] && this.previewRef.current) {
       const canvas = this.previewRef.current;
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);

@@ -2,28 +2,33 @@ import React, { Component } from 'react';
 import './Layers.scss';
 import PropTypes from 'prop-types';
 
-const saveLayerData = (layers, index, framesData, frames) => {
+const saveLayerData = (keys, index, framesData, frames) => {
   const currLayerFramesData = framesData;
-  const layerKey = layers[index].props.id;
+  const layerKey = `layer${keys[index]}`;
   currLayerFramesData[layerKey] = frames.map(item => item.toDataURL());
+  sessionStorage.setItem('framesData', JSON.stringify(framesData));
 };
 
-const restoreFrames = (frames, layers, active, framesData) => {
+const restoreFrames = (frames, keys, active, framesData) => {
   const canvas = document.querySelector('#canvas');
+  const canvasContext = canvas.getContext('2d');
+  canvasContext.imageSmoothingEnabled = false;
   canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
   frames.forEach((frame, index) => {
-    frame.getContext('2d').clearRect(0, 0, frame.width, frame.height);
+    const frameContext = frame.getContext('2d');
+    frameContext.imageSmoothingEnabled = false;
+    frameContext.clearRect(0, 0, frame.width, frame.height);
     const img = new Image();
-    const layerId = layers[active].props.id;
+    const layerId = `layer${keys[active]}`;
+    if (!framesData[layerId]) return;
     const URI = framesData[layerId][index];
     if (URI) {
       img.src = URI;
       img.onload = () => {
-        frame.getContext('2d').drawImage(img, 0, 0);
+        frameContext.drawImage(img, 0, 0);
+        saveLayerData(keys, active, framesData, frames);
         if (frame.classList.contains('frame__canvas_active')) {
-          canvas
-            .getContext('2d')
-            .drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
       };
     }
@@ -33,12 +38,13 @@ const restoreFrames = (frames, layers, active, framesData) => {
 class Layers extends Component {
   state = {
     layers: [],
-    active: 0,
-    keys: [0],
+    active: +sessionStorage.getItem('activeLayer') || 0,
+    keys: JSON.parse(sessionStorage.getItem('layerKeys')) || [0],
   };
 
   componentDidMount = () => {
-    const { updateLayers } = this.props;
+    const { active, keys } = this.state;
+    const { framesData, framesArray, updateLayerKeys } = this.props;
     const initLayer = (
       <button
         className="layers-section__button layers-section__button_active"
@@ -53,13 +59,33 @@ class Layers extends Component {
     this.setState({
       layers: [initLayer],
     });
-    updateLayers([initLayer]);
+    updateLayerKeys([0]);
+    if (!sessionStorage.getItem('framesData')) {
+      saveLayerData(keys, active, framesData, framesArray);
+    } else {
+      restoreFrames(framesArray, keys, active, framesData);
+      saveLayerData(keys, active, framesData, framesArray);
+    }
+    if (!sessionStorage.getItem('layerKeys')) {
+      sessionStorage.setItem('layerKeys', JSON.stringify([0]));
+    }
   };
+
+  componentDidUpdate() {
+    const { keys, active } = this.state;
+    const { framesData, framesArray } = this.props;
+    saveLayerData(keys, active, framesData, framesArray);
+  }
 
   handleAddButton = () => {
     const { layers, keys, active } = this.state;
-    const { updateLayers, framesData, framesArray } = this.props;
-    saveLayerData(layers, active, framesData, framesArray);
+    const {
+      framesData,
+      framesArray,
+      updateLayerKeys,
+      updateActiveLayer,
+    } = this.props;
+    saveLayerData(keys, active, framesData, framesArray);
     const canvas = document.querySelector('#canvas');
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     framesArray.forEach((frame) => {
@@ -77,124 +103,166 @@ class Layers extends Component {
         Layer {Math.max(...keys) + 1}
       </button>
     );
+    const updatedKeys = [...keys, Math.max(...keys) + 1];
+    updateLayerKeys(updatedKeys);
+    updateActiveLayer(keys.length);
     this.setState({
       layers: [...layers, newLayer],
-      keys: [...keys, Math.max(...keys) + 1],
+      keys: updatedKeys,
       active: keys.length,
     });
-    updateLayers([...layers, newLayer]);
+    sessionStorage.setItem('layerKeys', JSON.stringify(updatedKeys));
+    sessionStorage.setItem('activeLayer', `${keys.length}`);
   };
 
   handleRemoveButton = () => {
-    const { updateLayers, framesData, framesArray } = this.props;
+    const {
+      framesData,
+      framesArray,
+      updateLayerKeys,
+      updateActiveLayer,
+    } = this.props;
     const { layers, keys, active } = this.state;
-    delete framesData[layers[active].props.id];
-    if (layers.length > 1) {
-      const newActive = layers.length - 2;
+    delete framesData[`layer${keys[active]}`];
+    if (keys.length > 1) {
+      const newActive = keys.length - 2;
       layers.splice(active, 1);
       keys.splice(active, 1);
-      restoreFrames(framesArray, layers, newActive, framesData);
+      restoreFrames(framesArray, keys, newActive, framesData);
       this.setState({
         layers: [...layers],
+        keys: [...keys],
         active: newActive,
       });
+      updateLayerKeys([...keys]);
+      updateActiveLayer(newActive);
+      sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
+      sessionStorage.setItem('activeLayer', `${newActive}`);
     }
-    updateLayers([...layers]);
   };
 
   handleMoveUp = () => {
-    const { updateLayers } = this.props;
     const { layers, keys, active } = this.state;
+    const { updateLayerKeys, updateActiveLayer } = this.props;
     const index = active;
-    if (active > 0) {
+    if (index > 0) {
       [layers[index - 1], layers[index]] = [layers[index], layers[index - 1]];
       [keys[index - 1], keys[index]] = [keys[index], keys[index - 1]];
       this.setState({
         layers: [...layers],
         active: active - 1,
+        keys: [...keys],
       });
-      updateLayers([...layers]);
+      updateLayerKeys([...keys]);
+      updateActiveLayer(active - 1);
+      sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
+      sessionStorage.setItem('activeLayer', `${active - 1}`);
     }
   };
 
   handleMoveDown = () => {
-    const { updateLayers } = this.props;
     const { layers, keys, active } = this.state;
+    const { updateLayerKeys, updateActiveLayer } = this.props;
     const index = active;
-    if (active < layers.length - 1) {
+    if (index < keys.length - 1) {
       [layers[index + 1], layers[index]] = [layers[index], layers[index + 1]];
       [keys[index + 1], keys[index]] = [keys[index], keys[index + 1]];
       this.setState({
         layers: [...layers],
         active: active + 1,
+        keys: [...keys],
       });
-      updateLayers([...layers]);
+      updateLayerKeys([...keys]);
+      updateActiveLayer(active + 1);
+      sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
+      sessionStorage.setItem('activeLayer', `${active + 1}`);
     }
   };
 
   handleMergeButton = () => {
-    const { updateLayers, framesData, framesArray } = this.props;
+    const { framesData, framesArray, updateLayerKeys } = this.props;
     const { layers, keys, active } = this.state;
-    saveLayerData(layers, active, framesData, framesArray);
     const canvas = document.querySelector('#canvas');
-    if (layers[active + 1]) {
+    saveLayerData(keys, active, framesData, framesArray);
+    if (keys[active + 1] >= 0) {
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
       framesArray.forEach((frame, index) => {
-        frame.getContext('2d').clearRect(0, 0, frame.width, frame.height);
+        const frameContext = frame.getContext('2d');
+        frameContext.imageSmoothingEnabled = false;
+        frameContext.clearRect(0, 0, frame.width, frame.height);
         const frontImg = new Image();
         const backImg = new Image();
-        const frontLayerId = layers[active].props.id;
-        const backLayerId = layers[active + 1].props.id;
+        const frontLayerId = `layer${keys[active]}`;
+        const backLayerId = `layer${keys[active + 1]}`;
         const frontURI = framesData[frontLayerId][index];
         const backURI = framesData[backLayerId][index];
         if (backURI) {
           backImg.src = backURI;
           backImg.onload = () => {
-            frame.getContext('2d').drawImage(backImg, 0, 0);
+            frameContext.drawImage(backImg, 0, 0);
+            saveLayerData(keys, active, framesData, framesArray);
             if (frame.classList.contains('frame__canvas_active')) {
-              canvas
-                .getContext('2d')
-                .drawImage(backImg, 0, 0, canvas.width, canvas.height);
+              const canvasContext = canvas.getContext('2d');
+              canvasContext.imageSmoothingEnabled = false;
+              canvasContext.drawImage(
+                backImg,
+                0,
+                0,
+                canvas.width,
+                canvas.height,
+              );
             }
             if (frontURI) {
               frontImg.src = frontURI;
               frontImg.onload = () => {
-                frame.getContext('2d').drawImage(frontImg, 0, 0);
+                frameContext.drawImage(frontImg, 0, 0);
+                saveLayerData(keys, active, framesData, framesArray);
                 if (frame.classList.contains('frame__canvas_active')) {
-                  canvas
-                    .getContext('2d')
-                    .drawImage(frontImg, 0, 0, canvas.width, canvas.height);
+                  const canvasContext = canvas.getContext('2d');
+                  canvasContext.imageSmoothingEnabled = false;
+                  canvasContext.drawImage(
+                    frontImg,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height,
+                  );
                 }
               };
             }
           };
         }
       });
+      delete framesData[`layer${keys[active + 1]}`];
       layers.splice(active + 1, 1);
       keys.splice(active + 1, 1);
       this.setState({
         layers: [...layers],
         keys: [...keys],
       });
-      updateLayers([...layers]);
+      updateLayerKeys([...keys]);
+      sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
     }
   };
 
   makeActive = ({ target }) => {
-    const { framesData, framesArray } = this.props;
-    const { layers, active, keys } = this.state;
-    saveLayerData(layers, active, framesData, framesArray);
+    const { framesData, framesArray, updateActiveLayer } = this.props;
+    const { active, keys } = this.state;
+    saveLayerData(keys, active, framesData, framesArray);
     const newActive = keys.indexOf(+target.dataset.id);
-    if (layers.length > 1) {
-      restoreFrames(framesArray, layers, newActive, framesData);
+    if (keys.length > 1) {
+      restoreFrames(framesArray, keys, newActive, framesData);
+      saveLayerData(keys, newActive, framesData, framesArray);
     }
     this.setState({
       active: newActive,
     });
+    updateActiveLayer(newActive);
+    sessionStorage.setItem('activeLayer', `${newActive}`);
   };
 
   render() {
-    const { layers, active, keys } = this.state;
+    const { active, keys } = this.state;
 
     return (
       <section className="layers-section">
@@ -236,7 +304,7 @@ class Layers extends Component {
           merge
         </button>
         <div className="layers-section__wrapper">
-          {layers.map((item, index) => (
+          {keys.map((item, index) => (
             <button
               className={`layers-section__button ${
                 index === active ? 'layers-section__button_active' : ''
@@ -257,7 +325,8 @@ class Layers extends Component {
 }
 
 Layers.propTypes = {
-  updateLayers: PropTypes.func.isRequired,
+  updateLayerKeys: PropTypes.func.isRequired,
+  updateActiveLayer: PropTypes.func.isRequired,
   framesData: PropTypes.instanceOf(Object).isRequired,
   framesArray: PropTypes.instanceOf(Array).isRequired,
 };

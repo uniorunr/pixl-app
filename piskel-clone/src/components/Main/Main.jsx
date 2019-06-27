@@ -23,8 +23,9 @@ class Main extends Component {
       pixelsPerCanvas: 64,
       currToolId: 'pen',
       frames: [],
-      framesData: {},
-      layers: [],
+      framesData: JSON.parse(sessionStorage.getItem('framesData')) || {},
+      layerKeys: [],
+      activeLayer: +sessionStorage.getItem('activeLayer') || 0,
       primaryColor: '#000000',
       secondaryColor: '#ffffff',
     };
@@ -34,9 +35,21 @@ class Main extends Component {
     window.addEventListener('resize', this.updateDimensions);
   };
 
-  updateLayers = (layers) => {
+  updateFrames = (frames) => {
     this.setState({
-      layers: [...layers],
+      frames: [...frames],
+    });
+  };
+
+  updateLayerKeys = (keys) => {
+    this.setState({
+      layerKeys: [...keys],
+    });
+  };
+
+  updateActiveLayer = (index) => {
+    this.setState({
+      activeLayer: index,
     });
   };
 
@@ -81,7 +94,8 @@ class Main extends Component {
       primaryColor,
       secondaryColor,
       framesData,
-      layers,
+      layerKeys,
+      activeLayer,
     } = this.state;
 
     return (
@@ -94,7 +108,13 @@ class Main extends Component {
             updateColor={this.updateColor}
           />
         </section>
-        <Frames framesArray={frames} />
+        <Frames
+          framesArray={frames}
+          framesData={framesData}
+          layerKeys={layerKeys}
+          activeLayer={activeLayer}
+          updateFrames={this.updateFrames}
+        />
         <Canvas
           width={width}
           height={height}
@@ -102,6 +122,9 @@ class Main extends Component {
           currToolId={currToolId}
           primaryColor={primaryColor}
           framesArray={frames}
+          framesData={framesData}
+          layerKeys={layerKeys}
+          activeLayer={activeLayer}
           secondaryColor={secondaryColor}
           updateColor={this.updateColor}
         />
@@ -111,11 +134,10 @@ class Main extends Component {
             handlePixelsPerCanvas={this.handlePixelsPerCanvas}
           />
           <Layers
-            updateActiveLayer={this.updateActiveLayer}
-            updateLayers={this.updateLayers}
             framesArray={frames}
             framesData={framesData}
-            layers={layers}
+            updateLayerKeys={this.updateLayerKeys}
+            updateActiveLayer={this.updateActiveLayer}
           />
         </section>
       </main>
