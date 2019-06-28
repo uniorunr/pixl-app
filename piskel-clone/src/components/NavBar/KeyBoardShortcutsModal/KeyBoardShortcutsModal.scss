@@ -1,0 +1,40 @@
+.shortcuts-modal {
+  border: 2px solid black;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 95%;
+  height: 95%;
+  position: absolute;
+  background: white;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .shortcuts-modal__content{
+    width: 90%;
+    height: 90%;
+  }
+
+  .shortcuts-modal__close {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    border: 2px solid black;
+    outline: none;
+    background: white;
+    cursor: pointer;
+
+    span {
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+  }
+
+  .shortcuts-modal__close:hover {
+    border: 2px dashed black;
+  }
+}

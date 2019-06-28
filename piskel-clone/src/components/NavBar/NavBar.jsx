@@ -4,8 +4,20 @@ import PropTypes from 'prop-types';
 import Logo from '../../assets/favicon.png';
 import FireBase from '../../firebase/firebase';
 import UserInfo from './UserInfo/UserInfo';
+import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
 
 class NavBar extends Component {
+  state = {
+    modalActive: false,
+  };
+
+  toggleModal = () => {
+    const { modalActive } = this.state;
+    this.setState({
+      modalActive: !modalActive,
+    });
+  };
+
   handleSignIn = async () => {
     const { updateSignInState } = this.props;
     updateSignInState('Signing in...');
@@ -14,6 +26,7 @@ class NavBar extends Component {
 
   render() {
     const { userData, signInState } = this.props;
+    const { modalActive } = this.state;
 
     return (
       <Fragment>
@@ -25,7 +38,11 @@ class NavBar extends Component {
                 <span>Pixl!</span>
               </a>
             </h1>
-            <button className="navbar__faq" type="button">
+            <button
+              className="navbar__faq"
+              type="button"
+              onClick={this.toggleModal}
+            >
               <i className="fas fa-question" />
             </button>
             {!userData ? (
@@ -41,6 +58,7 @@ class NavBar extends Component {
             )}
           </nav>
         </div>
+        {modalActive ? <ShortcutsModal toggleModal={this.toggleModal} /> : null}
       </Fragment>
     );
   }
