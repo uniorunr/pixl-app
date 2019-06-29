@@ -31,5 +31,21 @@
       font-size: 1.6rem;
       padding: 2px 5px;
     }
+
+    .preview__download {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 2px solid black;
+      background: white;
+      outline: none;
+      cursor: pointer;
+      font-size: 1.4rem;
+      padding: 2px 5px;
+
+      span {
+        font-weight: 700;
+      }
+    }
   }
 }
