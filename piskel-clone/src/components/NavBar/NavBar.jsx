@@ -9,6 +9,36 @@ import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
 class NavBar extends Component {
   state = {
     modalActive: false,
+    activeTool: 'pen',
+  };
+
+  componentDidMount() {
+    const { toolsData, updateCurrentTool, updateToolsData } = this.props;
+    document.addEventListener('keydown', ({ code }) => {
+      const { modalActive, activeTool } = this.state;
+      if (!modalActive) {
+        const toolKeys = Object.keys(toolsData);
+        const targetTool = toolKeys.find(id => toolsData[id].shortcut === code);
+        if (targetTool) {
+          updateCurrentTool(targetTool);
+        }
+      } else {
+        const shortcuts = Object.keys(toolsData).map(
+          id => toolsData[id].shortcut,
+        );
+        if (!shortcuts.includes(code)) {
+          toolsData[activeTool].shortcut = code;
+          updateToolsData(toolsData);
+          sessionStorage.setItem('toolsData', JSON.stringify(toolsData));
+        }
+      }
+    });
+  }
+
+  updateActiveTool = (tool) => {
+    this.setState({
+      activeTool: tool,
+    });
   };
 
   toggleModal = () => {
@@ -25,7 +55,7 @@ class NavBar extends Component {
   };
 
   render() {
-    const { userData, signInState } = this.props;
+    const { userData, signInState, toolsData } = this.props;
     const { modalActive } = this.state;
 
     return (
@@ -58,7 +88,13 @@ class NavBar extends Component {
             )}
           </nav>
         </div>
-        {modalActive ? <ShortcutsModal toggleModal={this.toggleModal} /> : null}
+        {modalActive ? (
+          <ShortcutsModal
+            toggleModal={this.toggleModal}
+            toolsData={toolsData}
+            updateActiveTool={this.updateActiveTool}
+          />
+        ) : null}
       </Fragment>
     );
   }
@@ -68,6 +104,9 @@ NavBar.propTypes = {
   userData: PropTypes.instanceOf(Object),
   updateSignInState: PropTypes.func,
   signInState: PropTypes.string,
+  toolsData: PropTypes.instanceOf(Object).isRequired,
+  updateCurrentTool: PropTypes.func.isRequired,
+  updateToolsData: PropTypes.instanceOf(Object).isRequired,
 };
 
 NavBar.defaultProps = {

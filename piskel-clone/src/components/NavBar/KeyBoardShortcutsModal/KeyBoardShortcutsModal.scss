@@ -17,6 +17,29 @@
   .shortcuts-modal__content{
     width: 90%;
     height: 90%;
+
+    p {
+      text-align: center;
+      font-size: 1.4rem;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    .shortcuts-modal__shortcut-rows {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 100px;
+      grid-row-gap: 20px;
+      margin: 20px 100px 0 150px;
+      padding: 15px;
+      font-weight: 700;
+      font-size: 1.4rem;
+      background-color: white;
+    }
   }
 
   .shortcuts-modal__close {

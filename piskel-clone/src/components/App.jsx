@@ -5,6 +5,7 @@ import NavBar from './NavBar/NavBar';
 import Main from './Main/Main';
 import './App.scss';
 import FireBase from '../firebase/firebase';
+import toolsDataJSON from './toolsData.json';
 
 FireBase.init();
 
@@ -12,6 +13,22 @@ class App extends Component {
   state = {
     userData: null,
     signInState: null,
+    toolsData:
+      JSON.parse(sessionStorage.getItem('toolsData'))
+      || JSON.parse(JSON.stringify(toolsDataJSON)),
+    currToolId: 'pen',
+  };
+
+  updateCurrentTool = (tool) => {
+    this.setState({
+      currToolId: tool,
+    });
+  };
+
+  updateToolsData = (data) => {
+    this.setState({
+      toolsData: data,
+    });
   };
 
   componentDidMount = () => {
@@ -32,7 +49,9 @@ class App extends Component {
   };
 
   render() {
-    const { userData, signInState } = this.state;
+    const {
+      userData, signInState, toolsData, currToolId,
+    } = this.state;
 
     return (
       <Fragment>
@@ -40,8 +59,15 @@ class App extends Component {
           userData={userData}
           updateSignInState={this.updateSignInState}
           signInState={signInState}
+          toolsData={toolsData}
+          updateCurrentTool={this.updateCurrentTool}
+          updateToolsData={this.updateToolsData}
         />
-        <Main />
+        <Main
+          toolsData={toolsData}
+          currToolId={currToolId}
+          updateCurrentTool={this.updateCurrentTool}
+        />
       </Fragment>
     );
   }

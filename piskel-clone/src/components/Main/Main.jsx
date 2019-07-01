@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Tools from './Tools/Tools';
 import Frames from './Frames/Frames';
 import Canvas from './Canvas/Canvas';
@@ -21,7 +22,6 @@ class Main extends Component {
       width: getWindowSize(),
       height: getWindowSize(),
       pixelsPerCanvas: 64,
-      currToolId: 'pen',
       frames: [],
       framesData: JSON.parse(sessionStorage.getItem('framesData')) || {},
       layerKeys: [],
@@ -66,12 +66,6 @@ class Main extends Component {
     });
   };
 
-  updateCurrentTool = (tool) => {
-    this.setState({
-      currToolId: tool,
-    });
-  };
-
   updateColor = (color, isPrimary) => {
     if (isPrimary) {
       this.setState({
@@ -89,7 +83,6 @@ class Main extends Component {
       width,
       height,
       pixelsPerCanvas,
-      currToolId,
       frames,
       primaryColor,
       secondaryColor,
@@ -98,10 +91,16 @@ class Main extends Component {
       activeLayer,
     } = this.state;
 
+    const { toolsData, currToolId, updateCurrentTool } = this.props;
+
     return (
       <main className="main">
         <section>
-          <Tools updateCurrentTool={this.updateCurrentTool} />
+          <Tools
+            toolsData={toolsData}
+            updateCurrentTool={updateCurrentTool}
+            currToolId={currToolId}
+          />
           <ColorSelect
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
@@ -144,5 +143,11 @@ class Main extends Component {
     );
   }
 }
+
+Main.propTypes = {
+  toolsData: PropTypes.instanceOf(Object).isRequired,
+  currToolId: PropTypes.string.isRequired,
+  updateCurrentTool: PropTypes.func.isRequired,
+};
 
 export default Main;

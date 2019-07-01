@@ -1,0 +1,53 @@
+.shortcuts-modal__row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  .shortcuts-modal__tool {
+    cursor: pointer;
+    border: 2px dashed transparent;
+    padding: 4px 10px;
+
+    span {
+      margin: 0 10px 0 10px;
+    }
+
+    i {
+      font-size: 1.2rem;
+    }
+
+    input {
+      width: 40px;
+      margin: 0 10px;
+      border: 2px solid black;
+      outline: none;
+      padding: 2px 5px;
+    }
+
+    input:focus {
+      border: 2px dashed black;
+    }
+
+    button {
+      position: relative;
+      top: 0;
+      background: white;
+      border: 2px solid black;
+      font-weight: 700;
+      padding: 2px 5px;
+      outline: none;
+      box-shadow: 2px 2px 0 black;
+      cursor: pointer;
+    }
+
+    button:active {
+      top: 2px;
+      box-shadow: 0 0 0 black;
+    }
+  }
+
+  .shortcuts-modal__tool_active {
+    border: 2px dashed black;
+    padding: 4px 10px;
+  }
+}
