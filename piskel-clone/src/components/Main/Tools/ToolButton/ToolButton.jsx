@@ -9,17 +9,22 @@ class ToolButton extends Component {
   };
 
   render() {
-    const { buttonClass, id, iconClass } = this.props;
+    const {
+      buttonClass, id, iconClass, shortcut,
+    } = this.props;
     return (
-      <button
-        className={buttonClass}
-        id={id}
-        data-listener="true"
-        type="button"
-        onClick={this.makeActive}
-      >
-        <i className={iconClass} />
-      </button>
+      <div className="tools__container">
+        <button
+          className={buttonClass}
+          id={id}
+          data-listener="true"
+          type="button"
+          onClick={this.makeActive}
+        >
+          <i className={iconClass} />
+        </button>
+        <div className="tool__tooltip">{`${id} (${shortcut})`}</div>
+      </div>
     );
   }
 }
@@ -29,6 +34,7 @@ ToolButton.propTypes = {
   id: PropTypes.string.isRequired,
   iconClass: PropTypes.string.isRequired,
   updateCurrentTool: PropTypes.func.isRequired,
+  shortcut: PropTypes.string.isRequired,
 };
 
 export default ToolButton;

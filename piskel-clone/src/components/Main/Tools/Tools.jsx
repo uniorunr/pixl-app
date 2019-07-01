@@ -19,6 +19,7 @@ class Tools extends Component {
               iconClass={toolsData[id].iconClass}
               updateCurrentTool={updateCurrentTool}
               key={id}
+              shortcut={toolsData[id].shortcut}
             />
           ))}
         </div>

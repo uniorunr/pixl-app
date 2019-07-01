@@ -1,34 +1,55 @@
-.tools__button {
-  width: 35px;
-  height: 35px;
+.tools__container {
   position: relative;
-  top: 0;
-  background-color: white;
-  border: 2px solid black;
-  box-shadow: 2px 2px 0 black;
-  cursor: pointer;
-  outline: none;
 
-  .fas {
-    display: flex;
-    justify-content: center;
-    font-size: 14px;
+  .tools__button {
+    width: 35px;
+    height: 35px;
+    position: relative;
+    top: 0;
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: 2px 2px 0 black;
+    cursor: pointer;
+    outline: none;
+
+    .fas {
+      display: flex;
+      justify-content: center;
+      font-size: 14px;
+    }
+  }
+
+  #rectangle.tools__button, #circle.tools__button {
+    font-size: 16px;
+  }
+
+  #vertical-mirror.tools__button .fas, #lighten.tools__button .fas {
+    font-size: 18px;
+  }
+
+  .tools__button:active {
+    top: 2px;
+    box-shadow: 0 0 0 black;
+  }
+
+  .tools_state_active {
+    border: 3px dashed black;
+  }
+
+  .tool__tooltip {
+    font-size: 1.2rem;
+    bottom: 0;
+    position: absolute;
+    left: 45px;
+    z-index: 1;
+    width: max-content;
+    background: white;
+    padding: 5px 10px;
+    border: 2px solid black;
+    visibility: hidden;
   }
 }
 
-#rectangle.tools__button, #circle.tools__button {
-  font-size: 16px;
-}
-
-#vertical-mirror.tools__button .fas, #lighten.tools__button .fas {
-  font-size: 18px;
-}
-
-.tools__button:active {
-  top: 2px;
-  box-shadow: 0 0 0 black;
-}
-
-.tools_state_active {
-  border: 3px dashed black;
+.tools__container:hover .tool__tooltip {
+  visibility: visible;
 }
