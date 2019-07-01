@@ -26,8 +26,8 @@ class Main extends Component {
       framesData: JSON.parse(sessionStorage.getItem('framesData')) || {},
       layerKeys: [],
       activeLayer: +sessionStorage.getItem('activeLayer') || 0,
-      primaryColor: '#000000',
-      secondaryColor: '#ffffff',
+      primaryColor: sessionStorage.getItem('primaryColor') || '#000000',
+      secondaryColor: sessionStorage.getItem('secondaryColor') || '#ffffff',
     };
   }
 

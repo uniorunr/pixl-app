@@ -13,9 +13,19 @@ class ColorSelect extends Component {
     const { updateColor } = this.props;
     if (target === this.primary.current) {
       updateColor(target.value, 'primary');
+      sessionStorage.setItem('primaryColor', target.value);
     } else {
       updateColor(target.value);
+      sessionStorage.setItem('secondaryColor', target.value);
     }
+  };
+
+  handleSwap = () => {
+    const { updateColor, primaryColor, secondaryColor } = this.props;
+    updateColor(secondaryColor, 'primary');
+    sessionStorage.setItem('primaryColor', secondaryColor);
+    updateColor(primaryColor);
+    sessionStorage.setItem('secondaryColor', primaryColor);
   };
 
   render() {
@@ -50,6 +60,13 @@ class ColorSelect extends Component {
               style={{ backgroundColor: secondaryColor }}
             />
           </div>
+          <button
+            type="button"
+            className="colors__swap"
+            onClick={this.handleSwap}
+          >
+            swap
+          </button>
         </div>
       </section>
     );
