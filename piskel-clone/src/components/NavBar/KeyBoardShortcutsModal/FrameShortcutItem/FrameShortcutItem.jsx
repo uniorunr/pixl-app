@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './ShortcutItem.scss';
+import './FrameShortcutItem.scss';
 
-class ShortcutItem extends Component {
+class FrameShortcutItem extends Component {
   activate = () => {
     const { index, makeActive } = this.props;
     makeActive(index);
@@ -11,9 +11,10 @@ class ShortcutItem extends Component {
   render() {
     const {
       iconClass,
-      toolName,
+      name,
       active,
-      tools,
+      frames,
+      prefix,
       index,
       keyCode,
       id,
@@ -23,38 +24,43 @@ class ShortcutItem extends Component {
       <div
         role="presentation"
         className="shortcuts-modal__row"
+        data-action={id}
         onClick={this.activate}
       >
         <div
           className={`shortcuts-modal__tool ${
             active ? 'shortcuts-modal__tool_active' : ''
           }`}
-          data-tool={id}
+          data-action={id}
           ref={(ref) => {
             if (ref) {
-              tools[index] = ref;
+              frames[index] = ref;
             }
           }}
         >
           <i className={iconClass} />
-          <span>{toolName}</span>
+          <span>{name}</span>
           <span>-</span>
-          <span className="shortcuts-modal__shortcut">{keyCode}</span>
+          <span className="shortcuts-modal__shortcut">
+            <span className="shortcuts-modal__prefix">{`${prefix} + `}</span>
+            {keyCode}
+          </span>
         </div>
       </div>
     );
   }
 }
 
-ShortcutItem.propTypes = {
+FrameShortcutItem.propTypes = {
   iconClass: PropTypes.string.isRequired,
-  toolName: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
-  tools: PropTypes.instanceOf(Array).isRequired,
   index: PropTypes.number.isRequired,
   makeActive: PropTypes.func.isRequired,
   keyCode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  frames: PropTypes.instanceOf(Array).isRequired,
+  prefix: PropTypes.string.isRequired,
 };
 
-export default ShortcutItem;
+export default FrameShortcutItem;

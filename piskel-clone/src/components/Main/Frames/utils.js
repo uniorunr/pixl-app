@@ -1,7 +1,7 @@
 const setActiveFrame = (activeFrame, canvasItems, index) => {
   let finalIndex = null;
-  if (index === activeFrame) {
-    finalIndex = 0;
+  if (index === activeFrame && activeFrame === canvasItems.length - 1) {
+    finalIndex = activeFrame - 1;
   } else if (index === canvasItems.length - 1) {
     finalIndex = activeFrame;
   } else if (

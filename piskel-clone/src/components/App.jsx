@@ -5,7 +5,7 @@ import NavBar from './NavBar/NavBar';
 import Main from './Main/Main';
 import './App.scss';
 import FireBase from '../firebase/firebase';
-import toolsDataJSON from './toolsData.json';
+import appDataJSON from './appData.json';
 
 FireBase.init();
 
@@ -15,8 +15,11 @@ class App extends Component {
     signInState: null,
     toolsData:
       JSON.parse(sessionStorage.getItem('toolsData'))
-      || JSON.parse(JSON.stringify(toolsDataJSON)),
+      || JSON.parse(JSON.stringify(appDataJSON)).tools,
     currToolId: 'pen',
+    framesShortcuts:
+      JSON.parse(sessionStorage.getItem('framesShortcuts'))
+      || JSON.parse(JSON.stringify(appDataJSON)).frames,
   };
 
   updateCurrentTool = (tool) => {
@@ -28,6 +31,12 @@ class App extends Component {
   updateToolsData = (data) => {
     this.setState({
       toolsData: data,
+    });
+  };
+
+  updateFrameShortcuts = (data) => {
+    this.setState({
+      framesShortcuts: data,
     });
   };
 
@@ -50,7 +59,11 @@ class App extends Component {
 
   render() {
     const {
-      userData, signInState, toolsData, currToolId,
+      userData,
+      signInState,
+      toolsData,
+      currToolId,
+      framesShortcuts,
     } = this.state;
 
     return (
@@ -60,13 +73,16 @@ class App extends Component {
           updateSignInState={this.updateSignInState}
           signInState={signInState}
           toolsData={toolsData}
+          framesShortcuts={framesShortcuts}
           updateCurrentTool={this.updateCurrentTool}
           updateToolsData={this.updateToolsData}
+          updateFrameShortcuts={this.updateFrameShortcuts}
         />
         <Main
           toolsData={toolsData}
           currToolId={currToolId}
           updateCurrentTool={this.updateCurrentTool}
+          framesShortcuts={framesShortcuts}
         />
       </Fragment>
     );

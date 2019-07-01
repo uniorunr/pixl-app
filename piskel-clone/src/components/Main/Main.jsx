@@ -91,7 +91,12 @@ class Main extends Component {
       activeLayer,
     } = this.state;
 
-    const { toolsData, currToolId, updateCurrentTool } = this.props;
+    const {
+      toolsData,
+      currToolId,
+      updateCurrentTool,
+      framesShortcuts,
+    } = this.props;
 
     return (
       <main className="main">
@@ -113,6 +118,7 @@ class Main extends Component {
           layerKeys={layerKeys}
           activeLayer={activeLayer}
           updateFrames={this.updateFrames}
+          framesShortcuts={framesShortcuts}
         />
         <Canvas
           width={width}
@@ -148,6 +154,7 @@ Main.propTypes = {
   toolsData: PropTypes.instanceOf(Object).isRequired,
   currToolId: PropTypes.string.isRequired,
   updateCurrentTool: PropTypes.func.isRequired,
+  framesShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Main;

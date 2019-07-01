@@ -13,6 +13,23 @@ class Frames extends Component {
     duplicate: null,
   };
 
+  componentDidMount() {
+    document.addEventListener('keydown', ({ code, shiftKey }) => {
+      const { framesShortcuts } = this.props;
+      const { activeFrame } = this.state;
+      if (shiftKey) {
+        if (code === framesShortcuts.duplicate.shortcut) {
+          this.duplicateFrame(activeFrame);
+        } else if (
+          code === framesShortcuts.remove.shortcut
+          && activeFrame !== 0
+        ) {
+          this.removeFrame(activeFrame);
+        }
+      }
+    });
+  }
+
   componentDidUpdate() {
     const { activeFrame, frameKeys } = this.state;
     const {
@@ -152,6 +169,7 @@ Frames.propTypes = {
   framesData: PropTypes.instanceOf(Object).isRequired,
   layerKeys: PropTypes.instanceOf(Array).isRequired,
   activeLayer: PropTypes.number.isRequired,
+  framesShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 
 Frames.defaultProps = {
