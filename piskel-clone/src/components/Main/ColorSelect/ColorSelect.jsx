@@ -65,7 +65,7 @@ class ColorSelect extends Component {
             className="colors__swap"
             onClick={this.handleSwap}
           >
-            swap
+            <i className="fas fa-sync-alt" />
           </button>
         </div>
       </section>
