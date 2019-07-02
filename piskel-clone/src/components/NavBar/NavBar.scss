@@ -27,6 +27,28 @@
       }
     }
 
+    .navbar__info {
+      position: relative;
+
+      .navbar__tooltip {
+        font-size: 1.2rem;
+        font-weight: 700;
+        bottom: 5px;
+        position: absolute;
+        left: 50px;
+        z-index: 1;
+        width: max-content;
+        background: white;
+        padding: 5px 10px;
+        border: 2px solid black;
+        visibility: hidden;
+      }
+    }
+
+    .navbar__info:hover .navbar__tooltip {
+      visibility: visible;
+    }
+
     .navbar__sign-in-button {
       position: relative;
       top: 0;

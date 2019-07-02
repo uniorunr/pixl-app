@@ -140,13 +140,18 @@ class NavBar extends Component {
                 <span>Pixl!</span>
               </a>
             </h1>
-            <button
-              className="navbar__faq"
-              type="button"
-              onClick={this.toggleModal}
-            >
-              <i className="fas fa-question" />
-            </button>
+            <div className="navbar__info">
+              <button
+                className="navbar__faq"
+                type="button"
+                onClick={this.toggleModal}
+              >
+                <i className="fas fa-question" />
+              </button>
+              <div className="navbar__tooltip">
+                <span>Info</span>
+              </div>
+            </div>
             {!userData ? (
               <button
                 className="navbar__sign-in-button"
