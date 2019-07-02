@@ -86,5 +86,37 @@
       "prefix": "shiftKey",
       "shortcut": "KeyR"
     }
+  },
+  "layers": {
+    "add": {
+      "name": "Add layer",
+      "iconClass": "fas fa-plus",
+      "prefix": "altKey",
+      "shortcut": "KeyL"
+    },
+    "moveUp": {
+      "name": "Move Up",
+      "iconClass": "fas fa-arrow-up",
+      "prefix": "altKey",
+      "shortcut": "ArrowUp"
+    },
+    "moveDown": {
+      "name": "Move Down",
+      "iconClass": "fas fa-arrow-down",
+      "prefix": "altKey",
+      "shortcut": "ArrowDown"
+    },
+    "remove": {
+      "name": "Remove Layer",
+      "iconClass": "fas fa-trash-alt",
+      "prefix": "altKey",
+      "shortcut": "KeyR"
+    },
+    "merge": {
+      "name": "Merge Layers",
+      "iconClass": "",
+      "prefix": "altKey",
+      "shortcut": "KeyM"
+    }
   }
 }

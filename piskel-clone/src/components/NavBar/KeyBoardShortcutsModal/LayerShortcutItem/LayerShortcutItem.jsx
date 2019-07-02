@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './ToolShortcutItem.scss';
+import './LayerShortcutItem.scss';
 
-class ShortcutItem extends Component {
+class LayerShortcutItem extends Component {
   activate = () => {
     const { index, makeActive } = this.props;
-    makeActive(index, 'tools');
+    makeActive(index, 'layers');
   };
 
   render() {
     const {
       iconClass,
-      toolName,
+      name,
       active,
-      tools,
+      layers,
+      prefix,
       index,
       keyCode,
       id,
@@ -23,38 +24,43 @@ class ShortcutItem extends Component {
       <div
         role="presentation"
         className="shortcuts-modal__row"
+        data-action={id}
         onClick={this.activate}
       >
         <div
           className={`shortcuts-modal__tool ${
             active ? 'shortcuts-modal__tool_active' : ''
           }`}
-          data-tool={id}
+          data-action={id}
           ref={(ref) => {
             if (ref) {
-              tools[index] = ref;
+              layers[index] = ref;
             }
           }}
         >
           <i className={iconClass} />
-          <span>{toolName}</span>
+          <span>{name}</span>
           <span>-</span>
-          <span className="shortcuts-modal__shortcut">{keyCode}</span>
+          <span className="shortcuts-modal__shortcut">
+            <span className="shortcuts-modal__prefix">{`${prefix} + `}</span>
+            {keyCode}
+          </span>
         </div>
       </div>
     );
   }
 }
 
-ShortcutItem.propTypes = {
+LayerShortcutItem.propTypes = {
   iconClass: PropTypes.string.isRequired,
-  toolName: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
-  tools: PropTypes.instanceOf(Array).isRequired,
   index: PropTypes.number.isRequired,
   makeActive: PropTypes.func.isRequired,
   keyCode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  layers: PropTypes.instanceOf(Array).isRequired,
+  prefix: PropTypes.string.isRequired,
 };
 
-export default ShortcutItem;
+export default LayerShortcutItem;

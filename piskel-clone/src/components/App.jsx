@@ -20,6 +20,9 @@ class App extends Component {
     framesShortcuts:
       JSON.parse(sessionStorage.getItem('framesShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).frames,
+    layersShortcuts:
+      JSON.parse(sessionStorage.getItem('layersShortcuts'))
+      || JSON.parse(JSON.stringify(appDataJSON)).layers,
   };
 
   updateCurrentTool = (tool) => {
@@ -37,6 +40,12 @@ class App extends Component {
   updateFrameShortcuts = (data) => {
     this.setState({
       framesShortcuts: data,
+    });
+  };
+
+  updateLayersShortcuts = (data) => {
+    this.setState({
+      layersShortcuts: data,
     });
   };
 
@@ -64,6 +73,7 @@ class App extends Component {
       toolsData,
       currToolId,
       framesShortcuts,
+      layersShortcuts,
     } = this.state;
 
     return (
@@ -74,15 +84,18 @@ class App extends Component {
           signInState={signInState}
           toolsData={toolsData}
           framesShortcuts={framesShortcuts}
+          layersShortcuts={layersShortcuts}
           updateCurrentTool={this.updateCurrentTool}
           updateToolsData={this.updateToolsData}
           updateFrameShortcuts={this.updateFrameShortcuts}
+          updateLayersShortcuts={this.updateLayersShortcuts}
         />
         <Main
           toolsData={toolsData}
           currToolId={currToolId}
           updateCurrentTool={this.updateCurrentTool}
           framesShortcuts={framesShortcuts}
+          layersShortcuts={layersShortcuts}
         />
       </Fragment>
     );

@@ -41,9 +41,10 @@ class Main extends Component {
     });
   };
 
-  updateLayerKeys = (keys) => {
+  updateLayerData = (keys, index) => {
     this.setState({
       layerKeys: [...keys],
+      activeLayer: index,
     });
   };
 
@@ -96,6 +97,7 @@ class Main extends Component {
       currToolId,
       updateCurrentTool,
       framesShortcuts,
+      layersShortcuts,
     } = this.props;
 
     return (
@@ -141,8 +143,8 @@ class Main extends Component {
           <Layers
             framesArray={frames}
             framesData={framesData}
-            updateLayerKeys={this.updateLayerKeys}
-            updateActiveLayer={this.updateActiveLayer}
+            updateLayerData={this.updateLayerData}
+            layersShortcuts={layersShortcuts}
           />
         </section>
       </main>
@@ -155,6 +157,7 @@ Main.propTypes = {
   currToolId: PropTypes.string.isRequired,
   updateCurrentTool: PropTypes.func.isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
+  layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Main;

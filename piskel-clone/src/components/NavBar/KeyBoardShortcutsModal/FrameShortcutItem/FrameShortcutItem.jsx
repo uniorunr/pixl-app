@@ -5,7 +5,7 @@ import './FrameShortcutItem.scss';
 class FrameShortcutItem extends Component {
   activate = () => {
     const { index, makeActive } = this.props;
-    makeActive(index);
+    makeActive(index, 'frames');
   };
 
   render() {

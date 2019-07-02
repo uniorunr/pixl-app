@@ -6,59 +6,79 @@ import FireBase from '../../firebase/firebase';
 import UserInfo from './UserInfo/UserInfo';
 import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
 
+const updateShortcut = (shortcutObj, code, index, updateFunc, name) => {
+  const currShortcutsObj = shortcutObj;
+  const shortcuts = Object.keys(currShortcutsObj).map(
+    id => shortcutObj[id].shortcut,
+  );
+  if (
+    !shortcuts.includes(code)
+    && !code.toLowerCase().includes('shift')
+    && !code.toLowerCase().includes('alt')
+  ) {
+    currShortcutsObj[index].shortcut = code;
+    updateFunc(currShortcutsObj);
+    sessionStorage.setItem(name, JSON.stringify(currShortcutsObj));
+  }
+};
+
 class NavBar extends Component {
   state = {
     modalActive: false,
     activeTool: 'pen',
     activeBlock: 'tools',
     activeFrameShortcut: 'duplicate',
+    activeLayerShortcut: 'add',
   };
 
   componentDidMount() {
     const {
       toolsData,
       framesShortcuts,
+      layersShortcuts,
       updateCurrentTool,
       updateToolsData,
       updateFrameShortcuts,
+      updateLayersShortcuts,
     } = this.props;
-    document.addEventListener('keydown', ({ code }) => {
+    document.addEventListener('keydown', ({ code, shiftKey, altKey }) => {
       const {
         modalActive,
         activeTool,
         activeFrameShortcut,
+        activeLayerShortcut,
         activeBlock,
       } = this.state;
-      if (!modalActive) {
+      if (!modalActive && !shiftKey && !altKey) {
         const toolKeys = Object.keys(toolsData);
         const targetTool = toolKeys.find(id => toolsData[id].shortcut === code);
-        if (targetTool) {
+        if (targetTool && !shiftKey && !altKey) {
           updateCurrentTool(targetTool);
         }
-      } else if (activeBlock === 'tools') {
-        const shortcuts = Object.keys(toolsData).map(
-          id => toolsData[id].shortcut,
+      } else if (activeBlock === 'tools' && !shiftKey && !altKey) {
+        updateShortcut(
+          toolsData,
+          code,
+          activeTool,
+          updateToolsData,
+          'toolsData',
         );
-        if (!shortcuts.includes(code)) {
-          toolsData[activeTool].shortcut = code;
-          updateToolsData(toolsData);
-          sessionStorage.setItem('toolsData', JSON.stringify(toolsData));
-        }
-      } else if (activeBlock === 'frames') {
-        const shortcuts = Object.keys(framesShortcuts).map(
-          id => framesShortcuts[id].shortcut,
+      } else if (activeBlock === 'frames' && !altKey) {
+        updateShortcut(
+          framesShortcuts,
+          code,
+          activeFrameShortcut,
+          updateFrameShortcuts,
+          'framesShortcuts',
         );
-        if (
-          !shortcuts.includes(code)
-          && !code.toLowerCase().includes('shift')
-        ) {
-          framesShortcuts[activeFrameShortcut].shortcut = code;
-          updateFrameShortcuts(framesShortcuts);
-          sessionStorage.setItem(
-            'framesShortcuts',
-            JSON.stringify(framesShortcuts),
-          );
-        }
+      } else if (activeBlock === 'layers' && !altKey) {
+        updateShortcut(
+          layersShortcuts,
+          code,
+          activeLayerShortcut,
+          updateLayersShortcuts,
+          'layersShortcuts',
+        );
       }
     });
   }
@@ -81,6 +101,12 @@ class NavBar extends Component {
     });
   };
 
+  updateActiveLayerShortcut = (shortcut) => {
+    this.setState({
+      activeLayerShortcut: shortcut,
+    });
+  };
+
   toggleModal = () => {
     const { modalActive } = this.state;
     this.setState({
@@ -96,7 +122,11 @@ class NavBar extends Component {
 
   render() {
     const {
-      userData, signInState, toolsData, framesShortcuts,
+      userData,
+      signInState,
+      toolsData,
+      framesShortcuts,
+      layersShortcuts,
     } = this.props;
     const { modalActive, activeBlock } = this.state;
 
@@ -135,10 +165,12 @@ class NavBar extends Component {
             toggleModal={this.toggleModal}
             toolsData={toolsData}
             framesShortcuts={framesShortcuts}
+            layersShortcuts={layersShortcuts}
             activeBlock={activeBlock}
             updateActiveTool={this.updateActiveTool}
             updateActiveFrameShortcut={this.updateActiveFrameShortcut}
             updateActiveBlock={this.updateActiveBlock}
+            updateActiveLayerShortcut={this.updateActiveLayerShortcut}
           />
         ) : null}
       </Fragment>
@@ -152,9 +184,11 @@ NavBar.propTypes = {
   signInState: PropTypes.string,
   toolsData: PropTypes.instanceOf(Object).isRequired,
   updateCurrentTool: PropTypes.func.isRequired,
-  updateToolsData: PropTypes.instanceOf(Object).isRequired,
+  updateToolsData: PropTypes.func.isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
+  layersShortcuts: PropTypes.instanceOf(Object).isRequired,
   updateFrameShortcuts: PropTypes.func.isRequired,
+  updateLayersShortcuts: PropTypes.func.isRequired,
 };
 
 NavBar.defaultProps = {

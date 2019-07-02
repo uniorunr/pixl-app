@@ -37,29 +37,14 @@ const restoreFrames = (frames, keys, active, framesData) => {
 
 class Layers extends Component {
   state = {
-    layers: [],
     active: +sessionStorage.getItem('activeLayer') || 0,
     keys: JSON.parse(sessionStorage.getItem('layerKeys')) || [0],
   };
 
   componentDidMount = () => {
     const { active, keys } = this.state;
-    const { framesData, framesArray, updateLayerKeys } = this.props;
-    const initLayer = (
-      <button
-        className="layers-section__button layers-section__button_active"
-        type="button"
-        key="0"
-        id="layer0"
-        onClick={this.makeActive}
-      >
-        Layer 1
-      </button>
-    );
-    this.setState({
-      layers: [initLayer],
-    });
-    updateLayerKeys([0]);
+    const { framesData, framesArray, updateLayerData } = this.props;
+    updateLayerData([0], 0);
     if (!sessionStorage.getItem('framesData')) {
       saveLayerData(keys, active, framesData, framesArray);
     } else {
@@ -69,45 +54,36 @@ class Layers extends Component {
     if (!sessionStorage.getItem('layerKeys')) {
       sessionStorage.setItem('layerKeys', JSON.stringify([0]));
     }
+    document.addEventListener('keydown', ({ code, altKey }) => {
+      const { layersShortcuts } = this.props;
+      if (altKey) {
+        if (code === layersShortcuts.add.shortcut) {
+          this.handleAddButton();
+        } else if (code === layersShortcuts.moveUp.shortcut) {
+          this.handleMoveUp();
+        } else if (code === layersShortcuts.moveDown.shortcut) {
+          this.handleMoveDown();
+        } else if (code === layersShortcuts.remove.shortcut) {
+          this.handleRemoveButton();
+        } else if (code === layersShortcuts.merge.shortcut) {
+          this.handleMergeButton();
+        }
+      }
+    });
   };
 
-  componentDidUpdate() {
-    const { keys, active } = this.state;
-    const { framesData, framesArray } = this.props;
-    saveLayerData(keys, active, framesData, framesArray);
-  }
-
   handleAddButton = () => {
-    const { layers, keys, active } = this.state;
-    const {
-      framesData,
-      framesArray,
-      updateLayerKeys,
-      updateActiveLayer,
-    } = this.props;
+    const { keys, active } = this.state;
+    const { framesData, framesArray, updateLayerData } = this.props;
     saveLayerData(keys, active, framesData, framesArray);
     const canvas = document.querySelector('#canvas');
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     framesArray.forEach((frame) => {
       frame.getContext('2d').clearRect(0, 0, frame.width, frame.height);
     });
-    const newLayer = (
-      <button
-        className="layers-section__button"
-        type="button"
-        key={Math.max(...keys) + 1}
-        id={`layer${Math.max(...keys) + 1}`}
-        data-id={Math.max(...keys) + 1}
-        onClick={this.makeActive}
-      >
-        Layer {Math.max(...keys) + 1}
-      </button>
-    );
     const updatedKeys = [...keys, Math.max(...keys) + 1];
-    updateLayerKeys(updatedKeys);
-    updateActiveLayer(keys.length);
+    updateLayerData(updatedKeys, keys.length);
     this.setState({
-      layers: [...layers, newLayer],
       keys: updatedKeys,
       active: keys.length,
     });
@@ -116,72 +92,58 @@ class Layers extends Component {
   };
 
   handleRemoveButton = () => {
-    const {
-      framesData,
-      framesArray,
-      updateLayerKeys,
-      updateActiveLayer,
-    } = this.props;
-    const { layers, keys, active } = this.state;
+    const { framesData, framesArray, updateLayerData } = this.props;
+    const { keys, active } = this.state;
     delete framesData[`layer${keys[active]}`];
     if (keys.length > 1) {
       const newActive = keys.length - 2;
-      layers.splice(active, 1);
       keys.splice(active, 1);
       restoreFrames(framesArray, keys, newActive, framesData);
       this.setState({
-        layers: [...layers],
         keys: [...keys],
         active: newActive,
       });
-      updateLayerKeys([...keys]);
-      updateActiveLayer(newActive);
+      updateLayerData([...keys], newActive);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
       sessionStorage.setItem('activeLayer', `${newActive}`);
     }
   };
 
   handleMoveUp = () => {
-    const { layers, keys, active } = this.state;
-    const { updateLayerKeys, updateActiveLayer } = this.props;
+    const { keys, active } = this.state;
+    const { updateLayerData } = this.props;
     const index = active;
     if (index > 0) {
-      [layers[index - 1], layers[index]] = [layers[index], layers[index - 1]];
       [keys[index - 1], keys[index]] = [keys[index], keys[index - 1]];
       this.setState({
-        layers: [...layers],
         active: active - 1,
         keys: [...keys],
       });
-      updateLayerKeys([...keys]);
-      updateActiveLayer(active - 1);
+      updateLayerData([...keys], active - 1);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
       sessionStorage.setItem('activeLayer', `${active - 1}`);
     }
   };
 
   handleMoveDown = () => {
-    const { layers, keys, active } = this.state;
-    const { updateLayerKeys, updateActiveLayer } = this.props;
+    const { keys, active } = this.state;
+    const { updateLayerData } = this.props;
     const index = active;
     if (index < keys.length - 1) {
-      [layers[index + 1], layers[index]] = [layers[index], layers[index + 1]];
       [keys[index + 1], keys[index]] = [keys[index], keys[index + 1]];
       this.setState({
-        layers: [...layers],
         active: active + 1,
         keys: [...keys],
       });
-      updateLayerKeys([...keys]);
-      updateActiveLayer(active + 1);
+      updateLayerData([...keys], active + 1);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
       sessionStorage.setItem('activeLayer', `${active + 1}`);
     }
   };
 
   handleMergeButton = () => {
-    const { framesData, framesArray, updateLayerKeys } = this.props;
-    const { layers, keys, active } = this.state;
+    const { framesData, framesArray, updateLayerData } = this.props;
+    const { keys, active } = this.state;
     const canvas = document.querySelector('#canvas');
     saveLayerData(keys, active, framesData, framesArray);
     if (keys[active + 1] >= 0) {
@@ -234,19 +196,17 @@ class Layers extends Component {
         }
       });
       delete framesData[`layer${keys[active + 1]}`];
-      layers.splice(active + 1, 1);
       keys.splice(active + 1, 1);
       this.setState({
-        layers: [...layers],
         keys: [...keys],
       });
-      updateLayerKeys([...keys]);
+      updateLayerData([...keys], active);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
     }
   };
 
   makeActive = ({ target }) => {
-    const { framesData, framesArray, updateActiveLayer } = this.props;
+    const { framesData, framesArray, updateLayerData } = this.props;
     const { active, keys } = this.state;
     saveLayerData(keys, active, framesData, framesArray);
     const newActive = keys.indexOf(+target.dataset.id);
@@ -257,7 +217,7 @@ class Layers extends Component {
     this.setState({
       active: newActive,
     });
-    updateActiveLayer(newActive);
+    updateLayerData([...keys], newActive);
     sessionStorage.setItem('activeLayer', `${newActive}`);
   };
 
@@ -325,10 +285,10 @@ class Layers extends Component {
 }
 
 Layers.propTypes = {
-  updateLayerKeys: PropTypes.func.isRequired,
-  updateActiveLayer: PropTypes.func.isRequired,
+  updateLayerData: PropTypes.func.isRequired,
   framesData: PropTypes.instanceOf(Object).isRequired,
   framesArray: PropTypes.instanceOf(Array).isRequired,
+  layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default Layers;

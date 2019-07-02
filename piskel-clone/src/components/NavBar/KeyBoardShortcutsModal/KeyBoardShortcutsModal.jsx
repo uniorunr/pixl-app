@@ -2,33 +2,42 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ToolShortcutItem from './ToolShortcutItem/ToolShortcutItem';
 import FrameShortcutItem from './FrameShortcutItem/FrameShortcutItem';
+import LayerShortcutItem from './LayerShortcutItem/LayerShortcutItem';
 import './KeyBoardShortcutsModal.scss';
 
 class ShortcutsModal extends Component {
   state = {
     tools: [],
-    activeTool: 0,
     frames: [],
+    layers: [],
+    activeTool: 0,
     activeFrameShortcut: 0,
+    activeLayerShortcut: 0,
   };
 
-  makeActive = (index) => {
+  makeActive = (index, type) => {
     const {
       updateActiveTool,
       updateActiveFrameShortcut,
+      updateActiveLayerShortcut,
       activeBlock,
     } = this.props;
-    const { tools, frames } = this.state;
-    if (activeBlock === 'tools') {
+    const { tools, frames, layers } = this.state;
+    if (activeBlock === 'tools' && type === 'tools') {
       this.setState({
         activeTool: index,
       });
       updateActiveTool(tools[index].dataset.tool);
-    } else if (activeBlock === 'frames') {
+    } else if (activeBlock === 'frames' && type === 'frames') {
       this.setState({
         activeFrameShortcut: index,
       });
       updateActiveFrameShortcut(frames[index].dataset.action);
+    } else if (activeBlock === 'layers' && type === 'layers') {
+      this.setState({
+        activeLayerShortcut: index,
+      });
+      updateActiveLayerShortcut(layers[index].dataset.action);
     }
   };
 
@@ -43,10 +52,19 @@ class ShortcutsModal extends Component {
 
   render() {
     const {
-      toggleModal, toolsData, framesShortcuts, activeBlock,
+      toggleModal,
+      toolsData,
+      framesShortcuts,
+      activeBlock,
+      layersShortcuts,
     } = this.props;
     const {
-      tools, activeTool, frames, activeFrameShortcut,
+      tools,
+      activeTool,
+      frames,
+      layers,
+      activeFrameShortcut,
+      activeLayerShortcut,
     } = this.state;
 
     return (
@@ -105,6 +123,32 @@ class ShortcutsModal extends Component {
               />
             ))}
           </div>
+          <h3>Layers</h3>
+          <div
+            role="presentation"
+            className={`shortcuts-modal__shortcut-rows ${
+              activeBlock === 'layers'
+                ? 'shortcuts-modal__shortcut-rows_active'
+                : ''
+            }`}
+            onClick={this.clickOnBlock}
+            data-block="layers"
+          >
+            {Object.keys(layersShortcuts).map((id, index) => (
+              <LayerShortcutItem
+                active={index === activeLayerShortcut}
+                id={id}
+                key={id}
+                layers={layers}
+                name={layersShortcuts[id].name}
+                iconClass={layersShortcuts[id].iconClass}
+                index={index}
+                prefix={layersShortcuts[id].prefix}
+                keyCode={layersShortcuts[id].shortcut}
+                makeActive={this.makeActive}
+              />
+            ))}
+          </div>
         </div>
         <button
           type="button"
@@ -124,8 +168,10 @@ ShortcutsModal.propTypes = {
   updateActiveTool: PropTypes.func.isRequired,
   updateActiveBlock: PropTypes.func.isRequired,
   updateActiveFrameShortcut: PropTypes.func.isRequired,
+  updateActiveLayerShortcut: PropTypes.func.isRequired,
   activeBlock: PropTypes.string.isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
+  layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default ShortcutsModal;
