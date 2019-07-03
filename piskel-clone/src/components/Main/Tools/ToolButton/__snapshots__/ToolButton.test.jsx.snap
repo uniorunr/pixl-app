@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="tools__container"
+>
+  <button
+    className=""
+    data-listener="true"
+    id=""
+    onClick={[Function]}
+    type="button"
+  >
+    <i
+      className=""
+    />
+  </button>
+  <div
+    className="tool__tooltip"
+  >
+     ()
+  </div>
+</div>
+`;
+
+exports[`renders correctly 2`] = `
+<div
+  className="tools__container"
+>
+  <button
+    className=""
+    data-listener="true"
+    id=""
+    onClick={[Function]}
+    type="button"
+  >
+    <i
+      className=""
+    />
+  </button>
+  <div
+    className="tool__tooltip"
+  >
+     ()
+  </div>
+</div>
+`;
+
+exports[`test click 1`] = `
+<div
+  className="tools__container"
+>
+  <button
+    className=""
+    data-listener="true"
+    id=""
+    onClick={[Function]}
+    type="button"
+  >
+    <i
+      className=""
+    />
+  </button>
+  <div
+    className="tool__tooltip"
+  >
+     ()
+  </div>
+</div>
+`;

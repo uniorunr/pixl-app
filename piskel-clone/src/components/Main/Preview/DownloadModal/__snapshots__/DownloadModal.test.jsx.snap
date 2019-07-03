@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<section
+  className="download-modal"
+>
+  <div
+    className="download-modal__content"
+  >
+    <span>
+      File Name (optional):
+    </span>
+    <input
+      className="download-modal__file-name"
+      onInput={[Function]}
+      type="text"
+    />
+    <span>
+      Size (optional):
+    </span>
+    <input
+      className="download-modal__size"
+      onInput={[Function]}
+      type="text"
+    />
+    <button
+      className="download-modal__submit"
+      onClick={[Function]}
+      type="button"
+    >
+      Download
+    </button>
+  </div>
+  <button
+    className="download-modal__close"
+    onClick={[Function]}
+    type="button"
+  >
+    <span>
+      x
+    </span>
+  </button>
+</section>
+`;

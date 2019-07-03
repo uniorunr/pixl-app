@@ -32,7 +32,7 @@ it('renders correctly', () => {
   const tree = renderer
     .create(
       <Main
-        currToolId="tool"
+        currToolId="pen"
         framesShortcuts={{}}
         layersShortcuts={{}}
         toolsData={{}}
