@@ -1,0 +1,134 @@
+.landing-page {
+  display: flex;
+  flex-grow: 1;
+
+  .landing-page__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 15px 50px;
+
+    .landing-page__left-section {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: space-around;
+
+      .landing-page__description {
+        h2 {
+          font-size: 2.8rem;
+          font-weight: 700;
+          text-align: center;
+        }
+
+        p {
+          font-size: 1.6rem;
+          font-weight: 500;
+          text-align: justify;
+          line-height: 2.75rem;
+        }
+      }
+
+      .landing-page__redactor-screenshot {
+        img {
+          width: 100%;
+          border: 2px solid black;
+        }
+      }
+    }
+
+    .landing-page__right-section {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: space-around;
+      margin: 0 30px;
+
+      .landing-page__examples-section {
+        .landing-page__example {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
+
+          img {
+            width: 30%;
+            border: 2px solid black;
+            margin: 0 10px;
+          }
+        }
+
+        h3 {
+          font-size: 2.2rem;
+          font-weight: 700;
+          text-align: center;
+        }
+
+        p {
+          font-size: 1.6rem;
+          font-weight: 500;
+          text-align: justify;
+          line-height: 2.75rem;
+          margin: 20px 30px;
+        }
+      }
+
+      .landing-page__main-button {
+        position: relative;
+        top: 0;
+        padding: 5px 10px;
+        background-color: white;
+        border: 3px solid black;
+        box-shadow: 3px 3px 0 black;
+        cursor: pointer;
+        outline: none;
+
+        span {
+          font-weight: 700;
+          font-size: 1.8rem;
+        }
+      }
+
+      .landing-page__main-button:active {
+        top: 2px;
+        box-shadow: 0 0 0 black;
+      }
+    }
+  }
+}
+
+.footer {
+  .footer__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 15px 50px;
+
+    p {
+      font-size: 1.4rem;
+      color: #4c4c4c;
+    }
+
+    .footer__heart {
+      margin: 0 5px;
+    }
+
+    a {
+      margin: 0 5px;
+      color: black;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}

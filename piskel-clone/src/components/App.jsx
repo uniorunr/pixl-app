@@ -3,6 +3,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import NavBar from './NavBar/NavBar';
 import Main from './Main/Main';
+import LandingPage from './LandingPage/LandingPage';
 import './App.scss';
 import FireBase from '../firebase/firebase';
 import appDataJSON from './appData.json';
@@ -13,6 +14,7 @@ class App extends Component {
   state = {
     userData: null,
     signInState: null,
+    section: sessionStorage.getItem('section') || 'landing',
     toolsData:
       JSON.parse(sessionStorage.getItem('toolsData'))
       || JSON.parse(JSON.stringify(appDataJSON)).tools,
@@ -23,6 +25,12 @@ class App extends Component {
     layersShortcuts:
       JSON.parse(sessionStorage.getItem('layersShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).layers,
+  };
+
+  toggleSection = (state) => {
+    this.setState({
+      section: state,
+    });
   };
 
   updateCurrentTool = (tool) => {
@@ -74,6 +82,7 @@ class App extends Component {
       currToolId,
       framesShortcuts,
       layersShortcuts,
+      section,
     } = this.state;
 
     return (
@@ -89,14 +98,19 @@ class App extends Component {
           updateToolsData={this.updateToolsData}
           updateFrameShortcuts={this.updateFrameShortcuts}
           updateLayersShortcuts={this.updateLayersShortcuts}
+          toggleSection={this.toggleSection}
         />
-        <Main
-          toolsData={toolsData}
-          currToolId={currToolId}
-          updateCurrentTool={this.updateCurrentTool}
-          framesShortcuts={framesShortcuts}
-          layersShortcuts={layersShortcuts}
-        />
+        {section === 'landing' ? (
+          <LandingPage toggleSection={this.toggleSection} />
+        ) : (
+          <Main
+            toolsData={toolsData}
+            currToolId={currToolId}
+            updateCurrentTool={this.updateCurrentTool}
+            framesShortcuts={framesShortcuts}
+            layersShortcuts={layersShortcuts}
+          />
+        )}
       </Fragment>
     );
   }

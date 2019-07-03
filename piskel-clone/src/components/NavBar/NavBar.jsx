@@ -120,6 +120,13 @@ class NavBar extends Component {
     await FireBase.auth();
   };
 
+  handleLogoClick = (e) => {
+    e.preventDefault();
+    const { toggleSection } = this.props;
+    toggleSection('landing');
+    sessionStorage.setItem('section', 'landing');
+  };
+
   render() {
     const {
       userData,
@@ -134,7 +141,11 @@ class NavBar extends Component {
       <Fragment>
         <div className="navbar">
           <nav className="navbar__content">
-            <h1 className="navbar__logo">
+            <h1
+              role="presentation"
+              className="navbar__logo"
+              onClick={this.handleLogoClick}
+            >
               <a href="/">
                 <img src={Logo} alt="Pixl logo" />
                 <span>Pixl!</span>
@@ -194,6 +205,7 @@ NavBar.propTypes = {
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
   updateFrameShortcuts: PropTypes.func.isRequired,
   updateLayersShortcuts: PropTypes.func.isRequired,
+  toggleSection: PropTypes.func.isRequired,
 };
 
 NavBar.defaultProps = {
