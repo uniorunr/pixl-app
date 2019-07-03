@@ -2,60 +2,6 @@
 
 exports[`renders correctly 1`] = `
 Array [
-  <div
-    className="navbar"
-  >
-    <nav
-      className="navbar__content"
-    >
-      <h1
-        className="navbar__logo"
-        onClick={[Function]}
-        role="presentation"
-      >
-        <a
-          href="/"
-        >
-          <img
-            alt="Pixl logo"
-            src="test-file-stub"
-          />
-          <span>
-            Pixl!
-          </span>
-        </a>
-      </h1>
-      <div
-        className="navbar__info"
-      >
-        <button
-          className="navbar__faq"
-          onClick={[Function]}
-          type="button"
-        >
-          <i
-            className="fas fa-question"
-          />
-        </button>
-        <div
-          className="navbar__tooltip"
-        >
-          <span>
-            Info
-          </span>
-        </div>
-      </div>
-      <button
-        className="navbar__sign-in-button"
-        onClick={[Function]}
-        type="button"
-      >
-        <span>
-          Sign in
-        </span>
-      </button>
-    </nav>
-  </div>,
   <main
     className="landing-page"
   >

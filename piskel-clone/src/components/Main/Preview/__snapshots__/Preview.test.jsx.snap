@@ -14,6 +14,15 @@ exports[`renders correctly 1`] = `
       width="128"
     />
     <button
+      className="preview__download"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-download"
+      />
+    </button>
+    <button
       className="preview__fullscreen-button"
       onClick={[Function]}
       type="button"

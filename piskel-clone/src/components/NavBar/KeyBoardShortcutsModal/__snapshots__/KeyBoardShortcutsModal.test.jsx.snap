@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<section
+  className="shortcuts-modal"
+>
+  <div
+    className="shortcuts-modal__content"
+  >
+    <h2>
+      Keyboard shortcuts
+    </h2>
+    <p>
+      Click on tool and press the key to change the shortcut
+    </p>
+    <h3>
+      Tools
+    </h3>
+    <div
+      className="shortcuts-modal__shortcut-rows shortcuts-modal__shortcut-rows_active"
+      data-block="tools"
+      onClick={[Function]}
+      role="presentation"
+    />
+    <h3>
+      Frames
+    </h3>
+    <div
+      className="shortcuts-modal__shortcut-rows "
+      data-block="frames"
+      onClick={[Function]}
+      role="presentation"
+    />
+    <h3>
+      Layers
+    </h3>
+    <div
+      className="shortcuts-modal__shortcut-rows "
+      data-block="layers"
+      onClick={[Function]}
+      role="presentation"
+    />
+  </div>
+  <button
+    className="shortcuts-modal__close"
+    onClick={[Function]}
+    type="button"
+  >
+    <span>
+      x
+    </span>
+  </button>
+</section>
+`;

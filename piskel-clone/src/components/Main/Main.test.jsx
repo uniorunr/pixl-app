@@ -29,6 +29,17 @@ it('renders correctly', () => {
   canvas.setAttribute('id', 'canvas');
   document.body.appendChild(canvas);
 
-  const tree = renderer.create(<Main />, options).toJSON();
+  const tree = renderer
+    .create(
+      <Main
+        currToolId="tool"
+        framesShortcuts={{}}
+        layersShortcuts={{}}
+        toolsData={{}}
+        updateCurrentTool={() => {}}
+      />,
+      options,
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });

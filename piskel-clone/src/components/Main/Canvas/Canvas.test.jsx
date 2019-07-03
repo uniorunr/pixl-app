@@ -24,6 +24,9 @@ it('renders correctly', () => {
         updateColor={() => {}}
         primaryColor="#000000"
         framesArray={[]}
+        activeLayer={0}
+        framesData={{}}
+        layerKeys={[]}
       />,
     )
     .toJSON();

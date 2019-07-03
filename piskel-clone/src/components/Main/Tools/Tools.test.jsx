@@ -6,7 +6,13 @@ const mockUpdateCurrentTool = () => {};
 
 it('renders correctly', () => {
   const tree = renderer
-    .create(<Tools updateCurrentTool={mockUpdateCurrentTool} />)
+    .create(
+      <Tools
+        toolsData={{}}
+        currToolId=""
+        updateCurrentTool={mockUpdateCurrentTool}
+      />,
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

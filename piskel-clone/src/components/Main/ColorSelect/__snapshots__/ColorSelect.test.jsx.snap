@@ -39,6 +39,15 @@ exports[`renders correctly 1`] = `
         }
       />
     </div>
+    <button
+      className="colors__swap"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        className="fas fa-sync-alt"
+      />
+    </button>
   </div>
 </section>
 `;

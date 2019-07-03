@@ -9,6 +9,8 @@ exports[`renders correctly 1`] = `
   >
     <h1
       className="navbar__logo"
+      onClick={[Function]}
+      role="presentation"
     >
       <a
         href="/"
@@ -22,14 +24,26 @@ exports[`renders correctly 1`] = `
         </span>
       </a>
     </h1>
-    <button
-      className="navbar__faq"
-      type="button"
+    <div
+      className="navbar__info"
     >
-      <i
-        className="fas fa-question"
-      />
-    </button>
+      <button
+        className="navbar__faq"
+        onClick={[Function]}
+        type="button"
+      >
+        <i
+          className="fas fa-question"
+        />
+      </button>
+      <div
+        className="navbar__tooltip"
+      >
+        <span>
+          Info
+        </span>
+      </div>
+    </div>
     <button
       className="navbar__sign-in-button"
       onClick={[Function]}

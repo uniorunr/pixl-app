@@ -4,7 +4,15 @@ import Layers from './Layers';
 
 it('renders correctly', () => {
   const tree = renderer
-    .create(<Layers framesArray={[]} updateLayers={() => {}} framesData={{}} />)
+    .create(
+      <Layers
+        updateLayerData={() => {}}
+        layersShortcuts={{}}
+        framesArray={[]}
+        updateLayers={() => {}}
+        framesData={{}}
+      />,
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

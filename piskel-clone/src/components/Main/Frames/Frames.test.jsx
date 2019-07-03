@@ -20,6 +20,16 @@ function createNodeMock(element) {
 
 it('renders correctly', () => {
   const options = { createNodeMock };
-  const tree = renderer.create(<Frames />, options).toJSON();
+  const tree = renderer
+    .create(
+      <Frames
+        activeLayer={0}
+        framesData={{}}
+        framesShortcuts={{}}
+        layerKeys={[]}
+      />,
+      options,
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
