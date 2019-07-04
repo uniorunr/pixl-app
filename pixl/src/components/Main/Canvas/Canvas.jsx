@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CanvasInfo from './CanvasInfo/CanvasInfo';
 import './Canvas.scss';
 import activateTool from './activateTool';
 
@@ -189,12 +190,11 @@ class Canvas extends Component {
             onMouseLeave={this.deactivateDrawing}
           />
         </div>
-        <div className="canvas-section__info">
-          <span className="canvas-section__size">{`size: ${pixelsPerCanvas}x${pixelsPerCanvas}`}</span>
-          <span className="canvas-section__position">
-            {`x: ${currX >= 0 ? currX : 0}  y: ${currY >= 0 ? currY : 0}`}
-          </span>
-        </div>
+        <CanvasInfo
+          pixelsPerCanvas={pixelsPerCanvas}
+          currX={currX}
+          currY={currY}
+        />
       </section>
     );
   }
