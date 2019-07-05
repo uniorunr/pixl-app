@@ -23,4 +23,30 @@
     z-index: 1;
     border: 2px solid black;
   }
+
+  .canvas-section__additional-info-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: space-around;
+    margin: 5px auto;
+
+    .canvas-section__clear-button {
+      position: relative;
+      top: 0;
+      padding: 2px 4px;
+      background-color: white;
+      border: 2px solid black;
+      box-shadow: 1px 1px 0 black;
+      cursor: pointer;
+      outline: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .canvas-section__clear-button:active {
+      top: 2px;
+      box-shadow: 0 0 0 black;
+    }
+  }
 }

@@ -160,6 +160,21 @@ class Canvas extends Component {
     });
   };
 
+  clearCanvas = () => {
+    const {
+      framesArray, layerKeys, activeLayer, framesData,
+    } = this.props;
+    const canvas = this.canvasRef.current;
+    const canvasCtx = canvas.getContext('2d');
+    const frame = framesArray.find(element => element.classList.contains('frame__canvas_active'));
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    translate(canvas, frame);
+
+    const layerKey = `layer${layerKeys[activeLayer]}`;
+    framesData[layerKey] = framesArray.map(item => item.toDataURL());
+    sessionStorage.setItem('framesData', JSON.stringify(framesData));
+  };
+
   render() {
     const { width, height, pixelsPerCanvas } = this.props;
     const { currX, currY } = this.state;
@@ -190,11 +205,20 @@ class Canvas extends Component {
             onMouseLeave={this.deactivateDrawing}
           />
         </div>
-        <CanvasInfo
-          pixelsPerCanvas={pixelsPerCanvas}
-          currX={currX}
-          currY={currY}
-        />
+        <div className="canvas-section__additional-info-wrapper">
+          <button
+            type="button"
+            className="canvas-section__clear-button"
+            onClick={this.clearCanvas}
+          >
+            clear
+          </button>
+          <CanvasInfo
+            pixelsPerCanvas={pixelsPerCanvas}
+            currX={currX}
+            currY={currY}
+          />
+        </div>
       </section>
     );
   }
