@@ -141,12 +141,8 @@ class NavBar extends Component {
       <Fragment>
         <div className="navbar">
           <nav className="navbar__content">
-            <h1
-              role="presentation"
-              className="navbar__logo"
-              onClick={this.handleLogoClick}
-            >
-              <a href="/">
+            <h1 role="presentation" className="navbar__logo">
+              <a href="/" onClick={this.handleLogoClick}>
                 <img src={Logo} alt="Pixl logo" />
                 <span>Pixl!</span>
               </a>
