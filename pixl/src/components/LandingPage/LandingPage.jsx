@@ -1,15 +1,18 @@
 import React, { Component, Fragment } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RedactorImg from '../../assets/pixl.png';
 import PiggyImg from '../../assets/piggy.gif';
 import RssImg from '../../assets/RSS.gif';
 import KittyImg from '../../assets/kitty.gif';
 import './LandingPage.scss';
+import * as actions from '../../actions/actions';
 
 class LandingPage extends Component {
   goToApp = () => {
-    const { toggleSection } = this.props;
-    toggleSection('app');
+    const { changeSection } = this.props;
+    changeSection();
     sessionStorage.setItem('section', 'app');
   };
 
@@ -79,7 +82,23 @@ class LandingPage extends Component {
 }
 
 LandingPage.propTypes = {
-  toggleSection: PropTypes.func.isRequired,
+  changeSection: PropTypes.func.isRequired,
 };
 
-export default LandingPage;
+const mapStateToProps = state => ({
+  section: state.section,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const { changeSection } = bindActionCreators(actions, dispatch);
+  return {
+    changeSection: () => {
+      changeSection('app');
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LandingPage);

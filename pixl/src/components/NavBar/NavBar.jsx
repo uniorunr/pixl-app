@@ -1,10 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import './NavBar.scss';
 import PropTypes from 'prop-types';
 import Logo from '../../assets/favicon.png';
 import FireBase from '../../firebase/firebase';
 import UserInfo from './UserInfo/UserInfo';
 import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
+import * as actions from '../../actions/actions';
 
 const updateShortcut = (shortcutObj, code, index, updateFunc, name) => {
   const currShortcutsObj = shortcutObj;
@@ -122,8 +125,8 @@ class NavBar extends Component {
 
   handleLogoClick = (e) => {
     e.preventDefault();
-    const { toggleSection } = this.props;
-    toggleSection('landing');
+    const { changeSection } = this.props;
+    changeSection();
     sessionStorage.setItem('section', 'landing');
   };
 
@@ -201,7 +204,7 @@ NavBar.propTypes = {
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
   updateFrameShortcuts: PropTypes.func.isRequired,
   updateLayersShortcuts: PropTypes.func.isRequired,
-  toggleSection: PropTypes.func.isRequired,
+  changeSection: PropTypes.func.isRequired,
 };
 
 NavBar.defaultProps = {
@@ -210,4 +213,20 @@ NavBar.defaultProps = {
   updateSignInState: null,
 };
 
-export default NavBar;
+const mapStateToProps = state => ({
+  section: state.section,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const { changeSection } = bindActionCreators(actions, dispatch);
+  return {
+    changeSection: () => {
+      changeSection('landing');
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NavBar);

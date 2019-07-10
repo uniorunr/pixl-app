@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import NavBar from './NavBar/NavBar';
@@ -14,7 +16,6 @@ class App extends Component {
   state = {
     userData: null,
     signInState: null,
-    section: sessionStorage.getItem('section') || 'landing',
     toolsData:
       JSON.parse(sessionStorage.getItem('toolsData'))
       || JSON.parse(JSON.stringify(appDataJSON)).tools,
@@ -25,12 +26,6 @@ class App extends Component {
     layersShortcuts:
       JSON.parse(sessionStorage.getItem('layersShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).layers,
-  };
-
-  toggleSection = (state) => {
-    this.setState({
-      section: state,
-    });
   };
 
   updateCurrentTool = (tool) => {
@@ -82,8 +77,9 @@ class App extends Component {
       currToolId,
       framesShortcuts,
       layersShortcuts,
-      section,
     } = this.state;
+
+    const { section } = this.props;
 
     return (
       <Fragment>
@@ -98,10 +94,9 @@ class App extends Component {
           updateToolsData={this.updateToolsData}
           updateFrameShortcuts={this.updateFrameShortcuts}
           updateLayersShortcuts={this.updateLayersShortcuts}
-          toggleSection={this.toggleSection}
         />
         {section === 'landing' ? (
-          <LandingPage toggleSection={this.toggleSection} />
+          <LandingPage />
         ) : (
           <Main
             toolsData={toolsData}
@@ -116,4 +111,12 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  section: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = state => ({
+  section: state.section,
+});
+
+export default connect(mapStateToProps)(App);
