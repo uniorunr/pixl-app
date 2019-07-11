@@ -118,15 +118,15 @@ class NavBar extends Component {
   };
 
   handleSignIn = async () => {
-    const { updateSignInState } = this.props;
-    updateSignInState('Signing in...');
+    const { updateLoginStatus } = this.props;
+    updateLoginStatus('Signing in...');
     await FireBase.auth();
   };
 
   handleLogoClick = (e) => {
     e.preventDefault();
     const { changeSection } = this.props;
-    changeSection();
+    changeSection('landing');
     sessionStorage.setItem('section', 'landing');
   };
 
@@ -195,7 +195,6 @@ class NavBar extends Component {
 
 NavBar.propTypes = {
   userData: PropTypes.instanceOf(Object),
-  updateSignInState: PropTypes.func,
   signInState: PropTypes.string,
   toolsData: PropTypes.instanceOf(Object).isRequired,
   updateCurrentTool: PropTypes.func.isRequired,
@@ -205,23 +204,30 @@ NavBar.propTypes = {
   updateFrameShortcuts: PropTypes.func.isRequired,
   updateLayersShortcuts: PropTypes.func.isRequired,
   changeSection: PropTypes.func.isRequired,
+  updateLoginStatus: PropTypes.func.isRequired,
 };
 
 NavBar.defaultProps = {
   userData: null,
   signInState: null,
-  updateSignInState: null,
 };
 
 const mapStateToProps = state => ({
   section: state.section,
+  signInState: state.firebase.signInState,
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { changeSection } = bindActionCreators(actions, dispatch);
+  const { changeSection, updateLoginStatus } = bindActionCreators(
+    actions,
+    dispatch,
+  );
   return {
-    changeSection: () => {
-      changeSection('landing');
+    changeSection: (section) => {
+      changeSection(section);
+    },
+    updateLoginStatus: (status) => {
+      updateLoginStatus(status);
     },
   };
 };

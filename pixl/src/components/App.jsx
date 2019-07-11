@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import NavBar from './NavBar/NavBar';
@@ -9,13 +10,12 @@ import LandingPage from './LandingPage/LandingPage';
 import './App.scss';
 import FireBase from '../firebase/firebase';
 import appDataJSON from './appData.json';
+import * as actions from '../actions/actions';
 
 FireBase.init();
 
 class App extends Component {
   state = {
-    userData: null,
-    signInState: null,
     toolsData:
       JSON.parse(sessionStorage.getItem('toolsData'))
       || JSON.parse(JSON.stringify(appDataJSON)).tools,
@@ -53,26 +53,20 @@ class App extends Component {
   };
 
   componentDidMount = () => {
+    const { updateUserData } = this.props;
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        updateUserData(user);
         this.setState({
           userData: user,
-          signInState: null,
         });
       }
-    });
-  };
-
-  updateSignInState = (state) => {
-    this.setState({
-      signInState: state,
     });
   };
 
   render() {
     const {
       userData,
-      signInState,
       toolsData,
       currToolId,
       framesShortcuts,
@@ -85,8 +79,6 @@ class App extends Component {
       <Fragment>
         <NavBar
           userData={userData}
-          updateSignInState={this.updateSignInState}
-          signInState={signInState}
           toolsData={toolsData}
           framesShortcuts={framesShortcuts}
           layersShortcuts={layersShortcuts}
@@ -113,10 +105,27 @@ class App extends Component {
 
 App.propTypes = {
   section: PropTypes.string.isRequired,
+  updateUserData: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  section: state.section,
-});
+const mapStateToProps = state => state;
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  const { changeSection, updateUserData } = bindActionCreators(
+    actions,
+    dispatch,
+  );
+  return {
+    changeSection: (value) => {
+      changeSection(value);
+    },
+    updateUserData: (data) => {
+      updateUserData(data);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

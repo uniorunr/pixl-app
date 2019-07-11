@@ -12,7 +12,7 @@ import * as actions from '../../actions/actions';
 class LandingPage extends Component {
   goToApp = () => {
     const { changeSection } = this.props;
-    changeSection();
+    changeSection('app');
     sessionStorage.setItem('section', 'app');
   };
 
@@ -92,8 +92,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
   const { changeSection } = bindActionCreators(actions, dispatch);
   return {
-    changeSection: () => {
-      changeSection('app');
+    changeSection: (value) => {
+      changeSection(value);
     },
   };
 };
