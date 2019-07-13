@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import './ToolButton.scss';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../../../actions/actions';
+import './ToolButton.scss';
 
 class ToolButton extends Component {
   makeActive = () => {
-    const { updateCurrentTool, id } = this.props;
-    updateCurrentTool(id);
+    const { updateCurrToolId, id } = this.props;
+    updateCurrToolId(id);
   };
 
   render() {
@@ -33,8 +36,24 @@ ToolButton.propTypes = {
   buttonClass: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   iconClass: PropTypes.string.isRequired,
-  updateCurrentTool: PropTypes.func.isRequired,
+  updateCurrToolId: PropTypes.func.isRequired,
   shortcut: PropTypes.string.isRequired,
 };
 
-export default ToolButton;
+const mapStateToProps = state => ({
+  currToolId: state.currToolId,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const { updateCurrToolId } = bindActionCreators(actions, dispatch);
+  return {
+    updateCurrToolId: (id) => {
+      updateCurrToolId(id);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ToolButton);

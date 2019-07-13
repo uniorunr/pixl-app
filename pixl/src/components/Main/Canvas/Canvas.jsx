@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import CanvasInfo from './CanvasInfo/CanvasInfo';
 import './Canvas.scss';
 import activateTool from './activateTool';
@@ -239,4 +240,8 @@ Canvas.propTypes = {
   activeLayer: PropTypes.number.isRequired,
 };
 
-export default Canvas;
+const mapStateToProps = state => ({
+  currToolId: state.currToolId,
+});
+
+export default connect(mapStateToProps)(Canvas);

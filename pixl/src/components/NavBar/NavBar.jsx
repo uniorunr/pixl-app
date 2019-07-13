@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actions from '../../actions/actions';
 import './NavBar.scss';
-import PropTypes from 'prop-types';
 import Logo from '../../assets/favicon.png';
 import FireBase from '../../firebase/firebase';
 import UserInfo from './UserInfo/UserInfo';
 import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
-import * as actions from '../../actions/actions';
 
 const updateShortcut = (shortcutObj, code, index, updateFunc, name) => {
   const currShortcutsObj = shortcutObj;
@@ -39,7 +39,7 @@ class NavBar extends Component {
       toolsData,
       framesShortcuts,
       layersShortcuts,
-      updateCurrentTool,
+      updateCurrToolId,
       updateToolsData,
       updateFrameShortcuts,
       updateLayersShortcuts,
@@ -56,7 +56,7 @@ class NavBar extends Component {
         const toolKeys = Object.keys(toolsData);
         const targetTool = toolKeys.find(id => toolsData[id].shortcut === code);
         if (targetTool && !shiftKey && !altKey) {
-          updateCurrentTool(targetTool);
+          updateCurrToolId(targetTool);
         }
       } else if (activeBlock === 'tools' && !shiftKey && !altKey) {
         updateShortcut(
@@ -197,7 +197,7 @@ NavBar.propTypes = {
   userData: PropTypes.instanceOf(Object),
   signInState: PropTypes.string,
   toolsData: PropTypes.instanceOf(Object).isRequired,
-  updateCurrentTool: PropTypes.func.isRequired,
+  updateCurrToolId: PropTypes.func.isRequired,
   updateToolsData: PropTypes.func.isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
@@ -218,16 +218,20 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { changeSection, updateLoginStatus } = bindActionCreators(
-    actions,
-    dispatch,
-  );
+  const {
+    changeSection,
+    updateLoginStatus,
+    updateCurrToolId,
+  } = bindActionCreators(actions, dispatch);
   return {
     changeSection: (section) => {
       changeSection(section);
     },
     updateLoginStatus: (status) => {
       updateLoginStatus(status);
+    },
+    updateCurrToolId: (id) => {
+      updateCurrToolId(id);
     },
   };
 };

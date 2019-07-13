@@ -92,22 +92,12 @@ class Main extends Component {
       activeLayer,
     } = this.state;
 
-    const {
-      toolsData,
-      currToolId,
-      updateCurrentTool,
-      framesShortcuts,
-      layersShortcuts,
-    } = this.props;
+    const { toolsData, framesShortcuts, layersShortcuts } = this.props;
 
     return (
       <main className="main">
         <section>
-          <Tools
-            toolsData={toolsData}
-            updateCurrentTool={updateCurrentTool}
-            currToolId={currToolId}
-          />
+          <Tools toolsData={toolsData} />
           <ColorSelect
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
@@ -126,7 +116,6 @@ class Main extends Component {
           width={width}
           height={height}
           pixelsPerCanvas={pixelsPerCanvas}
-          currToolId={currToolId}
           primaryColor={primaryColor}
           framesArray={frames}
           framesData={framesData}
@@ -154,8 +143,6 @@ class Main extends Component {
 
 Main.propTypes = {
   toolsData: PropTypes.instanceOf(Object).isRequired,
-  currToolId: PropTypes.string.isRequired,
-  updateCurrentTool: PropTypes.func.isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };

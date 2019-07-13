@@ -4,6 +4,7 @@ const initialState = {
     userData: null,
     signInState: null,
   },
+  currToolId: 'pen',
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -25,6 +26,11 @@ const rootReducer = (state = initialState, action) => {
           ...state.firebase,
           signInState: action.status,
         },
+      };
+    case 'UPDATE_CURR_TOOL_ID':
+      return {
+        ...state,
+        currToolId: action.id,
       };
     default:
       return state;

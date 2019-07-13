@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import './Tools.scss';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import './Tools.scss';
 import ToolButton from './ToolButton/ToolButton';
 
 class Tools extends Component {
   render() {
-    const { toolsData, currToolId, updateCurrentTool } = this.props;
+    const { toolsData, currToolId } = this.props;
     return (
       <section className="tools-section">
         <h2 className="visually-hidden">Tools Section</h2>
@@ -17,7 +18,6 @@ class Tools extends Component {
               }`}
               id={id}
               iconClass={toolsData[id].iconClass}
-              updateCurrentTool={updateCurrentTool}
               key={id}
               shortcut={toolsData[id].shortcut}
             />
@@ -31,7 +31,10 @@ class Tools extends Component {
 Tools.propTypes = {
   toolsData: PropTypes.instanceOf(Object).isRequired,
   currToolId: PropTypes.string.isRequired,
-  updateCurrentTool: PropTypes.func.isRequired,
 };
 
-export default Tools;
+const mapStateToProps = state => ({
+  currToolId: state.currToolId,
+});
+
+export default connect(mapStateToProps)(Tools);
