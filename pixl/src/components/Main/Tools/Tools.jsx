@@ -34,7 +34,8 @@ Tools.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  currToolId: state.currToolId,
+  currToolId: state.tools.currToolId,
+  toolsData: state.tools.toolsData,
 });
 
 export default connect(mapStateToProps)(Tools);

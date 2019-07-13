@@ -241,7 +241,7 @@ Canvas.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  currToolId: state.currToolId,
+  currToolId: state.tools.currToolId,
 });
 
 export default connect(mapStateToProps)(Canvas);

@@ -10,7 +10,7 @@ import UserInfo from './UserInfo/UserInfo';
 import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
 
 const updateShortcut = (shortcutObj, code, index, updateFunc, name) => {
-  const currShortcutsObj = shortcutObj;
+  const currShortcutsObj = { ...shortcutObj };
   const shortcuts = Object.keys(currShortcutsObj).map(
     id => shortcutObj[id].shortcut,
   );
@@ -134,7 +134,6 @@ class NavBar extends Component {
     const {
       userData,
       signInState,
-      toolsData,
       framesShortcuts,
       layersShortcuts,
     } = this.props;
@@ -178,7 +177,6 @@ class NavBar extends Component {
         {modalActive ? (
           <ShortcutsModal
             toggleModal={this.toggleModal}
-            toolsData={toolsData}
             framesShortcuts={framesShortcuts}
             layersShortcuts={layersShortcuts}
             activeBlock={activeBlock}
@@ -215,6 +213,8 @@ NavBar.defaultProps = {
 const mapStateToProps = state => ({
   section: state.section,
   signInState: state.firebase.signInState,
+  userData: state.firebase.userData,
+  toolsData: state.tools.toolsData,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -222,6 +222,7 @@ const mapDispatchToProps = (dispatch) => {
     changeSection,
     updateLoginStatus,
     updateCurrToolId,
+    updateToolsData,
   } = bindActionCreators(actions, dispatch);
   return {
     changeSection: (section) => {
@@ -232,6 +233,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateCurrToolId: (id) => {
       updateCurrToolId(id);
+    },
+    updateToolsData: (data) => {
+      updateToolsData(data);
     },
   };
 };

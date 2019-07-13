@@ -48,12 +48,6 @@ class Main extends Component {
     });
   };
 
-  updateActiveLayer = (index) => {
-    this.setState({
-      activeLayer: index,
-    });
-  };
-
   updateDimensions = () => {
     this.setState({
       width: getWindowSize(),
@@ -92,12 +86,12 @@ class Main extends Component {
       activeLayer,
     } = this.state;
 
-    const { toolsData, framesShortcuts, layersShortcuts } = this.props;
+    const { framesShortcuts, layersShortcuts } = this.props;
 
     return (
       <main className="main">
         <section>
-          <Tools toolsData={toolsData} />
+          <Tools />
           <ColorSelect
             primaryColor={primaryColor}
             secondaryColor={secondaryColor}
@@ -142,7 +136,6 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-  toolsData: PropTypes.instanceOf(Object).isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };

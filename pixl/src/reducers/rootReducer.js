@@ -1,10 +1,16 @@
+import appDataJSON from './appData.json';
+
 const initialState = {
   section: sessionStorage.getItem('section') || 'landing',
   firebase: {
     userData: null,
     signInState: null,
   },
-  currToolId: 'pen',
+  tools: {
+    currToolId: 'pen',
+    toolsData: JSON.parse(sessionStorage.getItem('toolsData'))
+      || JSON.parse(JSON.stringify(appDataJSON)).tools,
+  },
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -30,7 +36,18 @@ const rootReducer = (state = initialState, action) => {
     case 'UPDATE_CURR_TOOL_ID':
       return {
         ...state,
-        currToolId: action.id,
+        tools: {
+          ...state.tools,
+          currToolId: action.id,
+        },
+      };
+    case 'UPDATE_TOOLS_DATA':
+      return {
+        ...state,
+        tools: {
+          ...state.tools,
+          toolsData: action.data,
+        },
       };
     default:
       return state;

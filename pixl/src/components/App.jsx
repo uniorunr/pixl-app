@@ -9,28 +9,19 @@ import Main from './Main/Main';
 import LandingPage from './LandingPage/LandingPage';
 import './App.scss';
 import FireBase from '../firebase/firebase';
-import appDataJSON from './appData.json';
+import appDataJSON from '../reducers/appData.json';
 import * as actions from '../actions/actions';
 
 FireBase.init();
 
 class App extends Component {
   state = {
-    toolsData:
-      JSON.parse(sessionStorage.getItem('toolsData'))
-      || JSON.parse(JSON.stringify(appDataJSON)).tools,
     framesShortcuts:
       JSON.parse(sessionStorage.getItem('framesShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).frames,
     layersShortcuts:
       JSON.parse(sessionStorage.getItem('layersShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).layers,
-  };
-
-  updateToolsData = (data) => {
-    this.setState({
-      toolsData: data,
-    });
   };
 
   updateFrameShortcuts = (data) => {
@@ -50,27 +41,18 @@ class App extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         updateUserData(user);
-        this.setState({
-          userData: user,
-        });
       }
     });
   };
 
   render() {
-    const {
-      userData,
-      toolsData,
-      framesShortcuts,
-      layersShortcuts,
-    } = this.state;
+    const { toolsData, framesShortcuts, layersShortcuts } = this.state;
 
     const { section } = this.props;
 
     return (
       <Fragment>
         <NavBar
-          userData={userData}
           toolsData={toolsData}
           framesShortcuts={framesShortcuts}
           layersShortcuts={layersShortcuts}

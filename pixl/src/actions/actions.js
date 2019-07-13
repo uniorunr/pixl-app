@@ -2,6 +2,7 @@ const CHANGE_SECTION = 'CHANGE_SECTION';
 const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
 const UPDATE_LOGIN_STATUS = 'UPDATE_LOGIN_STATUS';
 const UPDATE_CURR_TOOL_ID = 'UPDATE_CURR_TOOL_ID';
+const UPDATE_TOOLS_DATA = 'UPDATE_TOOLS_DATA';
 
 export const changeSection = section => ({
   type: CHANGE_SECTION,
@@ -21,4 +22,9 @@ export const updateLoginStatus = status => ({
 export const updateCurrToolId = id => ({
   type: UPDATE_CURR_TOOL_ID,
   id,
+});
+
+export const updateToolsData = data => ({
+  type: UPDATE_TOOLS_DATA,
+  data,
 });

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import ToolShortcutItem from './ToolShortcutItem/ToolShortcutItem';
 import FrameShortcutItem from './FrameShortcutItem/FrameShortcutItem';
 import LayerShortcutItem from './LayerShortcutItem/LayerShortcutItem';
@@ -174,4 +175,8 @@ ShortcutsModal.propTypes = {
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default ShortcutsModal;
+const mapStateToProps = state => ({
+  toolsData: state.tools.toolsData,
+});
+
+export default connect(mapStateToProps)(ShortcutsModal);
