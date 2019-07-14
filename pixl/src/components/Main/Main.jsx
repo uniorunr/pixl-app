@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Tools from './Tools/Tools';
 import Frames from './Frames/Frames';
 import Canvas from './Canvas/Canvas';
@@ -86,8 +85,6 @@ class Main extends Component {
       activeLayer,
     } = this.state;
 
-    const { layersShortcuts } = this.props;
-
     return (
       <main className="main">
         <section>
@@ -126,16 +123,11 @@ class Main extends Component {
             framesArray={frames}
             framesData={framesData}
             updateLayerData={this.updateLayerData}
-            layersShortcuts={layersShortcuts}
           />
         </section>
       </main>
     );
   }
 }
-
-Main.propTypes = {
-  layersShortcuts: PropTypes.instanceOf(Object).isRequired,
-};
 
 export default Main;

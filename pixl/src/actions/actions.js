@@ -4,6 +4,7 @@ const UPDATE_LOGIN_STATUS = 'UPDATE_LOGIN_STATUS';
 const UPDATE_CURR_TOOL_ID = 'UPDATE_CURR_TOOL_ID';
 const UPDATE_TOOLS_DATA = 'UPDATE_TOOLS_DATA';
 const UPDATE_FRAMES_SHORTCUTS = 'UPDATE_FRAMES_SHORTCUTS';
+const UPDATE_LAYERS_SHORTCUTS = 'UPDATE_LAYERS_SHORTCUTS';
 
 export const changeSection = section => ({
   type: CHANGE_SECTION,
@@ -32,5 +33,10 @@ export const updateToolsData = data => ({
 
 export const updateFramesShortcuts = data => ({
   type: UPDATE_FRAMES_SHORTCUTS,
+  data,
+});
+
+export const updateLayersShortcuts = data => ({
+  type: UPDATE_LAYERS_SHORTCUTS,
   data,
 });

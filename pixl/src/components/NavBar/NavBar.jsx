@@ -215,6 +215,7 @@ const mapStateToProps = state => ({
   userData: state.firebase.userData,
   toolsData: state.tools.toolsData,
   framesShortcuts: state.frames.framesShortcuts,
+  layersShortcuts: state.layers.layersShortcuts,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -224,6 +225,7 @@ const mapDispatchToProps = (dispatch) => {
     updateCurrToolId,
     updateToolsData,
     updateFramesShortcuts,
+    updateLayersShortcuts,
   } = bindActionCreators(actions, dispatch);
   return {
     changeSection: (section) => {
@@ -240,6 +242,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateFramesShortcuts: (data) => {
       updateFramesShortcuts(data);
+    },
+    updateLayersShortcuts: (data) => {
+      updateLayersShortcuts(data);
     },
   };
 };

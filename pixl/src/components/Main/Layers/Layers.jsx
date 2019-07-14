@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './Layers.scss';
 import PropTypes from 'prop-types';
 
@@ -291,4 +292,8 @@ Layers.propTypes = {
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default Layers;
+const mapStateToProps = state => ({
+  layersShortcuts: state.layers.layersShortcuts,
+});
+
+export default connect(mapStateToProps)(Layers);

@@ -15,6 +15,11 @@ const initialState = {
     framesShortcuts: JSON.parse(sessionStorage.getItem('framesShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).frames,
   },
+  layers: {
+    layersShortcuts:
+      JSON.parse(sessionStorage.getItem('layersShortcuts'))
+      || JSON.parse(JSON.stringify(appDataJSON)).layers,
+  },
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -59,6 +64,14 @@ const rootReducer = (state = initialState, action) => {
         frames: {
           ...state.frames,
           framesShortcuts: action.data,
+        },
+      };
+    case 'UPDATE_LAYERS_SHORTCUTS':
+      return {
+        ...state,
+        layers: {
+          ...state.layers,
+          layersShortcuts: action.data,
         },
       };
     default:

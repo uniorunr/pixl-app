@@ -10,23 +10,10 @@ import Main from './Main/Main';
 import LandingPage from './LandingPage/LandingPage';
 import './App.scss';
 import FireBase from '../firebase/firebase';
-import appDataJSON from '../reducers/appData.json';
 
 FireBase.init();
 
 class App extends Component {
-  state = {
-    layersShortcuts:
-      JSON.parse(sessionStorage.getItem('layersShortcuts'))
-      || JSON.parse(JSON.stringify(appDataJSON)).layers,
-  };
-
-  updateLayersShortcuts = (data) => {
-    this.setState({
-      layersShortcuts: data,
-    });
-  };
-
   componentDidMount = () => {
     const { updateUserData } = this.props;
     firebase.auth().onAuthStateChanged((user) => {
@@ -37,21 +24,12 @@ class App extends Component {
   };
 
   render() {
-    const { layersShortcuts } = this.state;
-
     const { section } = this.props;
 
     return (
       <Fragment>
-        <NavBar
-          layersShortcuts={layersShortcuts}
-          updateLayersShortcuts={this.updateLayersShortcuts}
-        />
-        {section === 'landing' ? (
-          <LandingPage />
-        ) : (
-          <Main layersShortcuts={layersShortcuts} />
-        )}
+        <NavBar />
+        {section === 'landing' ? <LandingPage /> : <Main />}
       </Fragment>
     );
   }
@@ -67,14 +45,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { changeSection, updateUserData } = bindActionCreators(
-    actions,
-    dispatch,
-  );
+  const { updateUserData } = bindActionCreators(actions, dispatch);
   return {
-    changeSection: (value) => {
-      changeSection(value);
-    },
     updateUserData: (data) => {
       updateUserData(data);
     },
