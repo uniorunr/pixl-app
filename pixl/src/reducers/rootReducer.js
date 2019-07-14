@@ -11,12 +11,16 @@ const initialState = {
     toolsData: JSON.parse(sessionStorage.getItem('toolsData'))
       || JSON.parse(JSON.stringify(appDataJSON)).tools,
   },
+  frames: {
+    framesShortcuts: JSON.parse(sessionStorage.getItem('framesShortcuts'))
+      || JSON.parse(JSON.stringify(appDataJSON)).frames,
+  },
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'CHANGE_SECTION':
-      return { section: action.section };
+      return { ...state, section: action.section };
     case 'UPDATE_USER_DATA':
       return {
         ...state,
@@ -47,6 +51,14 @@ const rootReducer = (state = initialState, action) => {
         tools: {
           ...state.tools,
           toolsData: action.data,
+        },
+      };
+    case 'UPDATE_FRAMES_SHORTCUTS':
+      return {
+        ...state,
+        frames: {
+          ...state.frames,
+          framesShortcuts: action.data,
         },
       };
     default:

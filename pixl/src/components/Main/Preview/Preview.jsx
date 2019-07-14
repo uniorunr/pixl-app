@@ -23,6 +23,7 @@ class Preview extends Component {
     const { framesArray } = this.props;
 
     this.previewRef = React.createRef();
+    this.timeOut = null;
 
     this.state = {
       framesArray,
@@ -40,9 +41,14 @@ class Preview extends Component {
     this.animate();
   };
 
+  componentWillUnmount() {
+    cancelAnimationFrame(this.animate);
+    clearTimeout(this.timeOut);
+  }
+
   animate = () => {
     const { fps } = this.state;
-    setTimeout(this.changeFrame, 1000 / fps);
+    this.timeOut = setTimeout(this.changeFrame, 1000 / fps);
   };
 
   changeFrame = () => {

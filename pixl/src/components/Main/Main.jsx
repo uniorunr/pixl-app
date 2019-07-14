@@ -86,7 +86,7 @@ class Main extends Component {
       activeLayer,
     } = this.state;
 
-    const { framesShortcuts, layersShortcuts } = this.props;
+    const { layersShortcuts } = this.props;
 
     return (
       <main className="main">
@@ -104,7 +104,6 @@ class Main extends Component {
           layerKeys={layerKeys}
           activeLayer={activeLayer}
           updateFrames={this.updateFrames}
-          framesShortcuts={framesShortcuts}
         />
         <Canvas
           width={width}
@@ -136,7 +135,6 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-  framesShortcuts: PropTypes.instanceOf(Object).isRequired,
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
 };
 

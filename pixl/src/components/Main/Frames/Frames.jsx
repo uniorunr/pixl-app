@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Frame from './Frame/Frame';
 import List from './ListWrapper/ListWrapper';
 import './Frames.scss';
@@ -176,4 +177,8 @@ Frames.defaultProps = {
   framesArray: [],
 };
 
-export default Frames;
+const mapStateToProps = state => ({
+  framesShortcuts: state.frames.framesShortcuts,
+});
+
+export default connect(mapStateToProps)(Frames);

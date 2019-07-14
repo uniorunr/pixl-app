@@ -9,17 +9,17 @@ import FireBase from '../../firebase/firebase';
 import UserInfo from './UserInfo/UserInfo';
 import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
 
-const updateShortcut = (shortcutObj, code, index, updateFunc, name) => {
+const updateShortcut = (shortcutObj, code, key, updateFunc, name) => {
   const currShortcutsObj = { ...shortcutObj };
   const shortcuts = Object.keys(currShortcutsObj).map(
-    id => shortcutObj[id].shortcut,
+    id => currShortcutsObj[id].shortcut,
   );
   if (
     !shortcuts.includes(code)
     && !code.toLowerCase().includes('shift')
     && !code.toLowerCase().includes('alt')
   ) {
-    currShortcutsObj[index].shortcut = code;
+    currShortcutsObj[key].shortcut = code;
     updateFunc(currShortcutsObj);
     sessionStorage.setItem(name, JSON.stringify(currShortcutsObj));
   }
@@ -36,12 +36,10 @@ class NavBar extends Component {
 
   componentDidMount() {
     const {
-      toolsData,
-      framesShortcuts,
       layersShortcuts,
       updateCurrToolId,
       updateToolsData,
-      updateFrameShortcuts,
+      updateFramesShortcuts,
       updateLayersShortcuts,
     } = this.props;
     document.addEventListener('keydown', ({ code, shiftKey, altKey }) => {
@@ -52,6 +50,7 @@ class NavBar extends Component {
         activeLayerShortcut,
         activeBlock,
       } = this.state;
+      const { toolsData, framesShortcuts } = this.props;
       if (!modalActive && !shiftKey && !altKey) {
         const toolKeys = Object.keys(toolsData);
         const targetTool = toolKeys.find(id => toolsData[id].shortcut === code);
@@ -66,15 +65,15 @@ class NavBar extends Component {
           updateToolsData,
           'toolsData',
         );
-      } else if (activeBlock === 'frames' && !altKey) {
+      } else if (activeBlock === 'frames' && !altKey && !shiftKey) {
         updateShortcut(
           framesShortcuts,
           code,
           activeFrameShortcut,
-          updateFrameShortcuts,
+          updateFramesShortcuts,
           'framesShortcuts',
         );
-      } else if (activeBlock === 'layers' && !altKey) {
+      } else if (activeBlock === 'layers' && !altKey && !shiftKey) {
         updateShortcut(
           layersShortcuts,
           code,
@@ -199,7 +198,7 @@ NavBar.propTypes = {
   updateToolsData: PropTypes.func.isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
-  updateFrameShortcuts: PropTypes.func.isRequired,
+  updateFramesShortcuts: PropTypes.func.isRequired,
   updateLayersShortcuts: PropTypes.func.isRequired,
   changeSection: PropTypes.func.isRequired,
   updateLoginStatus: PropTypes.func.isRequired,
@@ -215,6 +214,7 @@ const mapStateToProps = state => ({
   signInState: state.firebase.signInState,
   userData: state.firebase.userData,
   toolsData: state.tools.toolsData,
+  framesShortcuts: state.frames.framesShortcuts,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -223,6 +223,7 @@ const mapDispatchToProps = (dispatch) => {
     updateLoginStatus,
     updateCurrToolId,
     updateToolsData,
+    updateFramesShortcuts,
   } = bindActionCreators(actions, dispatch);
   return {
     changeSection: (section) => {
@@ -236,6 +237,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateToolsData: (data) => {
       updateToolsData(data);
+    },
+    updateFramesShortcuts: (data) => {
+      updateFramesShortcuts(data);
     },
   };
 };
