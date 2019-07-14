@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './ToolShortcutItem.scss';
 
@@ -10,13 +11,7 @@ class ShortcutItem extends Component {
 
   render() {
     const {
-      iconClass,
-      toolName,
-      active,
-      tools,
-      index,
-      keyCode,
-      id,
+      toolsData, active, tools, index, id,
     } = this.props;
 
     return (
@@ -36,10 +31,12 @@ class ShortcutItem extends Component {
             }
           }}
         >
-          <i className={iconClass} />
-          <span>{toolName}</span>
+          <i className={toolsData[id].iconClass} />
+          <span>{toolsData[id].name}</span>
           <span>-</span>
-          <span className="shortcuts-modal__shortcut">{keyCode}</span>
+          <span className="shortcuts-modal__shortcut">
+            {toolsData[id].shortcut}
+          </span>
         </div>
       </div>
     );
@@ -47,14 +44,17 @@ class ShortcutItem extends Component {
 }
 
 ShortcutItem.propTypes = {
-  iconClass: PropTypes.string.isRequired,
-  toolName: PropTypes.string.isRequired,
+  toolsData: PropTypes.instanceOf(Object).isRequired,
   active: PropTypes.bool.isRequired,
   tools: PropTypes.instanceOf(Array).isRequired,
   index: PropTypes.number.isRequired,
   makeActive: PropTypes.func.isRequired,
-  keyCode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
 };
 
-export default ShortcutItem;
+const mapStateToProps = state => ({
+  tools: state.components.navBar.modalWindow.toolsShortcutsRefs,
+  toolsData: state.tools.toolsData,
+});
+
+export default connect(mapStateToProps)(ShortcutItem);

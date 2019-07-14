@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './FrameShortcutItem.scss';
 
 class FrameShortcutItem extends Component {
@@ -10,14 +11,7 @@ class FrameShortcutItem extends Component {
 
   render() {
     const {
-      iconClass,
-      name,
-      active,
-      frames,
-      prefix,
-      index,
-      keyCode,
-      id,
+      framesShortcuts, active, frames, index, id,
     } = this.props;
 
     return (
@@ -38,12 +32,14 @@ class FrameShortcutItem extends Component {
             }
           }}
         >
-          <i className={iconClass} />
-          <span>{name}</span>
+          <i className={framesShortcuts[id].iconClass} />
+          <span>{framesShortcuts[id].name}</span>
           <span>-</span>
           <span className="shortcuts-modal__shortcut">
-            <span className="shortcuts-modal__prefix">{`${prefix} + `}</span>
-            {keyCode}
+            <span className="shortcuts-modal__prefix">
+              {`${framesShortcuts[id].prefix} + `}
+            </span>
+            {framesShortcuts[id].shortcut}
           </span>
         </div>
       </div>
@@ -52,15 +48,17 @@ class FrameShortcutItem extends Component {
 }
 
 FrameShortcutItem.propTypes = {
-  iconClass: PropTypes.string.isRequired,
+  framesShortcuts: PropTypes.instanceOf(Object).isRequired,
   active: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired,
   makeActive: PropTypes.func.isRequired,
-  keyCode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
   frames: PropTypes.instanceOf(Array).isRequired,
-  prefix: PropTypes.string.isRequired,
 };
 
-export default FrameShortcutItem;
+const mapStateToProps = state => ({
+  framesShortcuts: state.frames.framesShortcuts,
+  frames: state.components.navBar.modalWindow.framesShortcutsRefs,
+});
+
+export default connect(mapStateToProps)(FrameShortcutItem);

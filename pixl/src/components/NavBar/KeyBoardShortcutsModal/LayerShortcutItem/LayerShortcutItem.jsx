@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './LayerShortcutItem.scss';
 
 class LayerShortcutItem extends Component {
@@ -10,14 +11,7 @@ class LayerShortcutItem extends Component {
 
   render() {
     const {
-      iconClass,
-      name,
-      active,
-      layers,
-      prefix,
-      index,
-      keyCode,
-      id,
+      layersShortcuts, active, layers, index, id,
     } = this.props;
 
     return (
@@ -38,12 +32,14 @@ class LayerShortcutItem extends Component {
             }
           }}
         >
-          <i className={iconClass} />
-          <span>{name}</span>
+          <i className={layersShortcuts[id].iconClass} />
+          <span>{layersShortcuts[id].name}</span>
           <span>-</span>
           <span className="shortcuts-modal__shortcut">
-            <span className="shortcuts-modal__prefix">{`${prefix} + `}</span>
-            {keyCode}
+            <span className="shortcuts-modal__prefix">
+              {`${layersShortcuts[id].prefix} + `}
+            </span>
+            {layersShortcuts[id].shortcut}
           </span>
         </div>
       </div>
@@ -52,15 +48,17 @@ class LayerShortcutItem extends Component {
 }
 
 LayerShortcutItem.propTypes = {
-  iconClass: PropTypes.string.isRequired,
+  layersShortcuts: PropTypes.instanceOf(Object).isRequired,
   active: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired,
   makeActive: PropTypes.func.isRequired,
-  keyCode: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
   layers: PropTypes.instanceOf(Array).isRequired,
-  prefix: PropTypes.string.isRequired,
 };
 
-export default LayerShortcutItem;
+const mapStateToProps = state => ({
+  layersShortcuts: state.layers.layersShortcuts,
+  layers: state.components.navBar.modalWindow.layersShortcutsRefs,
+});
+
+export default connect(mapStateToProps)(LayerShortcutItem);

@@ -26,14 +26,6 @@ const updateShortcut = (shortcutObj, code, key, updateFunc, name) => {
 };
 
 class NavBar extends Component {
-  state = {
-    modalActive: false,
-    activeTool: 'pen',
-    activeBlock: 'tools',
-    activeFrameShortcut: 'duplicate',
-    activeLayerShortcut: 'add',
-  };
-
   componentDidMount() {
     const {
       layersShortcuts,
@@ -49,7 +41,7 @@ class NavBar extends Component {
         activeFrameShortcut,
         activeLayerShortcut,
         activeBlock,
-      } = this.state;
+      } = this.props;
       const { toolsData, framesShortcuts } = this.props;
       if (!modalActive && !shiftKey && !altKey) {
         const toolKeys = Object.keys(toolsData);
@@ -85,37 +77,6 @@ class NavBar extends Component {
     });
   }
 
-  updateActiveBlock = (block) => {
-    this.setState({
-      activeBlock: block,
-    });
-  };
-
-  updateActiveTool = (tool) => {
-    this.setState({
-      activeTool: tool,
-    });
-  };
-
-  updateActiveFrameShortcut = (shortcut) => {
-    this.setState({
-      activeFrameShortcut: shortcut,
-    });
-  };
-
-  updateActiveLayerShortcut = (shortcut) => {
-    this.setState({
-      activeLayerShortcut: shortcut,
-    });
-  };
-
-  toggleModal = () => {
-    const { modalActive } = this.state;
-    this.setState({
-      modalActive: !modalActive,
-    });
-  };
-
   handleSignIn = async () => {
     const { updateLoginStatus } = this.props;
     updateLoginStatus('Signing in...');
@@ -133,10 +94,9 @@ class NavBar extends Component {
     const {
       userData,
       signInState,
-      framesShortcuts,
-      layersShortcuts,
+      modalActive,
+      updateShortcutsModalState,
     } = this.props;
-    const { modalActive, activeBlock } = this.state;
 
     return (
       <Fragment>
@@ -152,7 +112,7 @@ class NavBar extends Component {
               <button
                 className="navbar__faq"
                 type="button"
-                onClick={this.toggleModal}
+                onClick={updateShortcutsModalState}
               >
                 <i className="fas fa-question" />
               </button>
@@ -173,18 +133,7 @@ class NavBar extends Component {
             )}
           </nav>
         </div>
-        {modalActive ? (
-          <ShortcutsModal
-            toggleModal={this.toggleModal}
-            framesShortcuts={framesShortcuts}
-            layersShortcuts={layersShortcuts}
-            activeBlock={activeBlock}
-            updateActiveTool={this.updateActiveTool}
-            updateActiveFrameShortcut={this.updateActiveFrameShortcut}
-            updateActiveBlock={this.updateActiveBlock}
-            updateActiveLayerShortcut={this.updateActiveLayerShortcut}
-          />
-        ) : null}
+        {modalActive ? <ShortcutsModal /> : null}
       </Fragment>
     );
   }
@@ -202,6 +151,12 @@ NavBar.propTypes = {
   updateLayersShortcuts: PropTypes.func.isRequired,
   changeSection: PropTypes.func.isRequired,
   updateLoginStatus: PropTypes.func.isRequired,
+  modalActive: PropTypes.bool.isRequired,
+  activeTool: PropTypes.string.isRequired,
+  activeFrameShortcut: PropTypes.string.isRequired,
+  activeLayerShortcut: PropTypes.string.isRequired,
+  activeBlock: PropTypes.string.isRequired,
+  updateShortcutsModalState: PropTypes.func.isRequired,
 };
 
 NavBar.defaultProps = {
@@ -216,6 +171,11 @@ const mapStateToProps = state => ({
   toolsData: state.tools.toolsData,
   framesShortcuts: state.frames.framesShortcuts,
   layersShortcuts: state.layers.layersShortcuts,
+  modalActive: state.components.navBar.modalActive,
+  activeTool: state.components.navBar.activeTool,
+  activeBlock: state.components.navBar.activeBlock,
+  activeFrameShortcut: state.components.navBar.activeFrameShortcut,
+  activeLayerShortcut: state.components.navBar.activeLayerShortcut,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -226,6 +186,7 @@ const mapDispatchToProps = (dispatch) => {
     updateToolsData,
     updateFramesShortcuts,
     updateLayersShortcuts,
+    updateShortcutsModalState,
   } = bindActionCreators(actions, dispatch);
   return {
     changeSection: (section) => {
@@ -246,6 +207,7 @@ const mapDispatchToProps = (dispatch) => {
     updateLayersShortcuts: (data) => {
       updateLayersShortcuts(data);
     },
+    updateShortcutsModalState,
   };
 };
 

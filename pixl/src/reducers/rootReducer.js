@@ -20,6 +20,23 @@ const initialState = {
       JSON.parse(sessionStorage.getItem('layersShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).layers,
   },
+  components: {
+    navBar: {
+      modalActive: false,
+      activeTool: 'pen',
+      activeBlock: 'tools',
+      activeFrameShortcut: 'duplicate',
+      activeLayerShortcut: 'add',
+      modalWindow: {
+        toolsShortcutsRefs: [],
+        framesShortcutsRefs: [],
+        layersShortcutsRefs: [],
+        activeToolIndex: 0,
+        activeFrameShortcutIndex: 0,
+        activeLayerShortcutIndex: 0,
+      },
+    },
+  },
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -72,6 +89,103 @@ const rootReducer = (state = initialState, action) => {
         layers: {
           ...state.layers,
           layersShortcuts: action.data,
+        },
+      };
+    case 'UPDATE_SHORTCUTS_MODAL_STATE':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            modalActive: !state.components.navBar.modalActive,
+          },
+        },
+      };
+    case 'UPDATE_ACTIVE_BLOCK':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            activeBlock: action.block,
+          },
+        },
+      };
+    case 'UPDATE_ACTIVE_TOOL':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            activeTool: action.id,
+          },
+        },
+      };
+    case 'UPDATE_ACTIVE_TOOL_INDEX':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            modalWindow: {
+              ...state.components.navBar.modalWindow,
+              activeToolIndex: action.index,
+            },
+          },
+        },
+      };
+    case 'UPDATE_ACTIVE_FRAME_SHORTCUT':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            activeFrameShortcut: action.id,
+          },
+        },
+      };
+    case 'UPDATE_ACTIVE_FRAME_SHORTCUT_INDEX':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            modalWindow: {
+              ...state.components.navBar.modalWindow,
+              activeFrameShortcutIndex: action.index,
+            },
+          },
+        },
+      };
+    case 'UPDATE_ACTIVE_LAYER_SHORTCUT':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            activeLayerShortcut: action.id,
+          },
+        },
+      };
+    case 'UPDATE_ACTIVE_LAYER_SHORTCUT_INDEX':
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          navBar: {
+            ...state.components.navBar,
+            modalWindow: {
+              ...state.components.navBar.modalWindow,
+              activeLayerShortcutIndex: action.index,
+            },
+          },
         },
       };
     default:
