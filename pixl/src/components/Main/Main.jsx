@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions';
 import Tools from './Tools/Tools';
 import Frames from './Frames/Frames';
 import Canvas from './Canvas/Canvas';
@@ -14,120 +18,47 @@ const getWindowSize = () => {
 };
 
 class Main extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      width: getWindowSize(),
-      height: getWindowSize(),
-      pixelsPerCanvas: 64,
-      frames: [],
-      framesData: JSON.parse(sessionStorage.getItem('framesData')) || {},
-      layerKeys: [],
-      activeLayer: +sessionStorage.getItem('activeLayer') || 0,
-      primaryColor: sessionStorage.getItem('primaryColor') || '#000000',
-      secondaryColor: sessionStorage.getItem('secondaryColor') || '#ffffff',
-    };
-  }
-
   componentDidMount = () => {
     window.addEventListener('resize', this.updateDimensions);
   };
 
-  updateFrames = (frames) => {
-    this.setState({
-      frames: [...frames],
-    });
-  };
-
-  updateLayerData = (keys, index) => {
-    this.setState({
-      layerKeys: [...keys],
-      activeLayer: index,
-    });
-  };
-
   updateDimensions = () => {
-    this.setState({
-      width: getWindowSize(),
-      height: getWindowSize(),
-    });
-  };
-
-  handlePixelsPerCanvas = (event) => {
-    this.setState({
-      pixelsPerCanvas: +event.currentTarget.value,
-    });
-  };
-
-  updateColor = (color, isPrimary) => {
-    if (isPrimary) {
-      this.setState({
-        primaryColor: color,
-      });
-    } else {
-      this.setState({
-        secondaryColor: color,
-      });
-    }
+    const { updateCanvasSize } = this.props;
+    updateCanvasSize(getWindowSize());
   };
 
   render() {
-    const {
-      width,
-      height,
-      pixelsPerCanvas,
-      frames,
-      primaryColor,
-      secondaryColor,
-      framesData,
-      layerKeys,
-      activeLayer,
-    } = this.state;
-
     return (
       <main className="main">
         <section>
           <Tools />
-          <ColorSelect
-            primaryColor={primaryColor}
-            secondaryColor={secondaryColor}
-            updateColor={this.updateColor}
-          />
+          <ColorSelect />
         </section>
-        <Frames
-          framesArray={frames}
-          framesData={framesData}
-          layerKeys={layerKeys}
-          activeLayer={activeLayer}
-          updateFrames={this.updateFrames}
-        />
-        <Canvas
-          width={width}
-          height={height}
-          pixelsPerCanvas={pixelsPerCanvas}
-          primaryColor={primaryColor}
-          framesArray={frames}
-          framesData={framesData}
-          layerKeys={layerKeys}
-          activeLayer={activeLayer}
-          secondaryColor={secondaryColor}
-          updateColor={this.updateColor}
-        />
+        <Frames />
+        <Canvas />
         <section className="right-section">
-          <Preview
-            framesArray={frames}
-            handlePixelsPerCanvas={this.handlePixelsPerCanvas}
-          />
-          <Layers
-            framesArray={frames}
-            framesData={framesData}
-            updateLayerData={this.updateLayerData}
-          />
+          <Preview />
+          <Layers />
         </section>
       </main>
     );
   }
 }
 
-export default Main;
+Main.propTypes = {
+  updateCanvasSize: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => {
+  const { updateCanvasSize } = bindActionCreators(actions, dispatch);
+  return {
+    updateCanvasSize: (size) => {
+      updateCanvasSize(size);
+    },
+  };
+};
+
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(Main);

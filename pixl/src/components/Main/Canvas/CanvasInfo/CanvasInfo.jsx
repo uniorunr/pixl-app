@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './CanvasInfo.scss';
+import { connect } from 'react-redux';
 
 const CanvasInfo = ({ pixelsPerCanvas, currX, currY }) => (
   <div className="canvas-section__info">
@@ -17,4 +18,8 @@ CanvasInfo.propTypes = {
   currY: PropTypes.number.isRequired,
 };
 
-export default CanvasInfo;
+const mapStateToProps = state => ({
+  pixelsPerCanvas: state.canvas.pixelsPerCanvas,
+});
+
+export default connect(mapStateToProps)(CanvasInfo);

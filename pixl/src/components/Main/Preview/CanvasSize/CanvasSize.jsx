@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../../../actions/actions';
 import './CanvasSize.scss';
 
 class CanvasSize extends Component {
   render() {
-    const { handlePixelsPerCanvas } = this.props;
+    const { updatePixelsPerCanvas } = this.props;
     return (
       <form className="canvas-size-controls" name="canvas-size-controls">
         <label htmlFor="canvas-32">
@@ -14,7 +17,7 @@ class CanvasSize extends Component {
             id="canvas-32"
             name="radio"
             value="32"
-            onChange={handlePixelsPerCanvas}
+            onChange={updatePixelsPerCanvas}
           />
         </label>
 
@@ -25,7 +28,7 @@ class CanvasSize extends Component {
             id="canvas-64"
             name="radio"
             value="64"
-            onChange={handlePixelsPerCanvas}
+            onChange={updatePixelsPerCanvas}
             defaultChecked
           />
         </label>
@@ -37,7 +40,7 @@ class CanvasSize extends Component {
             id="canvas-128"
             name="radio"
             value="128"
-            onChange={handlePixelsPerCanvas}
+            onChange={updatePixelsPerCanvas}
           />
         </label>
       </form>
@@ -46,7 +49,17 @@ class CanvasSize extends Component {
 }
 
 CanvasSize.propTypes = {
-  handlePixelsPerCanvas: PropTypes.func.isRequired,
+  updatePixelsPerCanvas: PropTypes.func.isRequired,
 };
 
-export default CanvasSize;
+const mapDispatchToProps = (dispatch) => {
+  const { updatePixelsPerCanvas } = bindActionCreators(actions, dispatch);
+  return {
+    updatePixelsPerCanvas,
+  };
+};
+
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(CanvasSize);

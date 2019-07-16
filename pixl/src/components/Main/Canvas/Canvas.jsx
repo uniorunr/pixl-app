@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actions from '../../../actions/actions';
 import CanvasInfo from './CanvasInfo/CanvasInfo';
 import './Canvas.scss';
 import activateTool from './activateTool';
@@ -31,6 +33,11 @@ class Canvas extends Component {
       initY: null,
       mouseButton: null,
     };
+  }
+
+  componentDidMount() {
+    const { setCanvasRefs } = this.props;
+    setCanvasRefs(this.canvasRef.current, this.canvasOverlayRef.current);
   }
 
   componentDidUpdate = () => {
@@ -177,7 +184,7 @@ class Canvas extends Component {
   };
 
   render() {
-    const { width, height, pixelsPerCanvas } = this.props;
+    const { width, height } = this.props;
     const { currX, currY } = this.state;
 
     return (
@@ -214,11 +221,7 @@ class Canvas extends Component {
           >
             clear
           </button>
-          <CanvasInfo
-            pixelsPerCanvas={pixelsPerCanvas}
-            currX={currX}
-            currY={currY}
-          />
+          <CanvasInfo currX={currX} currY={currY} />
         </div>
       </section>
     );
@@ -232,16 +235,39 @@ Canvas.propTypes = {
   updateColor: PropTypes.func.isRequired,
   framesArray: PropTypes.instanceOf(Array).isRequired,
   // eslint-disable-next-line
-  primaryColor: PropTypes.string.isRequired,
-  // eslint-disable-next-line
   pixelsPerCanvas: PropTypes.number.isRequired,
   framesData: PropTypes.instanceOf(Object).isRequired,
   layerKeys: PropTypes.instanceOf(Array).isRequired,
   activeLayer: PropTypes.number.isRequired,
+  setCanvasRefs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   currToolId: state.tools.currToolId,
+  pixelsPerCanvas: state.canvas.pixelsPerCanvas,
+  width: state.canvas.width,
+  height: state.canvas.height,
+  framesArray: state.frames.framesArray,
+  primaryColor: state.colors.primaryColor,
+  secondaryColor: state.colors.secondaryColor,
+  framesData: state.frames.framesData,
+  layerKeys: state.layers.layerKeys,
+  activeLayer: state.layers.activeLayer,
 });
 
-export default connect(mapStateToProps)(Canvas);
+const mapDispatchToProps = (dispatch) => {
+  const { updateColor, setCanvasRefs } = bindActionCreators(actions, dispatch);
+  return {
+    updateColor: (color, isPrimary) => {
+      updateColor(color, isPrimary);
+    },
+    setCanvasRefs: (canvas, overlay) => {
+      setCanvasRefs(canvas, overlay);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Canvas);

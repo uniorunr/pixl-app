@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-import './Frame.scss';
 import PropTypes from 'prop-types';
-import { translateActiveFrame } from '../utils';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../../../actions/actions';
+import { translateActiveFrame, setActiveFrame } from '../utils';
+import './Frame.scss';
 
 class Frame extends Component {
   componentDidMount = () => {
     const {
-      duplicate, index, framesArray, resetDuplicate,
+      duplicate,
+      index,
+      framesArray,
+      updateDuplicateFrameIndex,
     } = this.props;
     if (duplicate) {
       const origin = framesArray[index - 1];
@@ -15,24 +21,46 @@ class Frame extends Component {
       context.imageSmoothingEnabled = false;
       context.drawImage(origin, 0, 0, target.width, target.height);
       translateActiveFrame(index);
-      resetDuplicate();
+      updateDuplicateFrameIndex(null);
     }
   };
 
   clickOnFrame = () => {
-    const { index, makeActive } = this.props;
-    makeActive(index);
+    const { index, updateActiveFrameIndex } = this.props;
+    updateActiveFrameIndex(index);
     translateActiveFrame(index);
   };
 
   handleRemoveButton = () => {
-    const { index, removeFrame } = this.props;
-    removeFrame(index);
+    const {
+      index,
+      frameKeys,
+      activeFrame,
+      updateActiveFrameIndex,
+      updateFrameKeys,
+    } = this.props;
+    const indexToTranslate = setActiveFrame(activeFrame, frameKeys, index);
+    frameKeys.splice(index, 1);
+    translateActiveFrame(indexToTranslate);
+    updateFrameKeys([...frameKeys]);
+    const newActiveFrameIndex = indexToTranslate > frameKeys.length - 1
+      ? frameKeys.length - 1
+      : indexToTranslate;
+    updateActiveFrameIndex(newActiveFrameIndex);
   };
 
   handleDuplicateButton = () => {
-    const { index, duplicateFrame } = this.props;
-    duplicateFrame(index);
+    const {
+      index,
+      frameKeys,
+      updateDuplicateFrameIndex,
+      updateActiveFrameIndex,
+      updateFrameKeys,
+    } = this.props;
+    frameKeys.splice(index + 1, 0, Math.max(...frameKeys) + 1);
+    updateFrameKeys([...frameKeys]);
+    updateDuplicateFrameIndex(index + 1);
+    updateActiveFrameIndex(index + 1);
   };
 
   setRef = (ref) => {
@@ -94,21 +122,48 @@ class Frame extends Component {
 Frame.propTypes = {
   index: PropTypes.number.isRequired,
   active: PropTypes.bool,
-  removeFrame: PropTypes.func.isRequired,
-  makeActive: PropTypes.func.isRequired,
-  duplicateFrame: PropTypes.func.isRequired,
-  resetDuplicate: PropTypes.func.isRequired,
-  framesArray: PropTypes.instanceOf(Array),
+  activeFrame: PropTypes.number.isRequired,
+  framesArray: PropTypes.instanceOf(Array).isRequired,
   duplicate: PropTypes.bool,
   frameKeys: PropTypes.instanceOf(Array).isRequired,
   innerRef: PropTypes.func.isRequired,
   provided: PropTypes.instanceOf(Object).isRequired,
+  updateActiveFrameIndex: PropTypes.func.isRequired,
+  updateDuplicateFrameIndex: PropTypes.func.isRequired,
+  updateFrameKeys: PropTypes.func.isRequired,
 };
 
 Frame.defaultProps = {
   active: false,
-  framesArray: [],
   duplicate: false,
 };
 
-export default Frame;
+const mapStateToProps = state => ({
+  framesArray: state.frames.framesArray,
+  frameKeys: state.frames.frameKeys,
+  activeFrame: state.frames.activeFrame,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const {
+    updateActiveFrameIndex,
+    updateDuplicateFrameIndex,
+    updateFrameKeys,
+  } = bindActionCreators(actions, dispatch);
+  return {
+    updateActiveFrameIndex: (index) => {
+      updateActiveFrameIndex(index);
+    },
+    updateDuplicateFrameIndex: (index) => {
+      updateDuplicateFrameIndex(index);
+    },
+    updateFrameKeys: (keys) => {
+      updateFrameKeys(keys);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Frame);

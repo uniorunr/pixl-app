@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import './ColorSelect.scss';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../../actions/actions';
+import './ColorSelect.scss';
 
 class ColorSelect extends Component {
   constructor(props) {
@@ -79,4 +82,21 @@ ColorSelect.propTypes = {
   secondaryColor: PropTypes.string.isRequired,
 };
 
-export default ColorSelect;
+const mapStateToProps = state => ({
+  primaryColor: state.colors.primaryColor,
+  secondaryColor: state.colors.secondaryColor,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const { updateColor } = bindActionCreators(actions, dispatch);
+  return {
+    updateColor: (color, isPrimary) => {
+      updateColor(color, isPrimary);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ColorSelect);

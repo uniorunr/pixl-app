@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import GIF from 'gif.js.optimized';
 import download from 'downloadjs';
-import PropTypes from 'prop-types';
+import * as actions from '../../../actions/actions';
 import CanvasSize from './CanvasSize/CanvasSize';
 import FpsControl from './FpsControl/FpsControl';
 import DownloadModal from './DownloadModal/DownloadModal';
@@ -137,7 +140,6 @@ class Preview extends Component {
   };
 
   render() {
-    const { handlePixelsPerCanvas } = this.props;
     const { fps, downloadModal } = this.state;
 
     return (
@@ -165,7 +167,7 @@ class Preview extends Component {
             <i className="fas fa-expand" />
           </button>
           <FpsControl fps={fps} updateFps={this.updateFps} />
-          <CanvasSize handlePixelsPerCanvas={handlePixelsPerCanvas} />
+          <CanvasSize />
           {downloadModal ? (
             <DownloadModal
               closeDownloadModal={this.handleDownloadModal}
@@ -179,8 +181,22 @@ class Preview extends Component {
 }
 
 Preview.propTypes = {
-  handlePixelsPerCanvas: PropTypes.func.isRequired,
   framesArray: PropTypes.instanceOf(Array).isRequired,
 };
 
-export default Preview;
+const mapStateToProps = state => ({
+  pixelsPerCanvas: state.canvas.pixelsPerCanvas,
+  framesArray: state.frames.framesArray,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const { updatePixelsPerCanvas } = bindActionCreators(actions, dispatch);
+  return {
+    updatePixelsPerCanvas,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Preview);

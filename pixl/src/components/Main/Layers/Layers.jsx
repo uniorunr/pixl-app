@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import './Layers.scss';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../../actions/actions';
+import './Layers.scss';
 
 const saveLayerData = (keys, index, framesData, frames) => {
   const currLayerFramesData = framesData;
@@ -44,8 +46,14 @@ class Layers extends Component {
 
   componentDidMount = () => {
     const { active, keys } = this.state;
-    const { framesData, framesArray, updateLayerData } = this.props;
-    updateLayerData([0], 0);
+    const {
+      framesData,
+      framesArray,
+      updateLayerKeys,
+      updateActiveLayer,
+    } = this.props;
+    updateLayerKeys([0]);
+    updateActiveLayer(0);
     if (!sessionStorage.getItem('framesData')) {
       saveLayerData(keys, active, framesData, framesArray);
     } else {
@@ -75,15 +83,21 @@ class Layers extends Component {
 
   handleAddButton = () => {
     const { keys, active } = this.state;
-    const { framesData, framesArray, updateLayerData } = this.props;
+    const {
+      framesData,
+      framesArray,
+      updateLayerKeys,
+      updateActiveLayer,
+      canvas,
+    } = this.props;
     saveLayerData(keys, active, framesData, framesArray);
-    const canvas = document.querySelector('#canvas');
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     framesArray.forEach((frame) => {
       frame.getContext('2d').clearRect(0, 0, frame.width, frame.height);
     });
     const updatedKeys = [...keys, Math.max(...keys) + 1];
-    updateLayerData(updatedKeys, keys.length);
+    updateLayerKeys(updatedKeys);
+    updateActiveLayer(keys.length);
     this.setState({
       keys: updatedKeys,
       active: keys.length,
@@ -93,7 +107,12 @@ class Layers extends Component {
   };
 
   handleRemoveButton = () => {
-    const { framesData, framesArray, updateLayerData } = this.props;
+    const {
+      framesData,
+      framesArray,
+      updateLayerKeys,
+      updateActiveLayer,
+    } = this.props;
     const { keys, active } = this.state;
     delete framesData[`layer${keys[active]}`];
     if (keys.length > 1) {
@@ -104,7 +123,8 @@ class Layers extends Component {
         keys: [...keys],
         active: newActive,
       });
-      updateLayerData([...keys], newActive);
+      updateLayerKeys([...keys]);
+      updateActiveLayer(newActive);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
       sessionStorage.setItem('activeLayer', `${newActive}`);
     }
@@ -112,7 +132,7 @@ class Layers extends Component {
 
   handleMoveUp = () => {
     const { keys, active } = this.state;
-    const { updateLayerData } = this.props;
+    const { updateLayerKeys, updateActiveLayer } = this.props;
     const index = active;
     if (index > 0) {
       [keys[index - 1], keys[index]] = [keys[index], keys[index - 1]];
@@ -120,7 +140,8 @@ class Layers extends Component {
         active: active - 1,
         keys: [...keys],
       });
-      updateLayerData([...keys], active - 1);
+      updateLayerKeys([...keys]);
+      updateActiveLayer(active - 1);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
       sessionStorage.setItem('activeLayer', `${active - 1}`);
     }
@@ -128,7 +149,7 @@ class Layers extends Component {
 
   handleMoveDown = () => {
     const { keys, active } = this.state;
-    const { updateLayerData } = this.props;
+    const { updateLayerKeys, updateActiveLayer } = this.props;
     const index = active;
     if (index < keys.length - 1) {
       [keys[index + 1], keys[index]] = [keys[index], keys[index + 1]];
@@ -136,16 +157,22 @@ class Layers extends Component {
         active: active + 1,
         keys: [...keys],
       });
-      updateLayerData([...keys], active + 1);
+      updateLayerKeys([...keys], active + 1);
+      updateActiveLayer(active + 1);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
       sessionStorage.setItem('activeLayer', `${active + 1}`);
     }
   };
 
   handleMergeButton = () => {
-    const { framesData, framesArray, updateLayerData } = this.props;
+    const {
+      framesData,
+      framesArray,
+      updateLayerKeys,
+      updateActiveLayer,
+      canvas,
+    } = this.props;
     const { keys, active } = this.state;
-    const canvas = document.querySelector('#canvas');
     saveLayerData(keys, active, framesData, framesArray);
     if (keys[active + 1] >= 0) {
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
@@ -201,13 +228,19 @@ class Layers extends Component {
       this.setState({
         keys: [...keys],
       });
-      updateLayerData([...keys], active);
+      updateLayerKeys([...keys]);
+      updateActiveLayer(active);
       sessionStorage.setItem('layerKeys', JSON.stringify([...keys]));
     }
   };
 
   makeActive = ({ target }) => {
-    const { framesData, framesArray, updateLayerData } = this.props;
+    const {
+      framesData,
+      framesArray,
+      updateLayerKeys,
+      updateActiveLayer,
+    } = this.props;
     const { active, keys } = this.state;
     saveLayerData(keys, active, framesData, framesArray);
     const newActive = keys.indexOf(+target.dataset.id);
@@ -218,7 +251,8 @@ class Layers extends Component {
     this.setState({
       active: newActive,
     });
-    updateLayerData([...keys], newActive);
+    updateLayerKeys([...keys]);
+    updateActiveLayer(newActive);
     sessionStorage.setItem('activeLayer', `${newActive}`);
   };
 
@@ -286,14 +320,41 @@ class Layers extends Component {
 }
 
 Layers.propTypes = {
-  updateLayerData: PropTypes.func.isRequired,
+  updateLayerKeys: PropTypes.func.isRequired,
+  updateActiveLayer: PropTypes.func.isRequired,
   framesData: PropTypes.instanceOf(Object).isRequired,
   framesArray: PropTypes.instanceOf(Array).isRequired,
   layersShortcuts: PropTypes.instanceOf(Object).isRequired,
+  canvas: PropTypes.instanceOf(Object),
+};
+
+Layers.defaultProps = {
+  canvas: null,
 };
 
 const mapStateToProps = state => ({
   layersShortcuts: state.layers.layersShortcuts,
+  framesArray: state.frames.framesArray,
+  framesData: state.frames.framesData,
+  canvas: state.canvas.canvasRef,
 });
 
-export default connect(mapStateToProps)(Layers);
+const mapDispatchToProps = (dispatch) => {
+  const { updateLayerKeys, updateActiveLayer } = bindActionCreators(
+    actions,
+    dispatch,
+  );
+  return {
+    updateLayerKeys: (keys) => {
+      updateLayerKeys(keys);
+    },
+    updateActiveLayer: (index) => {
+      updateActiveLayer(index);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Layers);

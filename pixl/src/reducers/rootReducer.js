@@ -1,43 +1,4 @@
-import appDataJSON from './appData.json';
-
-const initialState = {
-  section: sessionStorage.getItem('section') || 'landing',
-  firebase: {
-    userData: null,
-    signInState: null,
-  },
-  tools: {
-    currToolId: 'pen',
-    toolsData: JSON.parse(sessionStorage.getItem('toolsData'))
-      || JSON.parse(JSON.stringify(appDataJSON)).tools,
-  },
-  frames: {
-    framesShortcuts: JSON.parse(sessionStorage.getItem('framesShortcuts'))
-      || JSON.parse(JSON.stringify(appDataJSON)).frames,
-  },
-  layers: {
-    layersShortcuts:
-      JSON.parse(sessionStorage.getItem('layersShortcuts'))
-      || JSON.parse(JSON.stringify(appDataJSON)).layers,
-  },
-  components: {
-    navBar: {
-      modalActive: false,
-      activeTool: 'pen',
-      activeBlock: 'tools',
-      activeFrameShortcut: 'duplicate',
-      activeLayerShortcut: 'add',
-      modalWindow: {
-        toolsShortcutsRefs: [],
-        framesShortcutsRefs: [],
-        layersShortcutsRefs: [],
-        activeToolIndex: 0,
-        activeFrameShortcutIndex: 0,
-        activeLayerShortcutIndex: 0,
-      },
-    },
-  },
-};
+import initialState from './initialState';
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -186,6 +147,89 @@ const rootReducer = (state = initialState, action) => {
               activeLayerShortcutIndex: action.index,
             },
           },
+        },
+      };
+    case 'UPDATE_CANVAS_SIZE':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          width: action.size,
+          height: action.size,
+        },
+      };
+    case 'UPDATE_PIXELS_PER_CANVAS':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          pixelsPerCanvas: action.pixels,
+        },
+      };
+    case 'UPDATE_COLOR':
+      if (action.isPrimary) {
+        return {
+          ...state,
+          colors: {
+            ...state.color,
+            primaryColor: action.color,
+          },
+        };
+      }
+      return {
+        ...state,
+        colors: {
+          ...state.color,
+          secondaryColor: action.color,
+        },
+      };
+    case 'UPDATE_LAYER_KEYS':
+      return {
+        ...state,
+        layers: {
+          ...state.layers,
+          layerKeys: action.keys,
+        },
+      };
+    case 'UPDATE_ACTIVE_LAYER':
+      return {
+        ...state,
+        layers: {
+          ...state.layers,
+          activeLayer: action.index,
+        },
+      };
+    case 'SET_CANVAS_REFS':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          canvasRef: action.canvas,
+          overlayRef: action.overlay,
+        },
+      };
+    case 'UPDATE_ACTIVE_FRAME_INDEX':
+      return {
+        ...state,
+        frames: {
+          ...state.frames,
+          activeFrame: action.index,
+        },
+      };
+    case 'UPDATE_DUPLICATE_FRAME_INDEX':
+      return {
+        ...state,
+        frames: {
+          ...state.frames,
+          duplicateIndex: action.index,
+        },
+      };
+    case 'UPDATE_FRAME_KEYS':
+      return {
+        ...state,
+        frames: {
+          ...state.frames,
+          frameKeys: action.keys,
         },
       };
     default:

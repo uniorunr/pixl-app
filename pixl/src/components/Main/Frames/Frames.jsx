@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Frame from './Frame/Frame';
 import List from './ListWrapper/ListWrapper';
+import * as actions from '../../../actions/actions';
 import './Frames.scss';
-import { setActiveFrame, translateActiveFrame } from './utils';
 
 class Frames extends Component {
-  state = {
-    frameKeys: JSON.parse(sessionStorage.getItem('frameKeys')) || [0],
-    activeFrame: +sessionStorage.getItem('activeFrame') || 0,
-    duplicate: null,
-  };
-
   componentDidMount() {
     document.addEventListener('keydown', ({ code, shiftKey }) => {
-      const { framesShortcuts } = this.props;
-      const { activeFrame } = this.state;
+      const { framesShortcuts, activeFrame } = this.props;
       if (shiftKey) {
         if (code === framesShortcuts.duplicate.shortcut) {
           this.duplicateFrame(activeFrame);
@@ -32,9 +26,13 @@ class Frames extends Component {
   }
 
   componentDidUpdate() {
-    const { activeFrame, frameKeys } = this.state;
     const {
-      framesData, framesArray, layerKeys, activeLayer,
+      framesData,
+      framesArray,
+      layerKeys,
+      activeLayer,
+      frameKeys,
+      activeFrame,
     } = this.props;
     const layerKey = `layer${layerKeys[activeLayer]}`;
     if (layerKeys[activeLayer] >= 0) {
@@ -45,60 +43,29 @@ class Frames extends Component {
     sessionStorage.setItem('frameKeys', JSON.stringify([...frameKeys]));
   }
 
-  makeActive = (index) => {
-    this.setState({
-      activeFrame: index,
-    });
-  };
-
-  resetDuplicate = () => {
-    this.setState({
-      duplicate: null,
-    });
-  };
-
   addFrame = () => {
-    const { frameKeys } = this.state;
-    this.setState({
-      frameKeys: [...frameKeys, Math.max(...frameKeys) + 1],
-      activeFrame: frameKeys.length,
-    });
+    const {
+      frameKeys,
+      canvas,
+      updateActiveFrameIndex,
+      updateFrameKeys,
+    } = this.props;
 
-    const mainCanvas = document.querySelector('#canvas');
-    const mainCtx = mainCanvas.getContext('2d');
-    mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-  };
+    updateFrameKeys([...frameKeys, Math.max(...frameKeys) + 1]);
+    updateActiveFrameIndex(frameKeys.length);
 
-  removeFrame = (index) => {
-    const { frameKeys, activeFrame } = this.state;
-    const indexToTranslate = setActiveFrame(activeFrame, frameKeys, index);
-    frameKeys.splice(index, 1);
-    translateActiveFrame(indexToTranslate);
-
-    this.setState({
-      frameKeys: [...frameKeys],
-      activeFrame:
-        indexToTranslate > frameKeys.length - 1
-          ? frameKeys.length - 1
-          : indexToTranslate,
-    });
-  };
-
-  duplicateFrame = (index) => {
-    const { frameKeys } = this.state;
-
-    frameKeys.splice(index + 1, 0, Math.max(...frameKeys) + 1);
-
-    this.setState({
-      frameKeys: [...frameKeys],
-      duplicate: index + 1,
-      activeFrame: index + 1,
-    });
+    const mainCtx = canvas.getContext('2d');
+    mainCtx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
   onDragEnd = (result) => {
     const { destination, source } = result;
-    const { frameKeys, activeFrame } = this.state;
+    const {
+      frameKeys,
+      activeFrame,
+      updateActiveFrameIndex,
+      updateFrameKeys,
+    } = this.props;
     const destIndex = destination ? destination.index : null;
     const srcIndex = source.index;
     const activeFrameKey = frameKeys[activeFrame];
@@ -106,16 +73,13 @@ class Frames extends Component {
       const srcItem = frameKeys[srcIndex];
       frameKeys.splice(srcIndex, 1);
       frameKeys.splice(destIndex, 0, srcItem);
-      this.setState({
-        frameKeys: [...frameKeys],
-        activeFrame: frameKeys.indexOf(activeFrameKey),
-      });
+      updateActiveFrameIndex(frameKeys.indexOf(activeFrameKey));
+      updateFrameKeys([...frameKeys]);
     }
   };
 
   render() {
-    const { frameKeys, activeFrame, duplicate } = this.state;
-    const { framesArray } = this.props;
+    const { frameKeys, activeFrame, duplicateIndex } = this.props;
 
     return (
       <section className="frames-section">
@@ -134,12 +98,8 @@ class Frames extends Component {
                         index={index}
                         key={item}
                         removeFrame={this.removeFrame}
-                        makeActive={this.makeActive}
-                        duplicateFrame={this.duplicateFrame}
-                        resetDuplicate={this.resetDuplicate}
                         active={index === activeFrame}
-                        duplicate={index === duplicate}
-                        framesArray={framesArray}
+                        duplicate={index === duplicateIndex}
                         frameKeys={frameKeys}
                         provided={provided1}
                         innerRef={provided1.innerRef}
@@ -166,19 +126,52 @@ class Frames extends Component {
 }
 
 Frames.propTypes = {
-  framesArray: PropTypes.instanceOf(Array),
+  framesArray: PropTypes.instanceOf(Array).isRequired,
   framesData: PropTypes.instanceOf(Object).isRequired,
   layerKeys: PropTypes.instanceOf(Array).isRequired,
   activeLayer: PropTypes.number.isRequired,
   framesShortcuts: PropTypes.instanceOf(Object).isRequired,
+  frameKeys: PropTypes.instanceOf(Array).isRequired,
+  activeFrame: PropTypes.number.isRequired,
+  updateActiveFrameIndex: PropTypes.func.isRequired,
+  updateFrameKeys: PropTypes.func.isRequired,
+  canvas: PropTypes.instanceOf(Object),
+  duplicateIndex: PropTypes.number,
 };
 
 Frames.defaultProps = {
-  framesArray: [],
+  canvas: null,
+  duplicateIndex: null,
 };
 
 const mapStateToProps = state => ({
   framesShortcuts: state.frames.framesShortcuts,
+  framesData: state.frames.framesData,
+  frameKeys: state.frames.frameKeys,
+  framesArray: state.frames.framesArray,
+  activeFrame: state.frames.activeFrame,
+  duplicateIndex: state.frames.duplicateIndex,
+  layerKeys: state.layers.layerKeys,
+  activeLayer: state.layers.activeLayer,
+  canvas: state.canvas.canvasRef,
 });
 
-export default connect(mapStateToProps)(Frames);
+const mapDispatchToProps = (dispatch) => {
+  const { updateActiveFrameIndex, updateFrameKeys } = bindActionCreators(
+    actions,
+    dispatch,
+  );
+  return {
+    updateActiveFrameIndex: (index) => {
+      updateActiveFrameIndex(index);
+    },
+    updateFrameKeys: (keys) => {
+      updateFrameKeys(keys);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Frames);
