@@ -171,7 +171,7 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           colors: {
-            ...state.color,
+            ...state.colors,
             primaryColor: action.color,
           },
         };
@@ -179,7 +179,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         colors: {
-          ...state.color,
+          ...state.colors,
           secondaryColor: action.color,
         },
       };
