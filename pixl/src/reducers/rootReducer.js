@@ -249,6 +249,15 @@ const rootReducer = (state = initialState, action) => {
           initY: action.y,
         },
       };
+    case 'UPDATE_CANVAS_CURR_COORDS':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          currX: action.x,
+          currY: action.y,
+        },
+      };
     case 'UPDATE_MOUSE_BUTTON_CODE':
       return {
         ...state,
