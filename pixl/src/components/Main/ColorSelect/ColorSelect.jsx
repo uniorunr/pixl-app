@@ -6,11 +6,9 @@ import * as actions from '../../../actions/actions';
 import './ColorSelect.scss';
 
 class ColorSelect extends Component {
-  constructor(props) {
-    super(props);
-    this.primary = React.createRef();
-    this.secondary = React.createRef();
-  }
+  primary = React.createRef();
+
+  secondary = React.createRef();
 
   handlePrimaryChange = ({ target }) => {
     const { updateColor } = this.props;
