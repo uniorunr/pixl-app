@@ -20,6 +20,8 @@ CanvasInfo.propTypes = {
 
 const mapStateToProps = state => ({
   pixelsPerCanvas: state.canvas.pixelsPerCanvas,
+  currX: state.canvas.currX,
+  currY: state.canvas.currY,
 });
 
 export default connect(mapStateToProps)(CanvasInfo);

@@ -232,6 +232,31 @@ const rootReducer = (state = initialState, action) => {
           frameKeys: action.keys,
         },
       };
+    case 'UPDATE_CURSOR_STATE':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          cursorActive: action.state,
+        },
+      };
+    case 'UPDATE_CANVAS_INIT_COORDS':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          initX: action.x,
+          initY: action.y,
+        },
+      };
+    case 'UPDATE_MOUSE_BUTTON_CODE':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          mouseButton: action.button,
+        },
+      };
     default:
       return state;
   }

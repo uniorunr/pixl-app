@@ -39,6 +39,12 @@ const initialState = {
     pixelsPerCanvas: 64,
     canvasRef: null,
     overlayRef: null,
+    cursorActive: null,
+    currX: 0,
+    currY: 0,
+    initX: null,
+    initY: null,
+    mouseButton: null,
   },
   colors: {
     primaryColor: sessionStorage.getItem('primaryColor') || '#000000',

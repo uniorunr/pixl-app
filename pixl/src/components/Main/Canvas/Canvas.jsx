@@ -19,21 +19,9 @@ const translate = (source, target, clear) => {
 };
 
 class Canvas extends Component {
-  constructor() {
-    super();
+  canvasRef = React.createRef();
 
-    this.canvasRef = React.createRef();
-    this.canvasOverlayRef = React.createRef();
-
-    this.state = {
-      cursorActive: null,
-      currX: 0,
-      currY: 0,
-      initX: null,
-      initY: null,
-      mouseButton: null,
-    };
-  }
+  canvasOverlayRef = React.createRef();
 
   componentDidMount() {
     const { setCanvasRefs } = this.props;
@@ -48,26 +36,31 @@ class Canvas extends Component {
     }
   };
 
-  shouldComponentUpdate = (nextProps, nextState) => {
-    const { pixelsPerCanvas, height, width } = this.props;
-    const { currX, currY } = this.state;
+  shouldComponentUpdate = (nextProps) => {
+    const {
+      pixelsPerCanvas, height, width, currX, currY,
+    } = this.props;
+
     return (
       pixelsPerCanvas !== nextProps.pixelsPerCanvas
       || height !== nextProps.height
       || width !== nextProps.width
-      || currX !== nextState.currX
-      || currY !== nextState.currY
+      || currX !== nextProps.currX
+      || currY !== nextProps.currY
     );
   };
 
   deactivateDrawing = () => {
-    const { cursorActive } = this.state;
     const {
       currToolId,
       framesData,
       framesArray,
       layerKeys,
       activeLayer,
+      cursorActive,
+      toggleCursorState,
+      updateCanvasInitCoords,
+      updateMouseButtonCode,
     } = this.props;
     if (toolsWithOverlayUse.includes(currToolId)) {
       const overlay = this.canvasOverlayRef.current;
@@ -79,12 +72,9 @@ class Canvas extends Component {
     translate(this.canvasRef.current, frame);
 
     if (cursorActive) {
-      this.setState({
-        cursorActive: false,
-        initX: null,
-        initY: null,
-        mouseButton: null,
-      });
+      toggleCursorState(false);
+      updateCanvasInitCoords(null, null);
+      updateMouseButtonCode(null);
       const layerKey = `layer${layerKeys[activeLayer]}`;
       framesData[layerKey] = framesArray.map(item => item.toDataURL());
       sessionStorage.setItem('framesData', JSON.stringify(framesData));
@@ -92,11 +82,14 @@ class Canvas extends Component {
   };
 
   handleMouseDown = ({ pageX, pageY, button }) => {
-    const { currToolId, updateColor } = this.props;
-    this.setState({
-      cursorActive: true,
-      mouseButton: button,
-    });
+    const {
+      currToolId,
+      updateColor,
+      toggleCursorState,
+      updateMouseButtonCode,
+    } = this.props;
+    toggleCursorState(true);
+    updateMouseButtonCode(button);
     const result = activateTool(
       currToolId,
       this.state,
@@ -119,18 +112,19 @@ class Canvas extends Component {
   };
 
   handleMouseMove = ({ pageX, pageY, button }) => {
-    const { cursorActive } = this.state;
     const {
-      currToolId, pixelsPerCanvas, width, framesArray,
+      currToolId,
+      pixelsPerCanvas,
+      width,
+      framesArray,
+      cursorActive,
+      updateCanvasCurrCoords,
     } = this.props;
     const pixelSize = width / pixelsPerCanvas;
     const canvas = this.canvasRef.current;
     const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
     const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-    this.setState({
-      currX: x,
-      currY: y,
-    });
+    updateCanvasCurrCoords(x, y);
 
     if (cursorActive) {
       activateTool(
@@ -155,17 +149,13 @@ class Canvas extends Component {
   };
 
   updateLastCoordinates = (x, y) => {
-    this.setState({
-      currX: x,
-      lastY: y,
-    });
+    const { updateCanvasCurrCoords } = this.props;
+    updateCanvasCurrCoords(x, y);
   };
 
   updateInitCoordinates = (x, y) => {
-    this.setState({
-      initX: x,
-      initY: y,
-    });
+    const { updateCanvasInitCoords } = this.props;
+    updateCanvasInitCoords(x, y);
   };
 
   clearCanvas = () => {
@@ -185,7 +175,6 @@ class Canvas extends Component {
 
   render() {
     const { width, height } = this.props;
-    const { currX, currY } = this.state;
 
     return (
       <section className="canvas-section" onContextMenu={this.handleRightClick}>
@@ -221,7 +210,7 @@ class Canvas extends Component {
           >
             clear
           </button>
-          <CanvasInfo currX={currX} currY={currY} />
+          <CanvasInfo />
         </div>
       </section>
     );
@@ -234,12 +223,22 @@ Canvas.propTypes = {
   currToolId: PropTypes.string.isRequired,
   updateColor: PropTypes.func.isRequired,
   framesArray: PropTypes.instanceOf(Array).isRequired,
-  // eslint-disable-next-line
   pixelsPerCanvas: PropTypes.number.isRequired,
   framesData: PropTypes.instanceOf(Object).isRequired,
   layerKeys: PropTypes.instanceOf(Array).isRequired,
   activeLayer: PropTypes.number.isRequired,
   setCanvasRefs: PropTypes.func.isRequired,
+  cursorActive: PropTypes.bool,
+  toggleCursorState: PropTypes.func.isRequired,
+  updateCanvasInitCoords: PropTypes.func.isRequired,
+  updateCanvasCurrCoords: PropTypes.func.isRequired,
+  updateMouseButtonCode: PropTypes.func.isRequired,
+  currX: PropTypes.number.isRequired,
+  currY: PropTypes.number.isRequired,
+};
+
+Canvas.defaultProps = {
+  cursorActive: null,
 };
 
 const mapStateToProps = state => ({
@@ -253,16 +252,41 @@ const mapStateToProps = state => ({
   framesData: state.frames.framesData,
   layerKeys: state.layers.layerKeys,
   activeLayer: state.layers.activeLayer,
+  cursorActive: state.canvas.cursorActive,
+  currX: state.canvas.currX,
+  currY: state.canvas.currY,
+  initX: state.canvas.initX,
+  initY: state.canvas.initY,
+  mouseButton: state.canvas.mouseButton,
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { updateColor, setCanvasRefs } = bindActionCreators(actions, dispatch);
+  const {
+    updateColor,
+    setCanvasRefs,
+    toggleCursorState,
+    updateCanvasInitCoords,
+    updateCanvasCurrCoords,
+    updateMouseButtonCode,
+  } = bindActionCreators(actions, dispatch);
   return {
     updateColor: (color, isPrimary) => {
       updateColor(color, isPrimary);
     },
     setCanvasRefs: (canvas, overlay) => {
       setCanvasRefs(canvas, overlay);
+    },
+    toggleCursorState: (state) => {
+      toggleCursorState(state);
+    },
+    updateCanvasInitCoords: (x, y) => {
+      updateCanvasInitCoords(x, y);
+    },
+    updateCanvasCurrCoords: (x, y) => {
+      updateCanvasCurrCoords(x, y);
+    },
+    updateMouseButtonCode: (button) => {
+      updateMouseButtonCode(button);
     },
   };
 };

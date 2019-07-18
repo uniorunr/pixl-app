@@ -22,6 +22,10 @@ const SET_CANVAS_REFS = 'SET_CANVAS_REFS';
 const UPDATE_ACTIVE_FRAME_INDEX = 'UPDATE_ACTIVE_FRAME_INDEX';
 const UPDATE_DUPLICATE_FRAME_INDEX = 'UPDATE_DUPLICATE_FRAME_INDEX';
 const UPDATE_FRAME_KEYS = 'UPDATE_FRAME_KEYS';
+const UPDATE_CURSOR_STATE = 'UPDATE_CURSOR_STATE';
+const UPDATE_CANVAS_INIT_COORDS = 'UPDATE_CANVAS_INIT_COORDS';
+const UPDATE_CANVAS_CURR_COORDS = 'UPDATE_CANVAS_CURR_COORDS';
+const UPDATE_MOUSE_BUTTON_CODE = 'UPDATE_MOUSE_BUTTON_CODE';
 
 export const changeSection = section => ({ type: CHANGE_SECTION, section });
 
@@ -79,3 +83,11 @@ export const updateActiveFrameIndex = index => ({ type: UPDATE_ACTIVE_FRAME_INDE
 export const updateDuplicateFrameIndex = index => ({ type: UPDATE_DUPLICATE_FRAME_INDEX, index });
 
 export const updateFrameKeys = keys => ({ type: UPDATE_FRAME_KEYS, keys });
+
+export const toggleCursorState = state => ({ type: UPDATE_CURSOR_STATE, state });
+
+export const updateCanvasInitCoords = (x, y) => ({ type: UPDATE_CANVAS_INIT_COORDS, x, y });
+
+export const updateCanvasCurrCoords = (x, y) => ({ type: UPDATE_CANVAS_CURR_COORDS, x, y });
+
+export const updateMouseButtonCode = button => ({ type: UPDATE_MOUSE_BUTTON_CODE, button });
