@@ -1,8 +1,7 @@
 import { fullColorHex } from './common';
 
-const draw = (x, y, lastX, lastY, state, props, canvas, button, color) => {
-  const { cursorActive } = state;
-  const { pixelsPerCanvas, width } = props;
+const draw = (x, y, lastX, lastY, props, canvas, button, color) => {
+  const { pixelsPerCanvas, width, cursorActive } = props;
   const pixelSize = width / pixelsPerCanvas;
   const context = canvas.getContext('2d');
   context.fillStyle = color;
@@ -14,9 +13,10 @@ const draw = (x, y, lastX, lastY, state, props, canvas, button, color) => {
   }
 };
 
-const lighten = (pageX, pageY, state, props, canvas, updateCoordinates, button) => {
-  const { currX, currY, mouseButton } = state;
-  const { pixelsPerCanvas, width } = props;
+const lighten = (pageX, pageY, props, canvas, updateCoordinates, button) => {
+  const {
+    pixelsPerCanvas, width, currX, currY, mouseButton,
+  } = props;
   const currentButton = mouseButton || button;
   const pixelSize = width / pixelsPerCanvas;
   const context = canvas.getContext('2d');
@@ -42,7 +42,7 @@ const lighten = (pageX, pageY, state, props, canvas, updateCoordinates, button) 
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  draw(x, y, currX, currY, state, props, canvas, currentButton, color);
+  draw(x, y, currX, currY, props, canvas, currentButton, color);
   updateCoordinates(x, y);
 };
 

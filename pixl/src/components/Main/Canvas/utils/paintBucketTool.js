@@ -8,9 +8,8 @@ const hexToRgb = (hex) => {
   } : null;
 };
 
-const paintBucket = (pageX, pageY, props, state, canvas, button) => {
-  const { mouseButton } = state;
-  const { primaryColor, secondaryColor } = props;
+const paintBucket = (pageX, pageY, props, canvas, button) => {
+  const { primaryColor, secondaryColor, mouseButton } = props;
   const currentButton = mouseButton || button;
   const color = currentButton === 2 ? secondaryColor : primaryColor;
   const ctx = canvas.getContext('2d');

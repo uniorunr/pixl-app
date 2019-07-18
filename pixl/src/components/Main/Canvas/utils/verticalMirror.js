@@ -1,9 +1,8 @@
 import { connectTwoPoints } from './common';
 
-const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas, button) => {
-  const { cursorActive } = state;
+const draw = (x, y, lastX, lastY, connectTwoPointsFunc, props, canvas, button) => {
   const {
-    pixelsPerCanvas, width, primaryColor, secondaryColor,
+    pixelsPerCanvas, width, primaryColor, secondaryColor, cursorActive,
   } = props;
   const pixelSize = width / pixelsPerCanvas;
   const context = canvas.getContext('2d');
@@ -18,18 +17,19 @@ const draw = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas, bu
   }
 };
 
-const verticalMirror = (pageX, pageY, state, props, canvas, updateCoordinates, button) => {
-  const { currX, currY, mouseButton } = state;
-  const { pixelsPerCanvas, width } = props;
+const verticalMirror = (pageX, pageY, props, canvas, updateCoordinates, button) => {
+  const {
+    pixelsPerCanvas, width, currX, currY, mouseButton,
+  } = props;
   const currentButton = mouseButton || button;
   const pixelSize = width / pixelsPerCanvas;
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  draw(x, y, currX, currY, connectTwoPoints, state, props, canvas, currentButton);
+  draw(x, y, currX, currY, connectTwoPoints, props, canvas, currentButton);
   const mirrorX = pixelsPerCanvas - x;
   const currMirrorX = pixelsPerCanvas - currX;
-  draw(mirrorX, y, currMirrorX, currY, connectTwoPoints, state, props, canvas, currentButton);
+  draw(mirrorX, y, currMirrorX, currY, connectTwoPoints, props, canvas, currentButton);
   updateCoordinates(x, y);
 };
 

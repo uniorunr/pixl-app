@@ -1,6 +1,7 @@
-const moveContext = (pageX, pageY, state, props, canvas, overlay, updateInitCoords) => {
-  const { initX, initY } = state;
-  const { pixelsPerCanvas, width } = props;
+const moveContext = (pageX, pageY, props, canvas, overlay, updateInitCoords) => {
+  const {
+    pixelsPerCanvas, width, initX, initY,
+  } = props;
   const pixelSize = width / pixelsPerCanvas;
   const canvasCtx = canvas.getContext('2d');
   const overlayCtx = overlay.getContext('2d');

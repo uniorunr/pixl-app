@@ -13,7 +13,6 @@ import lighten from './utils/lighten';
 
 const activateTool = (
   id,
-  state,
   props,
   x,
   y,
@@ -26,40 +25,40 @@ const activateTool = (
   let result = null;
   switch (id) {
     case 'pen':
-      result = moveAndPaint(x, y, state, props, canvas, updXY, button);
+      result = moveAndPaint(x, y, props, canvas, updXY, button);
       break;
     case 'eraser':
-      result = moveAndErase(x, y, state, props, canvas, updXY);
+      result = moveAndErase(x, y, props, canvas, updXY);
       break;
     case 'choose-color':
-      result = pickTheColor(x, y, state, props, canvas, button);
+      result = pickTheColor(x, y, props, canvas, button);
       break;
     case 'paint-bucket':
-      result = paintBucket(x, y, props, state, canvas, button);
+      result = paintBucket(x, y, props, canvas, button);
       break;
     case 'paint-same-pixels':
-      result = sameColor(x, y, props, state, canvas, button);
+      result = sameColor(x, y, props, canvas, button);
       break;
     case 'stroke':
-      result = drawStroke(x, y, state, props, canvas, overlay, updInit, button);
+      result = drawStroke(x, y, props, canvas, overlay, updInit, button);
       break;
     case 'rectangle':
-      result = drawRectangle(x, y, state, props, canvas, overlay, updInit, button);
+      result = drawRectangle(x, y, props, canvas, overlay, updInit, button);
       break;
     case 'circle':
-      result = drawCircle(x, y, state, props, canvas, overlay, updInit, button);
+      result = drawCircle(x, y, props, canvas, overlay, updInit, button);
       break;
     case 'move':
-      result = moveContext(x, y, state, props, canvas, overlay, updInit);
+      result = moveContext(x, y, props, canvas, overlay, updInit);
       break;
     case 'vertical-mirror':
-      result = verticalMirror(x, y, state, props, canvas, updXY, button);
+      result = verticalMirror(x, y, props, canvas, updXY, button);
       break;
     case 'horizontal-mirror':
-      result = horizontalMirror(x, y, state, props, canvas, updXY, button);
+      result = horizontalMirror(x, y, props, canvas, updXY, button);
       break;
     case 'lighten':
-      result = lighten(x, y, state, props, canvas, updXY, button);
+      result = lighten(x, y, props, canvas, updXY, button);
       break;
     default:
       throw new Error("tool isn't found");

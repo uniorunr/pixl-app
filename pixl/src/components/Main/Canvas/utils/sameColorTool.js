@@ -1,6 +1,5 @@
-const sameColor = (pageX, pageY, props, state, canvas, button) => {
-  const { mouseButton } = state;
-  const { primaryColor, secondaryColor } = props;
+const sameColor = (pageX, pageY, props, canvas, button) => {
+  const { primaryColor, secondaryColor, mouseButton } = props;
   const currentButton = mouseButton || button;
   const context = canvas.getContext('2d');
   const pixelSize = canvas.width / 128;

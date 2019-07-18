@@ -92,7 +92,6 @@ class Canvas extends Component {
     updateMouseButtonCode(button);
     const result = activateTool(
       currToolId,
-      this.state,
       this.props,
       pageX,
       pageY,
@@ -129,7 +128,6 @@ class Canvas extends Component {
     if (cursorActive) {
       activateTool(
         currToolId,
-        this.state,
         this.props,
         pageX,
         pageY,

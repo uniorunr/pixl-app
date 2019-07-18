@@ -1,7 +1,7 @@
 import { fullColorHex } from './common';
 
-const pickTheColor = (pageX, pageY, state, props, canvas, button) => {
-  const { mouseButton } = state;
+const pickTheColor = (pageX, pageY, props, canvas, button) => {
+  const { mouseButton } = props;
   const currentButton = mouseButton || button;
   const context = canvas.getContext('2d');
   const x = pageX - canvas.offsetLeft;

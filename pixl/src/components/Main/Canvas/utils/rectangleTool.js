@@ -1,9 +1,8 @@
 import { connectTwoPoints } from './common';
 
-const drawRectangle = (pageX, pageY, state, props, canvas, overlay, updateInitCoords, button) => {
-  const { initX, initY, mouseButton } = state;
+const drawRectangle = (pageX, pageY, props, canvas, overlay, updateInitCoords, button) => {
   const {
-    pixelsPerCanvas, width, primaryColor, secondaryColor,
+    pixelsPerCanvas, width, primaryColor, secondaryColor, initX, initY, mouseButton,
   } = props;
   const currentButton = mouseButton || button;
   const pixelSize = width / pixelsPerCanvas;

@@ -1,8 +1,7 @@
 import { connectTwoPoints } from './common';
 
-const erase = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas) => {
-  const { cursorActive } = state;
-  const { pixelsPerCanvas, width } = props;
+const erase = (x, y, lastX, lastY, connectTwoPointsFunc, props, canvas) => {
+  const { pixelsPerCanvas, width, cursorActive } = props;
   const pixelSize = width / pixelsPerCanvas;
   const context = canvas.getContext('2d');
 
@@ -13,14 +12,15 @@ const erase = (x, y, lastX, lastY, connectTwoPointsFunc, state, props, canvas) =
   }
 };
 
-const moveAndErase = (pageX, pageY, state, props, canvas, updateCoordinates) => {
-  const { currX, currY } = state;
-  const { pixelsPerCanvas, width } = props;
+const moveAndErase = (pageX, pageY, props, canvas, updateCoordinates) => {
+  const {
+    pixelsPerCanvas, width, currX, currY,
+  } = props;
   const pixelSize = width / pixelsPerCanvas;
 
   const x = Math.floor((pageX - canvas.offsetLeft) / pixelSize);
   const y = Math.floor((pageY - canvas.offsetTop) / pixelSize);
-  erase(x, y, currX, currY, connectTwoPoints, state, props, canvas);
+  erase(x, y, currX, currY, connectTwoPoints, props, canvas);
   updateCoordinates(x, y);
 };
 
