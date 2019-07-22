@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "web-based tool for pixel art",
   "private": true,
-  "main": "App.jsx",
+  "main": "index.jsx",
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch",
