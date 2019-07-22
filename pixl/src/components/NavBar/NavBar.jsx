@@ -8,74 +8,20 @@ import Logo from '../../assets/favicon.png';
 import FireBase from '../../firebase/firebase';
 import UserInfo from './UserInfo/UserInfo';
 import ShortcutsModal from './KeyBoardShortcutsModal/KeyBoardShortcutsModal';
-
-const updateShortcut = (shortcutObj, code, key, updateFunc, name) => {
-  const currShortcutsObj = { ...shortcutObj };
-  const shortcuts = Object.keys(currShortcutsObj).map(
-    id => currShortcutsObj[id].shortcut,
-  );
-  if (
-    !shortcuts.includes(code)
-    && !code.toLowerCase().includes('shift')
-    && !code.toLowerCase().includes('alt')
-  ) {
-    currShortcutsObj[key].shortcut = code;
-    updateFunc(currShortcutsObj);
-    sessionStorage.setItem(name, JSON.stringify(currShortcutsObj));
-  }
-};
+import keyboardListener from './utils';
 
 class NavBar extends Component {
   componentDidMount() {
-    const {
-      layersShortcuts,
-      updateCurrToolId,
-      updateToolsData,
-      updateFramesShortcuts,
-      updateLayersShortcuts,
-    } = this.props;
-    document.addEventListener('keydown', ({ code, shiftKey, altKey }) => {
-      const {
-        modalActive,
-        activeTool,
-        activeFrameShortcut,
-        activeLayerShortcut,
-        activeBlock,
-      } = this.props;
-      const { toolsData, framesShortcuts } = this.props;
-      if (!modalActive && !shiftKey && !altKey) {
-        const toolKeys = Object.keys(toolsData);
-        const targetTool = toolKeys.find(id => toolsData[id].shortcut === code);
-        if (targetTool && !shiftKey && !altKey) {
-          updateCurrToolId(targetTool);
-        }
-      } else if (activeBlock === 'tools' && !shiftKey && !altKey) {
-        updateShortcut(
-          toolsData,
-          code,
-          activeTool,
-          updateToolsData,
-          'toolsData',
-        );
-      } else if (activeBlock === 'frames' && !altKey && !shiftKey) {
-        updateShortcut(
-          framesShortcuts,
-          code,
-          activeFrameShortcut,
-          updateFramesShortcuts,
-          'framesShortcuts',
-        );
-      } else if (activeBlock === 'layers' && !altKey && !shiftKey) {
-        updateShortcut(
-          layersShortcuts,
-          code,
-          activeLayerShortcut,
-          updateLayersShortcuts,
-          'layersShortcuts',
-        );
-      }
-    });
+    document.addEventListener('keydown', this.keyboardHandler);
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.keyboardHandler);
+  }
+
+  keyboardHandler = ({ code, shiftKey, altKey }) => {
+    keyboardListener(code, shiftKey, altKey, this.props);
+  };
 
   handleSignIn = async () => {
     const { updateLoginStatus } = this.props;
@@ -142,20 +88,9 @@ class NavBar extends Component {
 NavBar.propTypes = {
   userData: PropTypes.instanceOf(Object),
   signInState: PropTypes.string,
-  toolsData: PropTypes.instanceOf(Object).isRequired,
-  updateCurrToolId: PropTypes.func.isRequired,
-  updateToolsData: PropTypes.func.isRequired,
-  framesShortcuts: PropTypes.instanceOf(Object).isRequired,
-  layersShortcuts: PropTypes.instanceOf(Object).isRequired,
-  updateFramesShortcuts: PropTypes.func.isRequired,
-  updateLayersShortcuts: PropTypes.func.isRequired,
   changeSection: PropTypes.func.isRequired,
   updateLoginStatus: PropTypes.func.isRequired,
   modalActive: PropTypes.bool.isRequired,
-  activeTool: PropTypes.string.isRequired,
-  activeFrameShortcut: PropTypes.string.isRequired,
-  activeLayerShortcut: PropTypes.string.isRequired,
-  activeBlock: PropTypes.string.isRequired,
   updateShortcutsModalState: PropTypes.func.isRequired,
 };
 
