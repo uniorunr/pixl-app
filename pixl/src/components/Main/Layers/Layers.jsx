@@ -4,43 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions/actions';
 import './Layers.scss';
-
-const saveLayerData = (keys, index, framesData, frames, updFunc) => {
-  const layerKey = `layer${keys[index]}`;
-  if (keys[index] !== undefined) {
-    const tempFramesData = { ...framesData };
-    tempFramesData[layerKey] = frames.map(item => item.toDataURL());
-    updFunc(tempFramesData);
-    sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
-    sessionStorage.setItem('layerKeys', JSON.stringify(keys));
-  }
-};
-
-const restoreFrames = (frames, keys, active, framesData, updFunc) => {
-  const canvas = document.querySelector('#canvas');
-  const canvasContext = canvas.getContext('2d');
-  canvasContext.imageSmoothingEnabled = false;
-  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-  frames.forEach((frame, index) => {
-    const frameContext = frame.getContext('2d');
-    frameContext.imageSmoothingEnabled = false;
-    frameContext.clearRect(0, 0, frame.width, frame.height);
-    const img = new Image();
-    const layerId = `layer${keys[active]}`;
-    if (!framesData[layerId]) return;
-    const URI = framesData[layerId][index];
-    if (URI) {
-      img.src = URI;
-      img.onload = () => {
-        frameContext.drawImage(img, 0, 0);
-        saveLayerData(keys, active, framesData, frames, updFunc);
-        if (frame.classList.contains('frame__canvas_active')) {
-          canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
-        }
-      };
-    }
-  });
-};
+import { saveLayerData, restoreFrames } from './utils';
 
 class Layers extends Component {
   componentDidMount = () => {
@@ -75,22 +39,28 @@ class Layers extends Component {
         updateFramesData,
       );
     }
-    document.addEventListener('keydown', ({ code, altKey }) => {
-      const { layersShortcuts } = this.props;
-      if (altKey) {
-        if (code === layersShortcuts.add.shortcut) {
-          this.handleAddButton();
-        } else if (code === layersShortcuts.moveUp.shortcut) {
-          this.handleMoveUp();
-        } else if (code === layersShortcuts.moveDown.shortcut) {
-          this.handleMoveDown();
-        } else if (code === layersShortcuts.remove.shortcut) {
-          this.handleRemoveButton();
-        } else if (code === layersShortcuts.merge.shortcut) {
-          this.handleMergeButton();
-        }
+    document.addEventListener('keydown', this.handleKeyboard);
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyboard);
+  }
+
+  handleKeyboard = ({ code, altKey }) => {
+    const { layersShortcuts } = this.props;
+    if (altKey) {
+      if (code === layersShortcuts.add.shortcut) {
+        this.handleAddButton();
+      } else if (code === layersShortcuts.moveUp.shortcut) {
+        this.handleMoveUp();
+      } else if (code === layersShortcuts.moveDown.shortcut) {
+        this.handleMoveDown();
+      } else if (code === layersShortcuts.remove.shortcut) {
+        this.handleRemoveButton();
+      } else if (code === layersShortcuts.merge.shortcut) {
+        this.handleMergeButton();
       }
-    });
+    }
   };
 
   handleAddButton = () => {
