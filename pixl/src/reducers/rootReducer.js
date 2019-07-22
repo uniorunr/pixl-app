@@ -266,6 +266,70 @@ const rootReducer = (state = initialState, action) => {
           mouseButton: action.button,
         },
       };
+    case 'UPDATE_FRAMES_ARRAY':
+      return {
+        ...state,
+        frames: {
+          ...state.frames,
+          framesArray: action.array,
+        },
+      };
+    case 'UPDATE_CURR_PREVIEW_FRAME':
+      return {
+        ...state,
+        preview: {
+          ...state.preview,
+          currFrame: action.index,
+        },
+      };
+    case 'UPDATE_RECORDING_STATE':
+      return {
+        ...state,
+        preview: {
+          ...state.preview,
+          recording: action.state,
+        },
+      };
+    case 'UPDATE_FPS':
+      return {
+        ...state,
+        preview: {
+          ...state.preview,
+          fps: action.fps,
+        },
+      };
+    case 'SET_GIF_INSTANCE':
+      return {
+        ...state,
+        preview: {
+          ...state.preview,
+          gif: action.gif,
+        },
+      };
+    case 'SET_DOWNLOAD_MODAL_STATE':
+      return {
+        ...state,
+        preview: {
+          ...state.preview,
+          downloadModal: action.state,
+        },
+      };
+    case 'SET_DOWNLOAD_NAME':
+      return {
+        ...state,
+        preview: {
+          ...state.preview,
+          name: action.name,
+        },
+      };
+    case 'SET_DOWNLOAD_SIZE':
+      return {
+        ...state,
+        preview: {
+          ...state.preview,
+          size: action.size,
+        },
+      };
     default:
       return state;
   }

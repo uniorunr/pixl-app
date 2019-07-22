@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import './FpsControl.scss';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../../../actions/actions';
+import './FpsControl.scss';
 
 class FpsControl extends Component {
-  constructor(props) {
-    super(props);
-    this.inputRef = React.createRef();
-  }
+  inputRef = React.createRef();
 
   componentDidMount = () => {
     const { updateFps } = this.props;
-    updateFps(this.inputRef.current.value);
+    updateFps(+this.inputRef.current.value);
   };
 
   handleInputChange = ({ target: { value } }) => {
     const { updateFps } = this.props;
-    updateFps(value);
+    updateFps(+value);
   };
 
   render() {
@@ -48,4 +48,20 @@ FpsControl.propTypes = {
   fps: PropTypes.number.isRequired,
 };
 
-export default FpsControl;
+const mapStateToProps = state => ({
+  fps: state.preview.fps,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const { updateFps } = bindActionCreators(actions, dispatch);
+  return {
+    updateFps: (fps) => {
+      updateFps(fps);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FpsControl);

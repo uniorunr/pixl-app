@@ -26,6 +26,14 @@ const UPDATE_CURSOR_STATE = 'UPDATE_CURSOR_STATE';
 const UPDATE_CANVAS_INIT_COORDS = 'UPDATE_CANVAS_INIT_COORDS';
 const UPDATE_CANVAS_CURR_COORDS = 'UPDATE_CANVAS_CURR_COORDS';
 const UPDATE_MOUSE_BUTTON_CODE = 'UPDATE_MOUSE_BUTTON_CODE';
+const UPDATE_FRAMES_ARRAY = 'UPDATE_FRAMES_ARRAY';
+const UPDATE_CURR_PREVIEW_FRAME = 'UPDATE_CURR_PREVIEW_FRAME';
+const UPDATE_RECORDING_STATE = 'UPDATE_RECORDING_STATE';
+const UPDATE_FPS = 'UPDATE_FPS';
+const SET_GIF_INSTANCE = 'SET_GIF_INSTANCE';
+const SET_DOWNLOAD_MODAL_STATE = 'SET_DOWNLOAD_MODAL_STATE';
+const SET_DOWNLOAD_NAME = 'SET_DOWNLOAD_NAME';
+const SET_DOWNLOAD_SIZE = 'SET_DOWNLOAD_SIZE';
 
 export const changeSection = section => ({ type: CHANGE_SECTION, section });
 
@@ -91,3 +99,19 @@ export const updateCanvasInitCoords = (x, y) => ({ type: UPDATE_CANVAS_INIT_COOR
 export const updateCanvasCurrCoords = (x, y) => ({ type: UPDATE_CANVAS_CURR_COORDS, x, y });
 
 export const updateMouseButtonCode = button => ({ type: UPDATE_MOUSE_BUTTON_CODE, button });
+
+export const updateFramesArray = array => ({ type: UPDATE_FRAMES_ARRAY, array });
+
+export const updateCurrPreviewFrame = index => ({ type: UPDATE_CURR_PREVIEW_FRAME, index });
+
+export const updateRecordingState = state => ({ type: UPDATE_RECORDING_STATE, state });
+
+export const updateFps = fps => ({ type: UPDATE_FPS, fps });
+
+export const setGifInstance = gif => ({ type: SET_GIF_INSTANCE, gif });
+
+export const setDownloadModalState = state => ({ type: SET_DOWNLOAD_MODAL_STATE, state });
+
+export const setDownloadName = name => ({ type: SET_DOWNLOAD_NAME, name });
+
+export const setDownloadSize = size => ({ type: SET_DOWNLOAD_SIZE, size });

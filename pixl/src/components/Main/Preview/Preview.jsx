@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import GIF from 'gif.js.optimized';
-import download from 'downloadjs';
 import * as actions from '../../../actions/actions';
 import CanvasSize from './CanvasSize/CanvasSize';
 import FpsControl from './FpsControl/FpsControl';
@@ -21,24 +19,9 @@ const canvasWithSize = (sourceCanvas, width, height) => {
 };
 
 class Preview extends Component {
-  constructor(props) {
-    super(props);
-    const { framesArray } = this.props;
+  previewRef = React.createRef();
 
-    this.previewRef = React.createRef();
-    this.timeOut = null;
-
-    this.state = {
-      framesArray,
-      fps: 12,
-      currFrame: 0,
-      recording: false,
-      gif: null,
-      downloadModal: false,
-      name: 'uniorunr',
-      size: 500,
-    };
-  }
+  timeOut = null;
 
   componentDidMount = () => {
     this.animate();
@@ -50,22 +33,29 @@ class Preview extends Component {
   }
 
   animate = () => {
-    const { fps } = this.state;
+    const { fps } = this.props;
     this.timeOut = setTimeout(this.changeFrame, 1000 / fps);
   };
 
   changeFrame = () => {
     const {
-      framesArray, currFrame, fps, recording, gif, size,
-    } = this.state;
+      framesArray,
+      currFrame,
+      fps,
+      recording,
+      gif,
+      size,
+      updateFramesArray,
+      updateCurrPreviewFrame,
+      updateRecordingState,
+    } = this.props;
     requestAnimationFrame(this.animate);
     const index = framesArray.indexOf(null);
     if (index !== -1) {
-      framesArray.splice(index);
-      this.setState({
-        framesArray: [...framesArray],
-        currFrame: 0,
-      });
+      const updatedFramesArray = [...framesArray];
+      updatedFramesArray.splice(index);
+      updateFramesArray(updatedFramesArray);
+      updateCurrPreviewFrame(0);
     }
     if (framesArray[currFrame] && this.previewRef.current) {
       const canvas = this.previewRef.current;
@@ -73,61 +63,27 @@ class Preview extends Component {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.imageSmoothingEnabled = false;
       ctx.drawImage(framesArray[currFrame], 0, 0, canvas.width, canvas.height);
-      this.setState({
-        currFrame: currFrame + 1 <= framesArray.length - 1 ? currFrame + 1 : 0,
-      });
+      const updatedCurrFrame = currFrame + 1 <= framesArray.length - 1 ? currFrame + 1 : 0;
+      updateCurrPreviewFrame(updatedCurrFrame);
       if (recording && gif) {
         gif.addFrame(canvasWithSize(framesArray[currFrame], size, size), {
           copy: true,
           delay: 1000 / fps,
         });
         if (!framesArray[currFrame + 1]) {
-          this.setState({
-            recording: false,
-          });
+          updateRecordingState(false);
           gif.render();
         }
       }
     } else {
-      this.setState({ currFrame: 0, recording: false });
+      updateCurrPreviewFrame(0);
+      updateRecordingState(false);
     }
   };
 
-  updateFps = (fps) => {
-    this.setState({
-      fps: +fps,
-    });
-  };
-
-  download = (returnedName, returnedSize) => {
-    const { name, size } = this.state;
-    const finalName = returnedName || name;
-    const finalDimensions = returnedSize || size;
-    const gif = new GIF({
-      workers: 2,
-      quality: 10,
-      width: finalDimensions,
-      height: finalDimensions,
-    });
-
-    gif.on('finished', (blob) => {
-      download(blob, `${finalName}.gif`, 'image/gif');
-    });
-
-    this.setState({
-      recording: true,
-      currFrame: 0,
-      gif,
-      size: finalDimensions,
-      downloadModal: false,
-    });
-  };
-
   handleDownloadModal = () => {
-    const { downloadModal } = this.state;
-    this.setState({
-      downloadModal: !downloadModal,
-    });
+    const { downloadModal, setDownloadModalState } = this.props;
+    setDownloadModalState(!downloadModal);
   };
 
   handleFullScreen = () => {
@@ -140,7 +96,7 @@ class Preview extends Component {
   };
 
   render() {
-    const { fps, downloadModal } = this.state;
+    const { downloadModal } = this.props;
 
     return (
       <section className="preview-section">
@@ -166,7 +122,7 @@ class Preview extends Component {
           >
             <i className="fas fa-expand" />
           </button>
-          <FpsControl fps={fps} updateFps={this.updateFps} />
+          <FpsControl />
           <CanvasSize />
           {downloadModal ? (
             <DownloadModal
@@ -182,17 +138,60 @@ class Preview extends Component {
 
 Preview.propTypes = {
   framesArray: PropTypes.instanceOf(Array).isRequired,
+  fps: PropTypes.number.isRequired,
+  currFrame: PropTypes.number.isRequired,
+  recording: PropTypes.bool.isRequired,
+  gif: PropTypes.instanceOf(Object),
+  downloadModal: PropTypes.bool.isRequired,
+  size: PropTypes.number.isRequired,
+  updateFramesArray: PropTypes.func.isRequired,
+  updateCurrPreviewFrame: PropTypes.func.isRequired,
+  updateRecordingState: PropTypes.func.isRequired,
+  setDownloadModalState: PropTypes.func.isRequired,
+};
+
+Preview.defaultProps = {
+  gif: null,
 };
 
 const mapStateToProps = state => ({
   pixelsPerCanvas: state.canvas.pixelsPerCanvas,
   framesArray: state.frames.framesArray,
+  fps: state.preview.fps,
+  currFrame: state.preview.currFrame,
+  recording: state.preview.recording,
+  gif: state.preview.gif,
+  downloadModal: state.preview.downloadModal,
+  name: state.preview.name,
+  size: state.preview.size,
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { updatePixelsPerCanvas } = bindActionCreators(actions, dispatch);
+  const {
+    updatePixelsPerCanvas,
+    updateFramesArray,
+    updateCurrPreviewFrame,
+    updateRecordingState,
+    setGifInstance,
+    setDownloadModalState,
+  } = bindActionCreators(actions, dispatch);
   return {
     updatePixelsPerCanvas,
+    updateFramesArray: (array) => {
+      updateFramesArray(array);
+    },
+    updateCurrPreviewFrame: (index) => {
+      updateCurrPreviewFrame(index);
+    },
+    updateRecordingState: (state) => {
+      updateRecordingState(state);
+    },
+    setGifInstance: (gif) => {
+      setGifInstance(gif);
+    },
+    setDownloadModalState: (state) => {
+      setDownloadModalState(state);
+    },
   };
 };
 

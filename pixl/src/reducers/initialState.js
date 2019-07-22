@@ -63,6 +63,15 @@ const initialState = {
     activeFrameShortcutIndex: 0,
     activeLayerShortcutIndex: 0,
   },
+  preview: {
+    fps: 12,
+    currFrame: 0,
+    recording: false,
+    gif: null,
+    downloadModal: false,
+    name: 'uniorunr',
+    size: 500,
+  },
 };
 
 export default initialState;
