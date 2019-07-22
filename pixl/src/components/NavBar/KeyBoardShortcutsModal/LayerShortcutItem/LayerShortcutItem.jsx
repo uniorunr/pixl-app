@@ -58,7 +58,7 @@ LayerShortcutItem.propTypes = {
 
 const mapStateToProps = state => ({
   layersShortcuts: state.layers.layersShortcuts,
-  layers: state.components.navBar.modalWindow.layersShortcutsRefs,
+  layers: state.shortcuts.layersShortcutsRefs,
 });
 
 export default connect(mapStateToProps)(LayerShortcutItem);

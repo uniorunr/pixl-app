@@ -162,15 +162,13 @@ const mapStateToProps = state => ({
   toolsData: state.tools.toolsData,
   framesShortcuts: state.frames.framesShortcuts,
   layersShortcuts: state.layers.layersShortcuts,
-  activeBlock: state.components.navBar.activeBlock,
-  activeToolIndex: state.components.navBar.modalWindow.activeToolIndex,
-  activeFrameShortcutIndex:
-    state.components.navBar.modalWindow.activeFrameShortcutIndex,
-  activeLayerShortcutIndex:
-    state.components.navBar.modalWindow.activeLayerShortcutIndex,
-  tools: state.components.navBar.modalWindow.toolsShortcutsRefs,
-  frames: state.components.navBar.modalWindow.framesShortcutsRefs,
-  layers: state.components.navBar.modalWindow.layersShortcutsRefs,
+  activeBlock: state.shortcuts.activeBlock,
+  activeToolIndex: state.shortcuts.activeToolIndex,
+  activeFrameShortcutIndex: state.shortcuts.activeFrameShortcutIndex,
+  activeLayerShortcutIndex: state.shortcuts.activeLayerShortcutIndex,
+  tools: state.shortcuts.toolsShortcutsRefs,
+  frames: state.shortcuts.framesShortcutsRefs,
+  layers: state.shortcuts.layersShortcutsRefs,
 });
 
 const mapDispatchToProps = (dispatch) => {

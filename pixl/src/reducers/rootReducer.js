@@ -55,98 +55,65 @@ const rootReducer = (state = initialState, action) => {
     case 'UPDATE_SHORTCUTS_MODAL_STATE':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            modalActive: !state.components.navBar.modalActive,
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          modalActive: !state.shortcuts.modalActive,
         },
       };
     case 'UPDATE_ACTIVE_BLOCK':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            activeBlock: action.block,
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          activeBlock: action.block,
         },
       };
     case 'UPDATE_ACTIVE_TOOL':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            activeTool: action.id,
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          activeTool: action.id,
         },
       };
     case 'UPDATE_ACTIVE_TOOL_INDEX':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            modalWindow: {
-              ...state.components.navBar.modalWindow,
-              activeToolIndex: action.index,
-            },
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          activeToolIndex: action.index,
         },
       };
     case 'UPDATE_ACTIVE_FRAME_SHORTCUT':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            activeFrameShortcut: action.id,
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          activeFrameShortcut: action.id,
         },
       };
     case 'UPDATE_ACTIVE_FRAME_SHORTCUT_INDEX':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            modalWindow: {
-              ...state.components.navBar.modalWindow,
-              activeFrameShortcutIndex: action.index,
-            },
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          activeFrameShortcutIndex: action.index,
         },
       };
     case 'UPDATE_ACTIVE_LAYER_SHORTCUT':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            activeLayerShortcut: action.id,
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          activeLayerShortcut: action.id,
         },
       };
     case 'UPDATE_ACTIVE_LAYER_SHORTCUT_INDEX':
       return {
         ...state,
-        components: {
-          ...state.components,
-          navBar: {
-            ...state.components.navBar,
-            modalWindow: {
-              ...state.components.navBar.modalWindow,
-              activeLayerShortcutIndex: action.index,
-            },
-          },
+        shortcuts: {
+          ...state.shortcuts,
+          activeLayerShortcutIndex: action.index,
         },
       };
     case 'UPDATE_CANVAS_SIZE':

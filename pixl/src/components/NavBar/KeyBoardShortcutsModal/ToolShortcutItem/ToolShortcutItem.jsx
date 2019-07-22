@@ -53,7 +53,7 @@ ShortcutItem.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  tools: state.components.navBar.modalWindow.toolsShortcutsRefs,
+  tools: state.shortcuts.toolsShortcutsRefs,
   toolsData: state.tools.toolsData,
 });
 

@@ -58,7 +58,7 @@ FrameShortcutItem.propTypes = {
 
 const mapStateToProps = state => ({
   framesShortcuts: state.frames.framesShortcuts,
-  frames: state.components.navBar.modalWindow.framesShortcutsRefs,
+  frames: state.shortcuts.framesShortcutsRefs,
 });
 
 export default connect(mapStateToProps)(FrameShortcutItem);
