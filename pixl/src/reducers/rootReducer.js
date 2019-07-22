@@ -330,6 +330,14 @@ const rootReducer = (state = initialState, action) => {
           size: action.size,
         },
       };
+    case 'UPDATE_FRAMES_DATA':
+      return {
+        ...state,
+        frames: {
+          ...state.frames,
+          framesData: action.data,
+        },
+      };
     default:
       return state;
   }

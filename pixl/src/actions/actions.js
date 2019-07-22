@@ -34,6 +34,7 @@ const SET_GIF_INSTANCE = 'SET_GIF_INSTANCE';
 const SET_DOWNLOAD_MODAL_STATE = 'SET_DOWNLOAD_MODAL_STATE';
 const SET_DOWNLOAD_NAME = 'SET_DOWNLOAD_NAME';
 const SET_DOWNLOAD_SIZE = 'SET_DOWNLOAD_SIZE';
+const UPDATE_FRAMES_DATA = 'UPDATE_FRAMES_DATA';
 
 export const changeSection = section => ({ type: CHANGE_SECTION, section });
 
@@ -115,3 +116,5 @@ export const setDownloadModalState = state => ({ type: SET_DOWNLOAD_MODAL_STATE,
 export const setDownloadName = name => ({ type: SET_DOWNLOAD_NAME, name });
 
 export const setDownloadSize = size => ({ type: SET_DOWNLOAD_SIZE, size });
+
+export const updateFramesData = data => ({ type: UPDATE_FRAMES_DATA, data });

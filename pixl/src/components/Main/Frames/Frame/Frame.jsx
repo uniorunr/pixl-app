@@ -28,6 +28,7 @@ class Frame extends Component {
   clickOnFrame = () => {
     const { index, updateActiveFrameIndex } = this.props;
     updateActiveFrameIndex(index);
+    sessionStorage.setItem('activeFrame', index);
     translateActiveFrame(index);
   };
 
@@ -38,15 +39,25 @@ class Frame extends Component {
       activeFrame,
       updateActiveFrameIndex,
       updateFrameKeys,
+      framesData,
+      activeLayer,
+      layerKeys,
+      updateFramesData,
     } = this.props;
     const indexToTranslate = setActiveFrame(activeFrame, frameKeys, index);
-    frameKeys.splice(index, 1);
+    const tempFrameKeys = [...frameKeys];
+    const tempFramesData = { ...framesData };
+    const layerKey = `layer${layerKeys[activeLayer]}`;
+    tempFrameKeys.splice(index, 1);
+    tempFramesData[layerKey].splice(index, 1);
     translateActiveFrame(indexToTranslate);
-    updateFrameKeys([...frameKeys]);
+    updateFramesData(tempFramesData);
+    updateFrameKeys([...tempFrameKeys]);
     const newActiveFrameIndex = indexToTranslate > frameKeys.length - 1
       ? frameKeys.length - 1
       : indexToTranslate;
     updateActiveFrameIndex(newActiveFrameIndex);
+    sessionStorage.setItem('activeFrame', newActiveFrameIndex);
   };
 
   handleDuplicateButton = () => {
@@ -57,8 +68,9 @@ class Frame extends Component {
       updateActiveFrameIndex,
       updateFrameKeys,
     } = this.props;
-    frameKeys.splice(index + 1, 0, Math.max(...frameKeys) + 1);
-    updateFrameKeys([...frameKeys]);
+    const tempFrameKeys = [...frameKeys];
+    tempFrameKeys.splice(index + 1, 0, Math.max(...tempFrameKeys) + 1);
+    updateFrameKeys([...tempFrameKeys]);
     updateDuplicateFrameIndex(index + 1);
     updateActiveFrameIndex(index + 1);
   };
@@ -128,9 +140,13 @@ Frame.propTypes = {
   frameKeys: PropTypes.instanceOf(Array).isRequired,
   innerRef: PropTypes.func.isRequired,
   provided: PropTypes.instanceOf(Object).isRequired,
+  framesData: PropTypes.instanceOf(Object).isRequired,
   updateActiveFrameIndex: PropTypes.func.isRequired,
   updateDuplicateFrameIndex: PropTypes.func.isRequired,
   updateFrameKeys: PropTypes.func.isRequired,
+  updateFramesData: PropTypes.func.isRequired,
+  activeLayer: PropTypes.number.isRequired,
+  layerKeys: PropTypes.instanceOf(Array).isRequired,
 };
 
 Frame.defaultProps = {
@@ -142,6 +158,9 @@ const mapStateToProps = state => ({
   framesArray: state.frames.framesArray,
   frameKeys: state.frames.frameKeys,
   activeFrame: state.frames.activeFrame,
+  activeLayer: state.layers.activeLayer,
+  layerKeys: state.layers.layerKeys,
+  framesData: state.frames.framesData,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -149,6 +168,7 @@ const mapDispatchToProps = (dispatch) => {
     updateActiveFrameIndex,
     updateDuplicateFrameIndex,
     updateFrameKeys,
+    updateFramesData,
   } = bindActionCreators(actions, dispatch);
   return {
     updateActiveFrameIndex: (index) => {
@@ -159,6 +179,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateFrameKeys: (keys) => {
       updateFrameKeys(keys);
+    },
+    updateFramesData: (data) => {
+      updateFramesData(data);
     },
   };
 };

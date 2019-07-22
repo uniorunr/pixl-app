@@ -25,7 +25,7 @@ class Frames extends Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const {
       framesData,
       framesArray,
@@ -33,14 +33,23 @@ class Frames extends Component {
       activeLayer,
       frameKeys,
       activeFrame,
+      updateFramesData,
     } = this.props;
-    const layerKey = `layer${layerKeys[activeLayer]}`;
-    if (layerKeys[activeLayer] >= 0) {
-      framesData[layerKey] = framesArray.map(item => item.toDataURL());
-      sessionStorage.setItem('framesData', JSON.stringify(framesData));
+    if (
+      JSON.stringify(prevProps.framesData) !== JSON.stringify(framesData)
+      || JSON.stringify(prevProps.frameKeys) !== JSON.stringify(frameKeys)
+      || JSON.stringify(prevProps.layerKeys) !== JSON.stringify(layerKeys)
+    ) {
+      const layerKey = `layer${layerKeys[activeLayer]}`;
+      if (layerKeys[activeLayer] >= 0) {
+        const tempFramesData = { ...framesData };
+        tempFramesData[layerKey] = framesArray.map(item => item.toDataURL());
+        updateFramesData(tempFramesData);
+        sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
+      }
+      sessionStorage.setItem('activeFrame', `${activeFrame}`);
+      sessionStorage.setItem('frameKeys', JSON.stringify(frameKeys));
     }
-    sessionStorage.setItem('activeFrame', `${activeFrame}`);
-    sessionStorage.setItem('frameKeys', JSON.stringify([...frameKeys]));
   }
 
   addFrame = () => {
@@ -51,9 +60,10 @@ class Frames extends Component {
       updateFrameKeys,
     } = this.props;
 
-    updateFrameKeys([...frameKeys, Math.max(...frameKeys) + 1]);
+    const newFrameKeys = [...frameKeys, Math.max(...frameKeys) + 1];
+    updateFrameKeys(newFrameKeys);
     updateActiveFrameIndex(frameKeys.length);
-
+    sessionStorage.setItem('frameKeys', JSON.stringify(newFrameKeys));
     const mainCtx = canvas.getContext('2d');
     mainCtx.clearRect(0, 0, canvas.width, canvas.height);
   };
@@ -65,16 +75,28 @@ class Frames extends Component {
       activeFrame,
       updateActiveFrameIndex,
       updateFrameKeys,
+      framesArray,
+      framesData,
+      activeLayer,
+      layerKeys,
+      updateFramesData,
     } = this.props;
     const destIndex = destination ? destination.index : null;
     const srcIndex = source.index;
     const activeFrameKey = frameKeys[activeFrame];
     if (destination && destIndex !== srcIndex) {
-      const srcItem = frameKeys[srcIndex];
-      frameKeys.splice(srcIndex, 1);
-      frameKeys.splice(destIndex, 0, srcItem);
-      updateActiveFrameIndex(frameKeys.indexOf(activeFrameKey));
-      updateFrameKeys([...frameKeys]);
+      const tempFrameKeys = [...frameKeys];
+      const srcItem = tempFrameKeys[srcIndex];
+      tempFrameKeys.splice(srcIndex, 1);
+      tempFrameKeys.splice(destIndex, 0, srcItem);
+      updateActiveFrameIndex(tempFrameKeys.indexOf(activeFrameKey));
+      updateFrameKeys([...tempFrameKeys]);
+
+      const tempFramesData = { ...framesData };
+      const layerKey = `layer${layerKeys[activeLayer]}`;
+      tempFramesData[layerKey] = framesArray.map(item => item.toDataURL());
+      updateFramesData(tempFramesData);
+      sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
     }
   };
 
@@ -137,6 +159,7 @@ Frames.propTypes = {
   updateFrameKeys: PropTypes.func.isRequired,
   canvas: PropTypes.instanceOf(Object),
   duplicateIndex: PropTypes.number,
+  updateFramesData: PropTypes.func.isRequired,
 };
 
 Frames.defaultProps = {
@@ -157,16 +180,20 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { updateActiveFrameIndex, updateFrameKeys } = bindActionCreators(
-    actions,
-    dispatch,
-  );
+  const {
+    updateActiveFrameIndex,
+    updateFrameKeys,
+    updateFramesData,
+  } = bindActionCreators(actions, dispatch);
   return {
     updateActiveFrameIndex: (index) => {
       updateActiveFrameIndex(index);
     },
     updateFrameKeys: (keys) => {
       updateFrameKeys(keys);
+    },
+    updateFramesData: (data) => {
+      updateFramesData(data);
     },
   };
 };

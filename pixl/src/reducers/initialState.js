@@ -30,7 +30,7 @@ const initialState = {
     layersShortcuts:
       JSON.parse(sessionStorage.getItem('layersShortcuts'))
       || JSON.parse(JSON.stringify(appDataJSON)).layers,
-    layerKeys: [],
+    layerKeys: JSON.parse(sessionStorage.getItem('layerKeys')) || [0],
     activeLayer: +sessionStorage.getItem('activeLayer') || 0,
   },
   canvas: {

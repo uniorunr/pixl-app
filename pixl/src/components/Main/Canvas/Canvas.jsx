@@ -61,6 +61,7 @@ class Canvas extends Component {
       toggleCursorState,
       updateCanvasInitCoords,
       updateMouseButtonCode,
+      updateFramesData,
     } = this.props;
     if (toolsWithOverlayUse.includes(currToolId)) {
       const overlay = this.canvasOverlayRef.current;
@@ -72,12 +73,14 @@ class Canvas extends Component {
     translate(this.canvasRef.current, frame);
 
     if (cursorActive) {
+      const layerKey = `layer${layerKeys[activeLayer]}`;
+      const tempFramesData = { ...framesData };
+      tempFramesData[layerKey] = framesArray.map(item => item.toDataURL());
+      updateFramesData(tempFramesData);
+      sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
       toggleCursorState(false);
       updateCanvasInitCoords(null, null);
       updateMouseButtonCode(null);
-      const layerKey = `layer${layerKeys[activeLayer]}`;
-      framesData[layerKey] = framesArray.map(item => item.toDataURL());
-      sessionStorage.setItem('framesData', JSON.stringify(framesData));
     }
   };
 
@@ -158,7 +161,11 @@ class Canvas extends Component {
 
   clearCanvas = () => {
     const {
-      framesArray, layerKeys, activeLayer, framesData,
+      framesArray,
+      layerKeys,
+      activeLayer,
+      framesData,
+      updateFramesData,
     } = this.props;
     const canvas = this.canvasRef.current;
     const canvasCtx = canvas.getContext('2d');
@@ -167,8 +174,10 @@ class Canvas extends Component {
     translate(canvas, frame);
 
     const layerKey = `layer${layerKeys[activeLayer]}`;
-    framesData[layerKey] = framesArray.map(item => item.toDataURL());
-    sessionStorage.setItem('framesData', JSON.stringify(framesData));
+    const tempFramesData = { ...framesData };
+    tempFramesData[layerKey] = framesArray.map(item => item.toDataURL());
+    updateFramesData(tempFramesData);
+    sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
   };
 
   render() {
@@ -233,6 +242,7 @@ Canvas.propTypes = {
   updateMouseButtonCode: PropTypes.func.isRequired,
   currX: PropTypes.number.isRequired,
   currY: PropTypes.number.isRequired,
+  updateFramesData: PropTypes.func.isRequired,
 };
 
 Canvas.defaultProps = {
@@ -266,6 +276,7 @@ const mapDispatchToProps = (dispatch) => {
     updateCanvasInitCoords,
     updateCanvasCurrCoords,
     updateMouseButtonCode,
+    updateFramesData,
   } = bindActionCreators(actions, dispatch);
   return {
     updateColor: (color, isPrimary) => {
@@ -285,6 +296,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateMouseButtonCode: (button) => {
       updateMouseButtonCode(button);
+    },
+    updateFramesData: (data) => {
+      updateFramesData(data);
     },
   };
 };

@@ -5,14 +5,18 @@ import { connect } from 'react-redux';
 import * as actions from '../../../actions/actions';
 import './Layers.scss';
 
-const saveLayerData = (keys, index, framesData, frames) => {
-  const currLayerFramesData = framesData;
+const saveLayerData = (keys, index, framesData, frames, updFunc) => {
   const layerKey = `layer${keys[index]}`;
-  currLayerFramesData[layerKey] = frames.map(item => item.toDataURL());
-  sessionStorage.setItem('framesData', JSON.stringify(framesData));
+  if (keys[index] !== undefined) {
+    const tempFramesData = { ...framesData };
+    tempFramesData[layerKey] = frames.map(item => item.toDataURL());
+    updFunc(tempFramesData);
+    sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
+    sessionStorage.setItem('layerKeys', JSON.stringify(keys));
+  }
 };
 
-const restoreFrames = (frames, keys, active, framesData) => {
+const restoreFrames = (frames, keys, active, framesData, updFunc) => {
   const canvas = document.querySelector('#canvas');
   const canvasContext = canvas.getContext('2d');
   canvasContext.imageSmoothingEnabled = false;
@@ -29,7 +33,7 @@ const restoreFrames = (frames, keys, active, framesData) => {
       img.src = URI;
       img.onload = () => {
         frameContext.drawImage(img, 0, 0);
-        saveLayerData(keys, active, framesData, frames);
+        saveLayerData(keys, active, framesData, frames, updFunc);
         if (frame.classList.contains('frame__canvas_active')) {
           canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
@@ -43,21 +47,33 @@ class Layers extends Component {
     const {
       framesData,
       framesArray,
-      updateLayerKeys,
-      updateActiveLayer,
       layerKeys,
       activeLayer,
+      updateFramesData,
     } = this.props;
-    updateLayerKeys([0]);
-    updateActiveLayer(0);
     if (!sessionStorage.getItem('framesData')) {
-      saveLayerData(layerKeys, activeLayer, framesData, framesArray);
+      saveLayerData(
+        layerKeys,
+        activeLayer,
+        framesData,
+        framesArray,
+        updateFramesData,
+      );
     } else {
-      restoreFrames(framesArray, layerKeys, activeLayer, framesData);
-      saveLayerData(layerKeys, activeLayer, framesData, framesArray);
-    }
-    if (!sessionStorage.getItem('layerKeys')) {
-      sessionStorage.setItem('layerKeys', JSON.stringify([0]));
+      restoreFrames(
+        framesArray,
+        layerKeys,
+        activeLayer,
+        framesData,
+        updateFramesData,
+      );
+      saveLayerData(
+        layerKeys,
+        activeLayer,
+        framesData,
+        framesArray,
+        updateFramesData,
+      );
     }
     document.addEventListener('keydown', ({ code, altKey }) => {
       const { layersShortcuts } = this.props;
@@ -86,8 +102,15 @@ class Layers extends Component {
       canvas,
       layerKeys,
       activeLayer,
+      updateFramesData,
     } = this.props;
-    saveLayerData(layerKeys, activeLayer, framesData, framesArray);
+    saveLayerData(
+      layerKeys,
+      activeLayer,
+      framesData,
+      framesArray,
+      updateFramesData,
+    );
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     framesArray.forEach((frame) => {
       frame.getContext('2d').clearRect(0, 0, frame.width, frame.height);
@@ -107,12 +130,21 @@ class Layers extends Component {
       updateActiveLayer,
       layerKeys,
       activeLayer,
+      updateFramesData,
     } = this.props;
-    delete framesData[`layer${layerKeys[activeLayer]}`];
+    const tempFramesData = { ...framesData };
+    delete tempFramesData[`layer${layerKeys[activeLayer]}`];
+    updateFramesData(tempFramesData);
     if (layerKeys.length > 1) {
       const newActive = layerKeys.length - 2;
       layerKeys.splice(activeLayer, 1);
-      restoreFrames(framesArray, layerKeys, newActive, framesData);
+      restoreFrames(
+        framesArray,
+        layerKeys,
+        newActive,
+        framesData,
+        updateFramesData,
+      );
       updateLayerKeys([...layerKeys]);
       updateActiveLayer(newActive);
       sessionStorage.setItem('layerKeys', JSON.stringify([...layerKeys]));
@@ -169,8 +201,15 @@ class Layers extends Component {
       canvas,
       layerKeys,
       activeLayer,
+      updateFramesData,
     } = this.props;
-    saveLayerData(layerKeys, activeLayer, framesData, framesArray);
+    saveLayerData(
+      layerKeys,
+      activeLayer,
+      framesData,
+      framesArray,
+      updateFramesData,
+    );
     if (layerKeys[activeLayer + 1] >= 0) {
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
       framesArray.forEach((frame, index) => {
@@ -183,11 +222,24 @@ class Layers extends Component {
         const backLayerId = `layer${layerKeys[activeLayer + 1]}`;
         const frontURI = framesData[frontLayerId][index];
         const backURI = framesData[backLayerId][index];
+        const tempFramesData = { ...framesData };
+        const tempLayerKeys = [...layerKeys];
+        delete tempFramesData[`layer${layerKeys[activeLayer + 1]}`];
+        updateFramesData(tempFramesData);
+        tempLayerKeys.splice(activeLayer + 1, 1);
+        updateLayerKeys(tempLayerKeys);
+        updateActiveLayer(activeLayer);
         if (backURI) {
           backImg.src = backURI;
           backImg.onload = () => {
             frameContext.drawImage(backImg, 0, 0);
-            saveLayerData(layerKeys, activeLayer, framesData, framesArray);
+            saveLayerData(
+              tempLayerKeys,
+              activeLayer,
+              framesData,
+              framesArray,
+              updateFramesData,
+            );
             if (frame.classList.contains('frame__canvas_active')) {
               const canvasContext = canvas.getContext('2d');
               canvasContext.imageSmoothingEnabled = false;
@@ -203,7 +255,13 @@ class Layers extends Component {
               frontImg.src = frontURI;
               frontImg.onload = () => {
                 frameContext.drawImage(frontImg, 0, 0);
-                saveLayerData(layerKeys, activeLayer, framesData, framesArray);
+                saveLayerData(
+                  tempLayerKeys,
+                  activeLayer,
+                  framesData,
+                  framesArray,
+                  updateFramesData,
+                );
                 if (frame.classList.contains('frame__canvas_active')) {
                   const canvasContext = canvas.getContext('2d');
                   canvasContext.imageSmoothingEnabled = false;
@@ -220,11 +278,16 @@ class Layers extends Component {
           };
         }
       });
-      delete framesData[`layer${layerKeys[activeLayer + 1]}`];
-      layerKeys.splice(activeLayer + 1, 1);
-      updateLayerKeys([...layerKeys]);
+      const tempFramesData = { ...framesData };
+      const tempLayerKeys = [...layerKeys];
+      delete tempFramesData[`layer${layerKeys[activeLayer + 1]}`];
+      updateFramesData(tempFramesData);
+      tempLayerKeys.splice(activeLayer + 1, 1);
+      updateLayerKeys(tempLayerKeys);
       updateActiveLayer(activeLayer);
-      sessionStorage.setItem('layerKeys', JSON.stringify([...layerKeys]));
+      sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
+      sessionStorage.setItem('layerKeys', JSON.stringify(tempLayerKeys));
+      sessionStorage.setItem('activeLayer', `${activeLayer}`);
     }
   };
 
@@ -236,12 +299,31 @@ class Layers extends Component {
       updateActiveLayer,
       layerKeys,
       activeLayer,
+      updateFramesData,
     } = this.props;
-    saveLayerData(layerKeys, activeLayer, framesData, framesArray);
+    saveLayerData(
+      layerKeys,
+      activeLayer,
+      framesData,
+      framesArray,
+      updateFramesData,
+    );
     const newActive = layerKeys.indexOf(+target.dataset.id);
     if (layerKeys.length > 1) {
-      restoreFrames(framesArray, layerKeys, newActive, framesData);
-      saveLayerData(layerKeys, newActive, framesData, framesArray);
+      restoreFrames(
+        framesArray,
+        layerKeys,
+        newActive,
+        framesData,
+        updateFramesData,
+      );
+      saveLayerData(
+        layerKeys,
+        newActive,
+        framesData,
+        framesArray,
+        updateFramesData,
+      );
     }
     updateLayerKeys([...layerKeys]);
     updateActiveLayer(newActive);
@@ -320,6 +402,7 @@ Layers.propTypes = {
   canvas: PropTypes.instanceOf(Object),
   layerKeys: PropTypes.instanceOf(Array).isRequired,
   activeLayer: PropTypes.number.isRequired,
+  updateFramesData: PropTypes.func.isRequired,
 };
 
 Layers.defaultProps = {
@@ -336,16 +419,20 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { updateLayerKeys, updateActiveLayer } = bindActionCreators(
-    actions,
-    dispatch,
-  );
+  const {
+    updateLayerKeys,
+    updateActiveLayer,
+    updateFramesData,
+  } = bindActionCreators(actions, dispatch);
   return {
     updateLayerKeys: (keys) => {
       updateLayerKeys(keys);
     },
     updateActiveLayer: (index) => {
       updateActiveLayer(index);
+    },
+    updateFramesData: (data) => {
+      updateFramesData(data);
     },
   };
 };
