@@ -11,19 +11,7 @@ import './Frames.scss';
 
 class Frames extends Component {
   componentDidMount() {
-    document.addEventListener('keydown', ({ code, shiftKey }) => {
-      const { framesShortcuts, activeFrame } = this.props;
-      if (shiftKey) {
-        if (code === framesShortcuts.duplicate.shortcut) {
-          this.duplicateFrame(activeFrame);
-        } else if (
-          code === framesShortcuts.remove.shortcut
-          && activeFrame !== 0
-        ) {
-          this.removeFrame(activeFrame);
-        }
-      }
-    });
+    document.addEventListener('keydown', this.keyboardHandler);
   }
 
   componentDidUpdate(prevProps) {
@@ -52,6 +40,24 @@ class Frames extends Component {
       sessionStorage.setItem('frameKeys', JSON.stringify(frameKeys));
     }
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.keyboardHandler);
+  }
+
+  keyboardHandler = ({ code, shiftKey }) => {
+    const { framesShortcuts, activeFrame } = this.props;
+    if (shiftKey) {
+      if (code === framesShortcuts.duplicate.shortcut) {
+        this.duplicateFrame(activeFrame);
+      } else if (
+        code === framesShortcuts.remove.shortcut
+        && activeFrame !== 0
+      ) {
+        this.removeFrame(activeFrame);
+      }
+    }
+  };
 
   duplicateFrame = (index) => {
     const {
