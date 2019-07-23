@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../../../actions/actions';
-import { translateActiveFrame, setActiveFrame } from '../utils';
+import { translateActiveFrame } from '../utils';
 import './Frame.scss';
 
 class Frame extends Component {
@@ -33,31 +33,8 @@ class Frame extends Component {
   };
 
   handleRemoveButton = () => {
-    const {
-      index,
-      frameKeys,
-      activeFrame,
-      updateActiveFrameIndex,
-      updateFrameKeys,
-      framesData,
-      activeLayer,
-      layerKeys,
-      updateFramesData,
-    } = this.props;
-    const indexToTranslate = setActiveFrame(activeFrame, frameKeys, index);
-    const tempFrameKeys = [...frameKeys];
-    const tempFramesData = { ...framesData };
-    const layerKey = `layer${layerKeys[activeLayer]}`;
-    tempFrameKeys.splice(index, 1);
-    tempFramesData[layerKey].splice(index, 1);
-    translateActiveFrame(indexToTranslate);
-    updateFramesData(tempFramesData);
-    updateFrameKeys([...tempFrameKeys]);
-    const newActiveFrameIndex = indexToTranslate > frameKeys.length - 1
-      ? frameKeys.length - 1
-      : indexToTranslate;
-    updateActiveFrameIndex(newActiveFrameIndex);
-    sessionStorage.setItem('activeFrame', newActiveFrameIndex);
+    const { index, removeFrame } = this.props;
+    removeFrame(index);
   };
 
   handleDuplicateButton = () => {
@@ -147,6 +124,7 @@ Frame.propTypes = {
   updateFramesData: PropTypes.func.isRequired,
   activeLayer: PropTypes.number.isRequired,
   layerKeys: PropTypes.instanceOf(Array).isRequired,
+  removeFrame: PropTypes.func.isRequired,
 };
 
 Frame.defaultProps = {

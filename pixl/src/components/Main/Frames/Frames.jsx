@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Frame from './Frame/Frame';
 import List from './ListWrapper/ListWrapper';
 import * as actions from '../../../actions/actions';
-import { translateActiveFrame } from './utils';
+import { setActiveFrame, translateActiveFrame } from './utils';
 import './Frames.scss';
 
 class Frames extends Component {
@@ -73,6 +73,33 @@ class Frames extends Component {
     translateActiveFrame(index);
     updateDuplicateFrameIndex(null);
     sessionStorage.setItem('activeFrame', index + 1);
+  };
+
+  removeFrame = (index) => {
+    const {
+      frameKeys,
+      activeFrame,
+      updateActiveFrameIndex,
+      updateFrameKeys,
+      framesData,
+      activeLayer,
+      layerKeys,
+      updateFramesData,
+    } = this.props;
+    const indexToTranslate = setActiveFrame(activeFrame, frameKeys, index);
+    const tempFrameKeys = [...frameKeys];
+    const tempFramesData = { ...framesData };
+    const newActiveFrameIndex = indexToTranslate > tempFrameKeys.length - 2
+      ? tempFrameKeys.length - 2
+      : indexToTranslate;
+    const layerKey = `layer${layerKeys[activeLayer]}`;
+    tempFrameKeys.splice(index, 1);
+    tempFramesData[layerKey].splice(index, 1);
+    updateFramesData(tempFramesData);
+    updateFrameKeys([...tempFrameKeys]);
+    updateActiveFrameIndex(newActiveFrameIndex);
+    translateActiveFrame(indexToTranslate);
+    sessionStorage.setItem('activeFrame', newActiveFrameIndex);
   };
 
   addFrame = () => {
