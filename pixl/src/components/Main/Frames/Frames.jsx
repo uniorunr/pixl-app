@@ -6,6 +6,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Frame from './Frame/Frame';
 import List from './ListWrapper/ListWrapper';
 import * as actions from '../../../actions/actions';
+import { translateActiveFrame } from './utils';
 import './Frames.scss';
 
 class Frames extends Component {
@@ -51,6 +52,28 @@ class Frames extends Component {
       sessionStorage.setItem('frameKeys', JSON.stringify(frameKeys));
     }
   }
+
+  duplicateFrame = (index) => {
+    const {
+      frameKeys,
+      updateDuplicateFrameIndex,
+      updateActiveFrameIndex,
+      updateFrameKeys,
+      framesArray,
+    } = this.props;
+    const tempFrameKeys = [...frameKeys];
+    tempFrameKeys.splice(index + 1, 0, Math.max(...tempFrameKeys) + 1);
+    updateFrameKeys([...tempFrameKeys]);
+    updateActiveFrameIndex(index + 1);
+    const origin = framesArray[index];
+    const target = framesArray[index + 1];
+    const context = target.getContext('2d');
+    context.imageSmoothingEnabled = false;
+    context.drawImage(origin, 0, 0, target.width, target.height);
+    translateActiveFrame(index);
+    updateDuplicateFrameIndex(null);
+    sessionStorage.setItem('activeFrame', index + 1);
+  };
 
   addFrame = () => {
     const {
@@ -160,6 +183,7 @@ Frames.propTypes = {
   canvas: PropTypes.instanceOf(Object),
   duplicateIndex: PropTypes.number,
   updateFramesData: PropTypes.func.isRequired,
+  updateDuplicateFrameIndex: PropTypes.func.isRequired,
 };
 
 Frames.defaultProps = {
@@ -184,6 +208,7 @@ const mapDispatchToProps = (dispatch) => {
     updateActiveFrameIndex,
     updateFrameKeys,
     updateFramesData,
+    updateDuplicateFrameIndex,
   } = bindActionCreators(actions, dispatch);
   return {
     updateActiveFrameIndex: (index) => {
@@ -194,6 +219,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateFramesData: (data) => {
       updateFramesData(data);
+    },
+    updateDuplicateFrameIndex: (index) => {
+      updateDuplicateFrameIndex(index);
     },
   };
 };
