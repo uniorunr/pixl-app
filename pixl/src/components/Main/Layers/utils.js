@@ -5,7 +5,6 @@ const saveLayerData = (keys, index, framesData, frames, updFunc) => {
     tempFramesData[layerKey] = frames.map(item => item.toDataURL());
     updFunc(tempFramesData);
     sessionStorage.setItem('framesData', JSON.stringify(tempFramesData));
-    sessionStorage.setItem('layerKeys', JSON.stringify(keys));
   }
 };
 

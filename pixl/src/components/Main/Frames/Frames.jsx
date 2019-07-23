@@ -27,7 +27,6 @@ class Frames extends Component {
     if (
       JSON.stringify(prevProps.framesData) !== JSON.stringify(framesData)
       || JSON.stringify(prevProps.frameKeys) !== JSON.stringify(frameKeys)
-      || JSON.stringify(prevProps.layerKeys) !== JSON.stringify(layerKeys)
     ) {
       const layerKey = `layer${layerKeys[activeLayer]}`;
       if (layerKeys[activeLayer] >= 0) {

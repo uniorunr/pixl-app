@@ -88,6 +88,13 @@ class Layers extends Component {
     const updatedKeys = [...layerKeys, Math.max(...layerKeys) + 1];
     updateLayerKeys(updatedKeys);
     updateActiveLayer(layerKeys.length);
+    saveLayerData(
+      updatedKeys,
+      layerKeys.length,
+      framesData,
+      framesArray,
+      updateFramesData,
+    );
     sessionStorage.setItem('layerKeys', JSON.stringify(updatedKeys));
     sessionStorage.setItem('activeLayer', `${layerKeys.length}`);
   };
@@ -103,21 +110,22 @@ class Layers extends Component {
       updateFramesData,
     } = this.props;
     const tempFramesData = { ...framesData };
+    const tempLayerKeys = [...layerKeys];
     delete tempFramesData[`layer${layerKeys[activeLayer]}`];
     updateFramesData(tempFramesData);
     if (layerKeys.length > 1) {
       const newActive = layerKeys.length - 2;
-      layerKeys.splice(activeLayer, 1);
+      tempLayerKeys.splice(activeLayer, 1);
       restoreFrames(
         framesArray,
-        layerKeys,
+        tempLayerKeys,
         newActive,
-        framesData,
+        tempFramesData,
         updateFramesData,
       );
-      updateLayerKeys([...layerKeys]);
+      updateLayerKeys(tempLayerKeys);
       updateActiveLayer(newActive);
-      sessionStorage.setItem('layerKeys', JSON.stringify([...layerKeys]));
+      sessionStorage.setItem('layerKeys', JSON.stringify(tempLayerKeys));
       sessionStorage.setItem('activeLayer', `${newActive}`);
     }
   };
@@ -206,7 +214,7 @@ class Layers extends Component {
             saveLayerData(
               tempLayerKeys,
               activeLayer,
-              framesData,
+              tempFramesData,
               framesArray,
               updateFramesData,
             );
@@ -228,7 +236,7 @@ class Layers extends Component {
                 saveLayerData(
                   tempLayerKeys,
                   activeLayer,
-                  framesData,
+                  tempFramesData,
                   framesArray,
                   updateFramesData,
                 );
