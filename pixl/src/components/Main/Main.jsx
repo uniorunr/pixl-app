@@ -22,6 +22,10 @@ class Main extends Component {
     window.addEventListener('resize', this.updateDimensions);
   };
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
   updateDimensions = () => {
     const { updateCanvasSize } = this.props;
     updateCanvasSize(getWindowSize());
