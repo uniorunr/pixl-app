@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="canvas-section__info"
+>
+  <span
+    className="canvas-section__size"
+  >
+    size: 64x64
+  </span>
+  <span
+    className="canvas-section__position"
+  >
+    x: 0  y: 0
+  </span>
+</div>
+`;
