@@ -1,7 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { Provider } from 'react-redux';
 import { JSDOM } from 'jsdom';
 import App from './App';
+import store from '../stores/mainStore';
 
 const dom = new JSDOM();
 global.document = dom.window.document;
@@ -29,6 +31,13 @@ document.body.appendChild(canvas);
 
 it('renders correctly', () => {
   const options = { createNodeMock };
-  const tree = renderer.create(<App />, options).toJSON();
+  const tree = renderer
+    .create(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      options,
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });

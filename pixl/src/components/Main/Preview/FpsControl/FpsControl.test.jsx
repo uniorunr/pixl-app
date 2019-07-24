@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import FpsControl from './FpsControl';
+import store from '../../../../stores/mainStore';
 
 function createNodeMock(element) {
   if (element.type === 'input') {
@@ -15,8 +16,6 @@ function createNodeMock(element) {
 
 it('renders correctly', () => {
   const options = { createNodeMock };
-  const tree = renderer
-    .create(<FpsControl fps={12} updateFps={() => {}} />, options)
-    .toJSON();
+  const tree = renderer.create(<FpsControl store={store} />, options).toJSON();
   expect(tree).toMatchSnapshot();
 });

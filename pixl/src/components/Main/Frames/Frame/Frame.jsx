@@ -17,11 +17,13 @@ class Frame extends Component {
     if (duplicate) {
       const origin = framesArray[index - 1];
       const target = framesArray[index];
-      const context = target.getContext('2d');
-      context.imageSmoothingEnabled = false;
-      context.drawImage(origin, 0, 0, target.width, target.height);
-      translateActiveFrame(index);
-      updateDuplicateFrameIndex(null);
+      if (origin && target) {
+        const context = target.getContext('2d');
+        context.imageSmoothingEnabled = false;
+        context.drawImage(origin, 0, 0, target.width, target.height);
+        translateActiveFrame(index);
+        updateDuplicateFrameIndex(null);
+      }
     }
   };
 

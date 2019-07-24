@@ -21,7 +21,308 @@ exports[`renders correctly 1`] = `
       data-block="tools"
       onClick={[Function]}
       role="presentation"
-    />
+    >
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool shortcuts-modal__tool_active"
+          data-tool="pen"
+        >
+          <i
+            className="fas fa-pen"
+          />
+          <span>
+            Pen tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyP
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="vertical-mirror"
+        >
+          <i
+            className="fas fa-grip-lines-vertical"
+          />
+          <span>
+            Vertical mirror tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyV
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="horizontal-mirror"
+        >
+          <i
+            className="fas fa-grip-lines"
+          />
+          <span>
+            Horizontal Mirror tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyH
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="stroke"
+        >
+          <i
+            className="fas fa-slash"
+          />
+          <span>
+            Stroke tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyS
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="rectangle"
+        >
+          <i
+            className="far fa-square"
+          />
+          <span>
+            Rectangle tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyR
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="circle"
+        >
+          <i
+            className="far fa-circle"
+          />
+          <span>
+            Circle tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyC
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="paint-bucket"
+        >
+          <i
+            className="fas fa-fill-drip"
+          />
+          <span>
+            Paint bucket tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyB
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="paint-same-pixels"
+        >
+          <i
+            className="fas fa-paint-roller"
+          />
+          <span>
+            Paint same pixels tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyA
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="choose-color"
+        >
+          <i
+            className="fas fa-eye-dropper"
+          />
+          <span>
+            Color picker tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyY
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="eraser"
+        >
+          <i
+            className="fas fa-eraser"
+          />
+          <span>
+            Eraser tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyE
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="move"
+        >
+          <i
+            className="fas fa-arrows-alt"
+          />
+          <span>
+            Move tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyM
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-tool="lighten"
+        >
+          <i
+            className="fas fa-sun"
+          />
+          <span>
+            Lighten tool
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            KeyL
+          </span>
+        </div>
+      </div>
+    </div>
     <h3>
       Frames
     </h3>
@@ -30,7 +331,70 @@ exports[`renders correctly 1`] = `
       data-block="frames"
       onClick={[Function]}
       role="presentation"
-    />
+    >
+      <div
+        className="shortcuts-modal__row"
+        data-action="duplicate"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool shortcuts-modal__tool_active"
+          data-action="duplicate"
+        >
+          <i
+            className="fas fa-copy"
+          />
+          <span>
+            Duplicate Frame
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            <span
+              className="shortcuts-modal__prefix"
+            >
+              shiftKey + 
+            </span>
+            KeyF
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        data-action="remove"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-action="remove"
+        >
+          <i
+            className="fas fa-trash-alt"
+          />
+          <span>
+            Remove Frame
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            <span
+              className="shortcuts-modal__prefix"
+            >
+              shiftKey + 
+            </span>
+            KeyR
+          </span>
+        </div>
+      </div>
+    </div>
     <h3>
       Layers
     </h3>
@@ -39,7 +403,163 @@ exports[`renders correctly 1`] = `
       data-block="layers"
       onClick={[Function]}
       role="presentation"
-    />
+    >
+      <div
+        className="shortcuts-modal__row"
+        data-action="add"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool shortcuts-modal__tool_active"
+          data-action="add"
+        >
+          <i
+            className="fas fa-plus"
+          />
+          <span>
+            Add layer
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            <span
+              className="shortcuts-modal__prefix"
+            >
+              altKey + 
+            </span>
+            KeyL
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        data-action="moveUp"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-action="moveUp"
+        >
+          <i
+            className="fas fa-arrow-up"
+          />
+          <span>
+            Move Up
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            <span
+              className="shortcuts-modal__prefix"
+            >
+              altKey + 
+            </span>
+            ArrowUp
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        data-action="moveDown"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-action="moveDown"
+        >
+          <i
+            className="fas fa-arrow-down"
+          />
+          <span>
+            Move Down
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            <span
+              className="shortcuts-modal__prefix"
+            >
+              altKey + 
+            </span>
+            ArrowDown
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        data-action="remove"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-action="remove"
+        >
+          <i
+            className="fas fa-trash-alt"
+          />
+          <span>
+            Remove Layer
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            <span
+              className="shortcuts-modal__prefix"
+            >
+              altKey + 
+            </span>
+            KeyR
+          </span>
+        </div>
+      </div>
+      <div
+        className="shortcuts-modal__row"
+        data-action="merge"
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          className="shortcuts-modal__tool "
+          data-action="merge"
+        >
+          <i
+            className=""
+          />
+          <span>
+            Merge Layers
+          </span>
+          <span>
+            -
+          </span>
+          <span
+            className="shortcuts-modal__shortcut"
+          >
+            <span
+              className="shortcuts-modal__prefix"
+            >
+              altKey + 
+            </span>
+            KeyM
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
   <button
     className="shortcuts-modal__close"

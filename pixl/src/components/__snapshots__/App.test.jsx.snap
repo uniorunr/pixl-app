@@ -10,11 +10,11 @@ Array [
     >
       <h1
         className="navbar__logo"
-        onClick={[Function]}
         role="presentation"
       >
         <a
           href="/"
+          onClick={[Function]}
         >
           <img
             alt="Pixl logo"

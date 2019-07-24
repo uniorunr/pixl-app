@@ -1,6 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { Provider } from 'react-redux';
 import Frames from './Frames';
+import store from '../../../stores/mainStore';
 
 function createNodeMock(element) {
   if (typeof element.type === 'string' && element.type === 'div') {
@@ -22,12 +24,9 @@ it('renders correctly', () => {
   const options = { createNodeMock };
   const tree = renderer
     .create(
-      <Frames
-        activeLayer={0}
-        framesData={{}}
-        framesShortcuts={{}}
-        layerKeys={[]}
-      />,
+      <Provider store={store}>
+        <Frames />
+      </Provider>,
       options,
     )
     .toJSON();

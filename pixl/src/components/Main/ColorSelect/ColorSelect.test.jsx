@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import ColorSelect from './ColorSelect';
+import store from '../../../stores/mainStore';
 
 function createNodeMock(element) {
   if (element.type === 'input') {
@@ -12,15 +13,6 @@ function createNodeMock(element) {
 it('renders correctly', () => {
   const options = { createNodeMock };
 
-  const tree = renderer
-    .create(
-      <ColorSelect
-        updateColor={() => {}}
-        primaryColor="#000000"
-        secondaryColor="#ffffff"
-      />,
-      options,
-    )
-    .toJSON();
+  const tree = renderer.create(<ColorSelect store={store} />, options).toJSON();
   expect(tree).toMatchSnapshot();
 });

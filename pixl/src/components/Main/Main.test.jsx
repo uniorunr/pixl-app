@@ -1,7 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { Provider } from 'react-redux';
 import { JSDOM } from 'jsdom';
 import Main from './Main';
+import store from '../../stores/mainStore';
 
 const dom = new JSDOM();
 global.document = dom.window.document;
@@ -31,13 +33,9 @@ it('renders correctly', () => {
 
   const tree = renderer
     .create(
-      <Main
-        currToolId="pen"
-        framesShortcuts={{}}
-        layersShortcuts={{}}
-        toolsData={{}}
-        updateCurrentTool={() => {}}
-      />,
+      <Provider store={store}>
+        <Main />
+      </Provider>,
       options,
     )
     .toJSON();

@@ -10,38 +10,49 @@ exports[`renders correctly 1`] = `
   >
     <canvas
       className="canvas-section__canvas"
-      height={25}
+      height={512}
       id="canvas"
       onMouseDown={[Function]}
       onMouseLeave={[Function]}
       onMouseMove={[Function]}
       onMouseUp={[Function]}
-      width={25}
+      width={512}
     />
     <canvas
       className="canvas-section__canvas-overlay"
-      height={25}
+      height={512}
       id="canvas-overlay"
       onMouseDown={[Function]}
       onMouseLeave={[Function]}
       onMouseMove={[Function]}
       onMouseUp={[Function]}
-      width={25}
+      width={512}
     />
   </div>
   <div
-    className="canvas-section__info"
+    className="canvas-section__additional-info-wrapper"
   >
-    <span
-      className="canvas-section__size"
+    <button
+      className="canvas-section__clear-button"
+      onClick={[Function]}
+      type="button"
     >
-      size: 32x32
-    </span>
-    <span
-      className="canvas-section__position"
+      clear
+    </button>
+    <div
+      className="canvas-section__info"
     >
-      x: 0  y: 0
-    </span>
+      <span
+        className="canvas-section__size"
+      >
+        size: 64x64
+      </span>
+      <span
+        className="canvas-section__position"
+      >
+        x: 0  y: 0
+      </span>
+    </div>
   </div>
 </section>
 `;

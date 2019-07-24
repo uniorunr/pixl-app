@@ -1,17 +1,15 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { Provider } from 'react-redux';
 import Tools from './Tools';
-
-const mockUpdateCurrentTool = () => {};
+import store from '../../../stores/mainStore';
 
 it('renders correctly', () => {
   const tree = renderer
     .create(
-      <Tools
-        toolsData={{}}
-        currToolId=""
-        updateCurrentTool={mockUpdateCurrentTool}
-      />,
+      <Provider store={store}>
+        <Tools />
+      </Provider>,
     )
     .toJSON();
   expect(tree).toMatchSnapshot();

@@ -15,7 +15,248 @@ exports[`renders correctly 1`] = `
       </h2>
       <div
         className="tools"
-      />
+      >
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button tools_state_active"
+            data-listener="true"
+            id="pen"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-pen"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            pen (KeyP)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="vertical-mirror"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-grip-lines-vertical"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            vertical-mirror (KeyV)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="horizontal-mirror"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-grip-lines"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            horizontal-mirror (KeyH)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="stroke"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-slash"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            stroke (KeyS)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="rectangle"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="far fa-square"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            rectangle (KeyR)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="circle"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="far fa-circle"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            circle (KeyC)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="paint-bucket"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-fill-drip"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            paint-bucket (KeyB)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="paint-same-pixels"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-paint-roller"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            paint-same-pixels (KeyA)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="choose-color"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-eye-dropper"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            choose-color (KeyY)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="eraser"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-eraser"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            eraser (KeyE)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="move"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-arrows-alt"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            move (KeyM)
+          </div>
+        </div>
+        <div
+          className="tools__container"
+        >
+          <button
+            className="tools__button "
+            data-listener="true"
+            id="lighten"
+            onClick={[Function]}
+            type="button"
+          >
+            <i
+              className="fas fa-sun"
+            />
+          </button>
+          <div
+            className="tool__tooltip"
+          >
+            lighten (KeyL)
+          </div>
+        </div>
+      </div>
     </section>
     <section
       className="color-select-section"
@@ -162,18 +403,29 @@ exports[`renders correctly 1`] = `
       />
     </div>
     <div
-      className="canvas-section__info"
+      className="canvas-section__additional-info-wrapper"
     >
-      <span
-        className="canvas-section__size"
+      <button
+        className="canvas-section__clear-button"
+        onClick={[Function]}
+        type="button"
       >
-        size: 64x64
-      </span>
-      <span
-        className="canvas-section__position"
+        clear
+      </button>
+      <div
+        className="canvas-section__info"
       >
-        x: 0  y: 0
-      </span>
+        <span
+          className="canvas-section__size"
+        >
+          size: 64x64
+        </span>
+        <span
+          className="canvas-section__position"
+        >
+          x: 0  y: 0
+        </span>
+      </div>
     </div>
   </section>
   <section

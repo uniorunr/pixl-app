@@ -1,7 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { Provider } from 'react-redux';
 import { JSDOM } from 'jsdom';
 import Canvas from './Canvas';
+import store from '../../../stores/mainStore';
 
 const dom = new JSDOM();
 global.document = dom.window.document;
@@ -11,23 +13,12 @@ it('renders correctly', () => {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('id', 'canvas');
   document.body.appendChild(canvas);
-  const width = 25;
-  const height = 25;
 
   const tree = renderer
     .create(
-      <Canvas
-        width={width}
-        height={height}
-        pixelsPerCanvas={32}
-        currToolId="pen"
-        updateColor={() => {}}
-        primaryColor="#000000"
-        framesArray={[]}
-        activeLayer={0}
-        framesData={{}}
-        layerKeys={[]}
-      />,
+      <Provider store={store}>
+        <Canvas />
+      </Provider>,
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
