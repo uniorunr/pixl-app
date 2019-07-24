@@ -32,14 +32,16 @@ class LayerShortcutItem extends Component {
             }
           }}
         >
-          <i className={layersShortcuts[id].iconClass} />
-          <span>{layersShortcuts[id].name}</span>
+          <i
+            className={layersShortcuts[id] ? layersShortcuts[id].iconClass : ''}
+          />
+          <span>{layersShortcuts[id] ? layersShortcuts[id].name : ''}</span>
           <span>-</span>
           <span className="shortcuts-modal__shortcut">
             <span className="shortcuts-modal__prefix">
-              {`${layersShortcuts[id].prefix} + `}
+              {`${layersShortcuts[id] ? layersShortcuts[id].prefix : ''} + `}
             </span>
-            {layersShortcuts[id].shortcut}
+            {layersShortcuts[id] ? layersShortcuts[id].shortcut : ''}
           </span>
         </div>
       </div>

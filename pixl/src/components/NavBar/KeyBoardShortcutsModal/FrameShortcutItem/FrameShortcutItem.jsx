@@ -32,14 +32,16 @@ class FrameShortcutItem extends Component {
             }
           }}
         >
-          <i className={framesShortcuts[id].iconClass} />
-          <span>{framesShortcuts[id].name}</span>
+          <i
+            className={framesShortcuts[id] ? framesShortcuts[id].iconClass : ''}
+          />
+          <span>{framesShortcuts[id] ? framesShortcuts[id].name : ''}</span>
           <span>-</span>
           <span className="shortcuts-modal__shortcut">
             <span className="shortcuts-modal__prefix">
-              {`${framesShortcuts[id].prefix} + `}
+              {`${framesShortcuts[id] ? framesShortcuts[id].prefix : ''} + `}
             </span>
-            {framesShortcuts[id].shortcut}
+            {framesShortcuts[id] ? framesShortcuts[id].shortcut : ''}
           </span>
         </div>
       </div>

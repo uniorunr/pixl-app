@@ -31,11 +31,11 @@ class ShortcutItem extends Component {
             }
           }}
         >
-          <i className={toolsData[id].iconClass} />
-          <span>{toolsData[id].name}</span>
+          <i className={toolsData[id] ? toolsData[id].iconClass : ''} />
+          <span>{toolsData[id] ? toolsData[id].name : ''}</span>
           <span>-</span>
           <span className="shortcuts-modal__shortcut">
-            {toolsData[id].shortcut}
+            {toolsData[id] ? toolsData[id].shortcut : ''}
           </span>
         </div>
       </div>
