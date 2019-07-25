@@ -1,4 +1,4 @@
-## Pixl
+# Pixl
 Pixel-Art tool. Fast, simple and easy in use!
 
 The live version of the application - https://pixl-uniorunr.netlify.com
