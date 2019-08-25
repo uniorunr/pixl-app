@@ -3,7 +3,19 @@ Pixel-Art tool. Fast, simple and easy in use!
 
 The live version of the application - https://pixl-uniorunr.netlify.com
 
-![pixl](https://user-images.githubusercontent.com/33601725/62035834-200ca100-b1e0-11e9-88f6-8a10a92b2acb.png)
+![pixl](https://user-images.githubusercontent.com/33601725/63652766-9e168600-c753-11e9-86c5-fbb2d65b08f8.png)
+
+### Features:
+- Full set of drawing tools (Pen, Stroke, Rectangle, Circle, Paint bucket, etc.)
+- Frames management functionality
+- Layers management functionality
+- The Primary and the secondary color
+- Configurable canvas
+- Preview widget
+- Cursor coordinates / canvas size
+- Export animation to GIF format
+- Keyboard control
+- GitHub Authentication via Firebase Auth
 
 ### Project stack:
 - [React](https://reactjs.org/)
